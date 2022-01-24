@@ -624,7 +624,8 @@ class FileReaderWidget(widget_base.ThreadPoolText):
 class OpenWidgetBox(widget.WidgetBox):
     def _configure(self, qtile, bar):
         super()._configure(qtile, bar)
-        self.cmd_toggle()
+        if not self.box_is_open:
+            self.cmd_toggle()
 
 
 def get_sys_stat_widgets():
