@@ -784,21 +784,28 @@ groups = [
 
 screens = []
 img_fmts = (".png", ".jpeg", ".jpg")
-if my_wallpapers.endswith(img_fmts):
+if os.path.isfile(my_wallpapers) and my_wallpapers.endswith(img_fmts):
     wallpapers = [my_wallpapers]
-else:
+elif os.path.isdir(my_wallpapers):
     wallpapers = [my_wallpapers + f"/{img}" for img in os.listdir(my_wallpapers)]
     for img in wallpapers:
-        if img.startswith(".") or not img.endswith(img_fmts):
+        if img.startswith(".") or not img.endswith(img_fmts) or not os.path.isfile(img):
             wallpapers.remove(img)
+else:
+    wallpapers = []
+
 i = 0
 for monitor in monitors:
     if len(monitor) > 0:
+        if len(wallpapers) > 0:
+            wallpaper = wallpaper=choice(wallpapers)
+        else:
+            wallpaper = None
         screens.append(
             Screen(
                 top=bar.Bar(get_widgets_1(i), 30, background=bg_color),
                 bottom=bar.Bar(get_widgets_2(i), 30, background=bg_color),
-                wallpaper=choice(wallpapers),
+                wallpaper=wallpaper,
                 wallpaper_mode="stretch",
             )
         )
