@@ -621,6 +621,11 @@ class FileReaderWidget(widget_base.ThreadPoolText):
                 msg = self.empty_msg
             return self.msg_base + msg
 
+class OpenWidgetBox(widget.WidgetBox):
+    def _configure(self, qtile, bar):
+        super()._configure(qtile, bar)
+        self.cmd_toggle()
+
 
 def get_sys_stat_widgets():
     return [
@@ -665,18 +670,22 @@ def get_widgets_1(i):
                     mouse_callbacks={'Button1': lambda: qtile.cmd_spawn(my_launcher)},
                 ),
                 widget.Spacer(length=3),
-                widget.GroupBox(
-                    border_width=2,
-                    disable_drag=True,
-                    rounded=True,
-                    active=[fg_txt_color, fg_txt_color],
-                    inactive=[bg_txt_color, bg_txt_color],
-                    highlight_method="line",
-                    this_current_screen_border=fg_line_color_alt,
-                    this_screen_border=bg_line_color_alt,
-                    highlight_color=[fg_color, fg_color],
-                    visible_groups=get_full_group_names_for_screen(i),
-                    spacing=0,
+                OpenWidgetBox(
+                    [
+                        widget.GroupBox(
+                            border_width=2,
+                            disable_drag=True,
+                            rounded=True,
+                            active=[fg_txt_color, fg_txt_color],
+                            inactive=[bg_txt_color, bg_txt_color],
+                            highlight_method="line",
+                            this_current_screen_border=fg_line_color_alt,
+                            this_screen_border=bg_line_color_alt,
+                            highlight_color=[fg_color, fg_color],
+                            visible_groups=get_full_group_names_for_screen(i),
+                            spacing=0,
+                        ),
+                    ],
                 ),
 #                widget.TextBox(
 #                    fontsize=16,
@@ -689,7 +698,6 @@ def get_widgets_1(i):
                 widget.Spacer(length=20),
                 widget.Systray(icon_size=24),
                 widget.Spacer(),
-                # widget.Spacer(length=5),
                 widget.TextBox("|"),
                 widget.Spacer(length=5),
                 widget.Clock(
