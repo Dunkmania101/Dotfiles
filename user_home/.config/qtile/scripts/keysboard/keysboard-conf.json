@@ -1,0 +1,353 @@
+{
+    "devices": {
+        "DEVICE_ID": {
+            "device_nickname": "Controller-1",
+            "exit_cmd": "rm -f /tmp/tmux-bar-keysboard-pipe &",
+            "exit_key": "KEY_ESC",
+            "aliases": {
+                "term": {
+                    "action_type": "shell",
+                    "action": "kitty"
+                },
+                "ctrl_panel1": {
+                    "action_type": "shell",
+                    "action": "kitty -e btop"
+                },
+                "ctrl_panel2": {
+                    "action_type": "shell",
+                    "action": "stacer"
+                },
+                "ctrl_station1": {
+                    "action_type": "multi",
+                    "action": [
+                        {
+                            "action_type": "alias",
+                            "action": "term"
+                        },
+                        {
+                            "action_type": "alias",
+                            "action": "ctrl_panel1"
+                        },
+                        {
+                            "action_type": "alias",
+                            "action": "ctrl_panel2"
+                        }
+                    ]
+                }
+            },
+            "first_layer": "main",
+            "layers": {
+                "__base__": {
+                    "keybinds": {
+                        "KEY_KP0": {
+                            "action_type": "set_layer",
+                            "action": "main"
+                        },
+                        "KEY_KP1": {
+                            "action_type": "set_layer",
+                            "action": "apps"
+                        },
+                        "KEY_KP2": {
+                            "action_type": "set_layer",
+                            "action": "keysim"
+                        },
+                        "KEY_KP3": {
+                            "action_type": "set_layer",
+                            "action": "test"
+                        },
+
+                        "KEY_VOLUMEUP": {
+                            "action_type": "shell",
+                            "action": "amixer -q sset Master 2%+"
+                        },
+                        "KEY_VOLUMEDOWN": {
+                            "action_type": "shell",
+                            "action": "amixer -q sset Master 2%-"
+                        },
+                        "KEY_MUTE": {
+                            "action_type": "shell",
+                            "action": "amixer -q sset Master toggle"
+                        },
+                        "KEY_PLAYPAUSE": {
+                            "action_type": "shell",
+                            "action": "playerctl play-pause"
+                        },
+                        "KEY_NEXTSONG": {
+                            "action_type": "shell",
+                            "action": "playerctl position 2+"
+                        },
+                        "KEY_PREVIOUSSONG": {
+                            "action_type": "shell",
+                            "action": "playerctl position 2-"
+                        },
+                        "KEY_KPPLUS": {
+                            "action_type": "shell",
+                            "action": "playerctl next"
+                        },
+                        "KEY_KPMINUS": {
+                            "action_type": "shell",
+                            "action": "playerctl previous"
+                        }
+                    }
+                },
+                "main": {
+                    "inherit": [
+                        "__base__"
+                    ],
+                    "keybinds": {
+                        "KEY_LEFT": {
+                            "action_type": "set_layer",
+                            "action": "main"
+                        },
+                        "KEY_RIGHT": {
+                            "action_type": "set_layer",
+                            "action": "apps"
+                        },
+                        "KEY_RIGHTCTRL": {
+                            "action_type": "alias",
+                            "action": "ctrl_panel1"
+                        },
+                        "KEY_ENTER": {
+                            "action_type": "alias",
+                            "action": "term"
+                        },
+                        "KEY_BACKSLASH": {
+                            "action_type": "alias",
+                            "action": "ctrl_station1"
+                        },
+                        "KEY_KPENTER": {
+                            "action_type": "shell",
+                            "action": "emacs"
+                        }
+                    }
+                },
+                "apps": {
+                    "inherit": [
+                        "__base__"
+                    ],
+                    "keybinds": {
+                        "KEY_LEFT": {
+                            "action_type": "set_layer",
+                            "action": "main"
+                        },
+                        "KEY_RIGHT": {
+                            "action_type": "set_layer",
+                            "action": "keysim"
+                        },
+                        "KEY_SPACE": {
+                            "action_type": "shell",
+                            "action": "~/.config/qtile/rofi/launcher/launcher.sh"
+                        },
+                        "KEY_M": {
+                            "action_type": "shell",
+                            "action": "deadbeef"
+                        },
+                        "KEY_COMMA": {
+                            "action": "agordejo"
+                        },
+                        "KEY_BACKSLASH": {
+                            "action_type": "shell",
+                            "action": "vscodium"
+                        },
+                        "KEY_RIGHTCTRL": {
+                            "action_type": "shell",
+                            "action": "emacs"
+                        },
+                        "KEY_RIGHTSHIFT": {
+                            "action_type": "shell",
+                            "action": "emacsclient -a '' -c"
+                        },
+                        "KEY_SLASH": {
+                            "action_type": "shell",
+                            "action": "kitty -e ~/.config/qtile/scripts/run/run-nvim.sh"
+                        },
+                        "KEY_I": {
+                            "action_type": "shell",
+                            "action": "idea"
+                        },
+                        "KEY_KPENTER": {
+                            "action_type": "shell",
+                            "action": "notepadqq --new-window"
+                        }
+                    }
+                },
+                "keysim": {
+                    "inherit": [
+                        "__base__"
+                    ],
+                    "keybinds": {
+                        "KEY_LEFT": {
+                            "action_type": "set_layer",
+                            "action": "apps"
+                        },
+                        "KEY_RIGHT": {
+                            "action_type": "set_layer",
+                            "action": "keysim"
+                        },
+                        "KEY_KPENTER": {
+                            "action_type": "keyboard",
+                            "action": {
+                                "key": "BTN_MOUSE",
+                                "delay": 0.0,
+                                "hold_time": 1
+                            }
+                        },
+                        "KEY_1": {
+                            "action_type": "keyboard",
+                            "action": {
+                                "key": "KEY_2",
+                                "delay": 0.0,
+                                "hold_time": 0.1
+                            }
+                        },
+                        "KEY_LEFTBRACE": {
+                            "action": "~/.config/qtile/scripts/autoclicker.sh 1 0.001"
+                        },
+                        "KEY_RIGHTBRACE": {
+                            "action": "~/.config/qtile/scripts/autoclicker.sh 3 0.001"
+                        },
+                        "KEY_BACKSLASH": {
+                            "action": "~/.config/qtile/scripts/autoclicker.sh 2 0.001"
+                        },
+                        "KEY_HOME": {
+                            "action_type": "keyboard",
+                            "action": [
+                                {
+                                    "key": "KEY_Y",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_O",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_U",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_SPACE",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_J",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_U",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_S",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_T",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_SPACE",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_P",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_R",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_E",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_S",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_S",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_E",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_D",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_SPACE",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_H",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_O",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_M",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_E",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_LEFTSHIFT",
+                                    "delay": 0.0,
+                                    "set_key": 1
+                                },
+                                {
+                                    "key": "KEY_1",
+                                    "delay": 0.0,
+                                    "hold_time": 0.1
+                                },
+                                {
+                                    "key": "KEY_LEFTSHIFT",
+                                    "delay": 0.0,
+                                    "set_key": 0
+                                }
+                            ]
+                        }
+                    }
+                },
+                "test": {
+                    "inherit": [
+                        "__base__"
+                    ],
+                    "keybinds": {
+                        "KEY_ENTER": {
+                            "action_type": "shell",
+                            "action": "echo $superdrive"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

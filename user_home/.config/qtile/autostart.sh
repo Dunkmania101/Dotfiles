@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+if [ -f ~/.profile ]; then . ~/.profile; fi
+
+~/.config/qtile/scripts/run/run-monitors.sh &
+# ~/.config/qtile/scripts/run/run-wallpapers.sh &
+~/.config/qtile/scripts/run/run-picom.sh &
+~/.config/qtile/scripts/run/run-redshift.sh &
+# ~/.config/qtile/scripts/run/run-keysboard.sh &
+~/.config/qtile/scripts/run/run-kmonad.sh &
+~/.config/qtile/scripts/run/run-cbatticon.sh &
+~/.config/qtile/scripts/run/run-flameshot.sh &
+
+lxsession &
+clipmenud &
+copyq &
+#element-desktop-nightly --hidden &
+element-desktop --hidden &
+# agordejo --hide --load-session Main &
+emacs --daemon &
+
+xsetroot -cursor_name left_ptr
+xset b off
+xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Tapping Enabled" 1
+xset r rate 280 40
+# xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Natural Scrolling Enabled" 1
