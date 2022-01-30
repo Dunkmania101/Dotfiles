@@ -922,4 +922,4 @@ def screen_change_hook(qtile):
 @hook.subscribe.startup_once
 def autostart_hook():
     #run_cmd(cfg_dir + "/autostart.sh")
-	pass
+    pass
