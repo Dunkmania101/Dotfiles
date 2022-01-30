@@ -671,7 +671,9 @@ def get_widgets_1(i):
                     fmt='﩯',
                     mouse_callbacks={'Button1': lambda: qtile.cmd_spawn(my_launcher)},
                 ),
-                widget.Spacer(length=3),
+                widget.Spacer(length=5),
+                widget.TextBox("|"),
+                widget.Spacer(length=5),
                 OpenWidgetBox(
                     [
                         widget.GroupBox(
@@ -689,6 +691,8 @@ def get_widgets_1(i):
                         ),
                     ],
                 ),
+                widget.Spacer(length=5),
+                widget.TextBox("|"),
 #                widget.TextBox(
 #                    fontsize=16,
 #                    fmt='',
@@ -732,10 +736,20 @@ def get_widgets_1(i):
                 widget.TextBox("|"),
                 widget.Spacer(length=5),
                 widget.TextBox(
+                    fmt='',
+                    mouse_callbacks={'Button1': lambda: qtile.cmd_spawn('playerctl position 2-')},
+                ),
+                widget.Spacer(length=7),
+                widget.TextBox(
+                    fmt='',
+                    mouse_callbacks={'Button1': lambda: qtile.cmd_spawn('playerctl position 2+')},
+                ),
+                widget.Spacer(length=7),
+                widget.TextBox(
                     fmt='',
                     mouse_callbacks={'Button1': lambda: qtile.cmd_spawn('playerctl play-pause')},
                 ),
-                widget.Spacer(length=5),
+                widget.Spacer(length=7),
                 widget.TextBox("vol:"),
                 widget.Volume(fontsize=10, update_interval=0.1),
                 # widget.CurrentLayoutIcon(scale=0.65),
@@ -758,12 +772,17 @@ def get_widgets_1(i):
 
 def get_widgets_2(i):
     widgets = [
+                widget.Spacer(length=5),
+                widget.TextBox("|"),
+                widget.Spacer(length=5),
                 widget.TaskList(
                     border=fg_line_color,
                     unfocused_border=bg_line_color,
                     rounded=True,
                 ),
-                widget.Spacer(length=7),
+                widget.Spacer(length=5),
+                widget.TextBox("|"),
+                widget.Spacer(length=5),
                 FileReaderWidget(
                     #file = "/tmp/tmux-bar-keysboard-pipe",
                     #msg_base = "Keysboard: ",
@@ -779,6 +798,9 @@ def get_widgets_2(i):
                         'Button3': lambda: run_kmonad(False),
                     },
                 ),
+                widget.Spacer(length=5),
+                widget.TextBox("|"),
+                widget.Spacer(length=5),
     ]
     return widgets
 
