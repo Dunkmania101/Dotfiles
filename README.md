@@ -11,7 +11,7 @@ Feel free to look around!
 Here are some screenshots:
 
 
-![Desktop1](https://github.com/Dunkmania101/Dotfiles/blob/main/Media/Desktop1.png?raw=true)
+![Desktop1](Media/Desktop1.png)
 
 
 The wallpaper is called "Streets of Gruvbox". I found it on Reddit.
