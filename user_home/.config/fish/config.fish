@@ -21,6 +21,7 @@ alias install-guix="wget -O /tmp/guix-install.sh https://git.savannah.gnu.org/cg
 alias install-nix="curl -L https://nixos.org/nix/install | sh"
 alias install-chemacs="[ -f ~/.emacs ] && mv ~/.emacs ~/.emacs.bak; [ -f ~/.emacs ] && mv ~/.emacs ~/.emacs.bak; git clone https://github.com/plexus/chemacs2.git ~/.emacs.d"
 alias install-doom="mkdir -p ~/ProgramFiles; git clone --depth 1 https://github.com/hlissner/doom-emacs ~/ProgramFiles/doom-emacs; ~/ProgramFiles/doom-emacs/bin/doom install"
+alias install-emacs-config="install-chemacs; install-doom"
 alias install-fnm="curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell; fnm install --lts"
 alias install-nvm="wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/latest/install.sh | bash; nvm install node"
 alias install-choosenim="curl https://nim-lang.org/choosenim/init.sh -sSf | sh"
