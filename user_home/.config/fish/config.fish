@@ -35,6 +35,7 @@ alias guixfix="sudo guix gc --verify=contents,repair"
 alias guixconf="sudo -E guix system -L ~/.config/guix/base reconfigure ~/.config/guix/dunk-system-biggus.scm"
 alias guixmanifest="guix package --manifest=$HOME/.config/guix/base/manifest-main.scm"
 alias uu-guix="guix pull; guix package -u; guixclean"
+alias guix-nvdaify='guix package --with-graft=mesa=nvda -i (guix package --list-installed | awk \'{print $1}\')'
 alias uu-nix="nix-channel --update; nix-env --upgrade; nix-collect-garbage --delete-old"
 alias uu-stack="stack upgrade; stack update"
 alias lsoutdated-pip="pip list --outdated --format=freeze | grep -v "^\-e" | cut -d = -f 1"
@@ -47,11 +48,11 @@ alias uu-apt="sudo apt update; sudo apt -y full-upgrade; sudo apt -y autoremove"
 alias uu-dnf="sudo dnf check-update; sudo dnf -y distro-sync; sudo dnf -y autoremove"
 alias uu-doom="doom --yes upgrade; doom --yes sync; doom --yes purge"
 alias uu-nvim="nvim -c 'UU' -c 'qa!'"
-alias uu-noguix="uu-arch; uu-nix; uu-flatpak; uu-pip; uu-nim; uu-node; uu-zim; uu-doom"
+alias uu-noguix="uu-nix; uu-flatpak; uu-pip; uu-nim; uu-node; uu-doom"
 alias uu="uu-noguix; uu-guix"
 alias uu-clean="uu; guixclean-full"
-export add_package_cmd="paru --needed -S "
-#export add_package_cmd="guix install "
+#export add_package_cmd="paru --needed -S "
+export add_package_cmd="guix install "
 alias lsa="exa -a"
 alias getwinid="xwininfo -display :0"
 alias lsmon="xrandr --query | grep ' connected' | cut -d' ' -f1"
@@ -72,7 +73,8 @@ if test -d "$GUIX_PROFILE"; bass . "$GUIX_PROFILE/etc/profile"; end
 
 #. "/run/current-system/profile/etc/profile.d/nix.sh"
 set NIX_PROFILE "$HOME/.nix-profile"
-if test -d "$NIX_PROFILE"; bass . "$NIX_PROFILE/etc/profile.d/nix.sh"; end
+if test -f "$HOME/.profile"; bass . "$HOME/.profile"; end
+#if test -d "$NIX_PROFILE"; bass . "$NIX_PROFILE/etc/profile.d/nix.sh"; end
 
 # fnm
 if test -f $HOME/.fnm/fnm; fnm env | source; end
