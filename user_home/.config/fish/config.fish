@@ -26,6 +26,7 @@ alias install-fnm="curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip
 alias install-nvm="wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/latest/install.sh | bash; nvm install node"
 alias install-choosenim="curl https://nim-lang.org/choosenim/init.sh -sSf | sh"
 alias install-nyxt-git-guix="guix install --with-branch=nyxt=master nyxt"
+alias install-blender-oldgl='guix install blender --with-source="https://download.blender.org/release/Blender2.79/blender-2.79b-linux-glibc219-x86_64.tar.bz2"'
 alias uu-fontcache="fc-cache -rv"
 alias uu-arch="paru -Syyu --noconfirm --needed; paru -c; paru -cc; sudo paccache -rk 1; sudo paccache -ruk0"
 alias uu-flatpak="flatpak update; flatpak uninstall --unused"
