@@ -8,8 +8,8 @@
                  (inherit inherited-system)
                  (bootloader
                    (bootloader-configuration
-                     (bootloader grub-efi-bootloader)
-                     (targets (list "/boot/efi"))
+                     (bootloader grub-efi-bootloader) ; This might need to be grub-bootloader on older systems
+                     (targets (list "/boot/efi")) ; This might need to be /dev/sda on older systems
                      (keyboard-layout (operating-system-keyboard-layout inherited-system))))
                      ;; ADD FILESYSTEM / SWAP CONFIG OVERRIDES HERE
                      ))
