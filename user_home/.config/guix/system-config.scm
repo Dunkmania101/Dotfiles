@@ -3,7 +3,7 @@
 (load "./systems/dunk-system-biggus.scm")
 (define inherited-system dunk-system-biggus)
 
-(define-public configuered-system
+(define-public configured-system
                (operating-system
                  (inherit inherited-system)
                  (bootloader
