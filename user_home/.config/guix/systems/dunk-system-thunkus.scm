@@ -21,6 +21,7 @@
  ssh
  xorg
  pm
+ virtualization
  ;; dbus
  nix)
 
@@ -204,6 +205,7 @@ EndSection
             (service openssh-service-type)
             (service tor-service-type)
             (service cups-service-type)
+            (service libvirt-service-type)
             (service kernel-module-loader-service-type
                      '("ipmi_devintf"))
             (extra-special-file "/usr/bin/env"

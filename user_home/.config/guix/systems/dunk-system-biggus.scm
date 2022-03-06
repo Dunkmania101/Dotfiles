@@ -31,6 +31,7 @@
  ssh
  xorg
  pm
+ virtualization
  ;; dbus
  nix)
 
@@ -196,6 +197,7 @@ EndSection
             (service openssh-service-type)
             (service tor-service-type)
             (service cups-service-type)
+            (service libvirt-service-type)
             (simple-service
              'my-nvidia-udev-rules udev-service-type
              (list (fixpkg nvidia-udev)))
