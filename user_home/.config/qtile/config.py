@@ -5,7 +5,7 @@
 # ================================= #
 
 
-import os, subprocess #, gi
+import os, subprocess, imaplib, re #, gi
 #gi.require_version("Gdk", "3.0")
 #from gi.repository import Gdk
 from json import loads as jloads #, dumps as jdumps
@@ -107,18 +107,22 @@ bg_line_color_alt = "#aa5000"
 fg_line_color_alt = "#ff8000"
 bg_txt_color = "#3c3836"
 fg_txt_color = "#ebdbb2"
-green_color = "#504945"
+green_color = "#687b01"
+red_color = "#cc241d"
 
 
 # Base Groups (copied to each monitor)
 my_base_groups = " 1 2 3 4 5 6 7 8 9 0 M1 M2".split(" ")
+
+# Screen to put the systray widget on
+my_systray_screen = 0
 
 # Directories
 my_wallpapers = os.path.expanduser("~/Wallpapers") # Can point to a directory or a single image file.
 my_screenshots_dir = os.path.expanduser("~/Screenshots")
 
 # Details
-my_distro = "Arch"
+my_distro = "Guix"
 my_check_updates_cmd = ""
 #if shcmd_exists("pip"):
 #    my_check_updates_cmd += "; pip list --outdated --format=freeze"
@@ -141,8 +145,9 @@ my_gmail_pass = env_data.get("gmail.pass", "")
 #my_terminal = "kitty -e tmux"
 #my_terminal_tmux = f"kitty -e \'{cfg_dir}/scripts/run/run-tmux-session.sh\'"
 #my_terminal = f"uxterm -si -fa \"{my_font}\""
-my_terminal = f"uxterm -si -fa \"{my_font}\""
-my_terminal_alt = "kitty"
+#my_terminal = f"uxterm -si -fa \"{my_font}\""
+my_terminal = "kitty"
+my_terminal_alt = "st"
 #my_terminal_alt = "cool-retro-term"
 #my_terminal_alt = "darktile"
 #my_terminal_alt = "extraterm"
@@ -437,23 +442,23 @@ keys = [
     Key([sup], "g", lazy.layout.toggle_split()),
     Key([sup, shift], "g", lazy.layout.normalize()),
 
-    # Key([win], left, lazy.layout.shrink_main()),
-    # Key([win], right, lazy.layout.grow_main()),
-    # Key([win], down, lazy.layout.down()),
-    # Key([win], up, lazy.layout.up()),
-    # Key([win, shift], down, lazy.layout.shuffle_down()),
-    # Key([win, shift], up, lazy.layout.shuffle_up()),
+    # Key([sup], left, lazy.layout.shrink_main()),
+    # Key([sup], right, lazy.layout.grow_main()),
+    # Key([sup], down, lazy.layout.down()),
+    # Key([sup], up, lazy.layout.up()),
+    # Key([sup, shift], down, lazy.layout.shuffle_down()),
+    # Key([sup, shift], up, lazy.layout.shuffle_up()),
 
-    # Key([win], "h", lazy.layout.shrink_main()),
-    # Key([win], "l", lazy.layout.grow_main()),
-    # Key([win], "j", lazy.layout.down()),
-    # Key([win], "k", lazy.layout.up()),
-    # Key([win, shift], "j", lazy.layout.shuffle_down()),
-    # Key([win, shift], "k", lazy.layout.shuffle_up()),
+    # Key([sup], "h", lazy.layout.shrink_main()),
+    # Key([sup], "l", lazy.layout.grow_main()),
+    # Key([sup], "j", lazy.layout.down()),
+    # Key([sup], "k", lazy.layout.up()),
+    # Key([sup, shift], "j", lazy.layout.shuffle_down()),
+    # Key([sup, shift], "k", lazy.layout.shuffle_up()),
 
     # Groups
-    # Key([win], "n", lazy.screen.prev_group()),
-    # Key([win], "m", lazy.screen.next_group()),
+    # Key([sup], "n", lazy.screen.prev_group()),
+    # Key([sup], "m", lazy.screen.next_group()),
     Key([sup], "n", lazy.function(cycle_group_prev)),
     Key([sup], "m", lazy.function(cycle_group_next)),
     Key([sup, alt], "n", lazy.function(win_cycle_group_prev_switch)),
@@ -538,19 +543,24 @@ keys = [
     ]),
 
     # System
-    # Key([win, shift, ctrl], "F11", lazy.spawn("sudo hibernate-reboot")),
-    # Key([win, shift, ctrl], "F12", lazy.spawn("systemctl hibernate")),
+    # Key([sup, shift, ctrl], "F11", lazy.spawn("sudo hibernate-reboot")),
+    # Key([sup, shift, ctrl], "F12", lazy.spawn("systemctl hibernate")),
     Key([], "Print", lazy.function(exec_func_no_qtile, take_screenshot)),
 
     # Special Keys
     Key([], 'XF86AudioRaiseVolume', lazy.spawn('amixer sset Master 2%+')),
     Key([], 'XF86AudioLowerVolume', lazy.spawn('amixer sset Master 2%-')),
+    Key([shift], 'XF86AudioRaiseVolume', lazy.spawn('amixer sset Master 1%+')),
+    Key([shift], 'XF86AudioLowerVolume', lazy.spawn('amixer sset Master 1%-')),
     Key([], 'XF86AudioMute', lazy.spawn('amixer sset Master toggle')),
     Key([], 'XF86AudioPause', lazy.spawn('playerctl play-pause')),
-    Key([ctrl], 'XF86AudioPause', lazy.spawn('playerctl -a pause')),
     Key([], 'XF86AudioPlay', lazy.spawn('playerctl play-pause')),
+    Key([ctrl], 'XF86AudioPause', lazy.spawn('playerctl -a play-pause')),
+    Key([ctrl], 'XF86AudioPlay', lazy.spawn('playerctl -a play-pause')),
     Key([], 'XF86AudioNext', lazy.spawn('playerctl position 2+')),
     Key([], 'XF86AudioPrev', lazy.spawn('playerctl position 2-')),
+    Key([shift], 'XF86AudioNext', lazy.spawn('playerctl position 1+')),
+    Key([shift], 'XF86AudioPrev', lazy.spawn('playerctl position 1-')),
     Key([], 'XF86MonBrightnessUp', lazy.spawn('brightnessctl set 5%+')),
     Key([], 'XF86MonBrightnessDown', lazy.spawn('brightnessctl set 5%-')),
 ]
@@ -575,9 +585,9 @@ for i, g in enumerate(my_base_groups):
         )
 
 mouse = [
-    # Drag([win], "Button1", lazy.window.set_position(),
+    # Drag([sup], "Button1", lazy.window.set_position(),
     #     start=lazy.window.get_position()),
-    # Drag([win], "Button3", lazy.window.set_size(),
+    # Drag([sup], "Button3", lazy.window.set_size(),
     #     start=lazy.window.get_size()),
     Drag([sup], "Button1", lazy.window.set_position_floating(),
         start=lazy.window.get_position()),
@@ -630,11 +640,38 @@ class OpenWidgetBox(widget.WidgetBox):
         if not self.box_is_open:
             self.cmd_toggle()
 
+class ColorGmailChecker(widget.GmailChecker):
+    def __init__(self, clear_foreground=green_color, unseen_foreground=red_color, **config):
+        super().__init__(**config)
+        self.clear_foreground=clear_foreground
+        self.unseen_foreground=unseen_foreground
+
+    def poll(self):
+        self.gmail = imaplib.IMAP4_SSL("imap.gmail.com")
+        self.gmail.login(self.username, self.password)
+        answer, raw_data = self.gmail.status(self.email_path, "(MESSAGES UNSEEN)")
+        if answer == "OK":
+            dec = raw_data[0].decode()
+            messages = int(re.search(r"MESSAGES\s+(\d+)", dec).group(1))
+            unseen = int(re.search(r"UNSEEN\s+(\d+)", dec).group(1))
+            if unseen == 0:
+                self.foreground = self.clear_foreground
+            else:
+                self.foreground = self.unseen_foreground
+            if self.status_only_unseen:
+                return self.display_fmt.format(unseen)
+            else:
+                return self.display_fmt.format(messages, unseen)
+        else:
+            self.foreground = self.unseen_foreground
+            qtile.logger.exception(
+                "GmailChecker UNKNOWN error, answer: %s, raw_data: %s", answer, raw_data
+            )
+            return "UNKNOWN ERROR"
+
 
 def get_sys_stat_widgets():
     return [
-        widget.Spacer(length=5),
-        widget.TextBox("|"),
         widget.Spacer(length=5),
         widget.TextBox("cpu:"),
         widget.CPUGraph(
@@ -719,11 +756,12 @@ def get_widgets_1(i):
                     custom_command=my_check_updates_cmd,
                     no_update_string="",
                     colour_no_updates=green_color,
+                    colour_have_updates=red_color,
                 ),
                 widget.Spacer(length=5),
                 widget.Canto(),
                 widget.Spacer(length=5),
-                widget.GmailChecker(
+                ColorGmailChecker(
                     username=my_gmail_username,
                     password=my_gmail_pass,
                 ),
@@ -733,6 +771,8 @@ def get_widgets_1(i):
                 widget.CapsNumLockIndicator(
                     frequency=0.1,
                 ),
+                widget.Spacer(length=5),
+                widget.TextBox("|"),
                 widget.WidgetBox(widgets=get_sys_stat_widgets()),
                 widget.Spacer(length=5),
                 widget.TextBox("|"),
@@ -749,12 +789,15 @@ def get_widgets_1(i):
                 widget.Spacer(length=7),
                 widget.TextBox(
                     fmt='',
-                    mouse_callbacks={'Button1': lambda: qtile.cmd_spawn('playerctl play-pause')},
+                    mouse_callbacks={
+                        'Button1': lambda: qtile.cmd_spawn('playerctl -a pause'),
+                        'Button3': lambda: qtile.cmd_spawn('playerctl play'),
+                    },
                 ),
                 widget.Spacer(length=7),
                 widget.TextBox("vol:"),
                 widget.Volume(fontsize=10, update_interval=0.1),
-                # widget.CurrentLayoutIcon(scale=0.65),
+                # widget.CurrentLayoutIcon(scale=0.70),
                 widget.Spacer(length=5),
                 widget.TextBox("|"),
                 widget.Spacer(length=5),
@@ -765,7 +808,7 @@ def get_widgets_1(i):
                 ),
                 widget.Spacer(length=15),
             ]
-    if i != 0:
+    if i != my_systray_screen:
         for w in widgets:
             if isinstance(w, widget.Systray):
                 widgets.remove(w)
@@ -837,8 +880,8 @@ for monitor in monitors:
             wallpaper = None
         screens.append(
             Screen(
-                top=bar.Bar(get_widgets_1(i), 30, background=bg_color),
-                bottom=bar.Bar(get_widgets_2(i), 30, background=bg_color),
+                top=bar.Bar(get_widgets_1(i), 30, background=bg_color, border_color=bg_line_color, border_width=2),
+                bottom=bar.Bar(get_widgets_2(i), 30, background=bg_color, border_color=bg_line_color, border_width=2),
                 wallpaper=wallpaper,
                 wallpaper_mode="stretch",
             )
