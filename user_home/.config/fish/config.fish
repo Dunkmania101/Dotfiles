@@ -84,6 +84,9 @@ if test -f "$HOME/.profile"; bass . "$HOME/.profile"; end
 # fnm
 if test -f $HOME/.fnm/fnm; fnm env | source; end
 
+# Functions
+function strdiff -a 'a'; command diff --color --from (echo $a | psub) (for s in $argv[2..-1]; echo $s | psub; end); end
+
 # Keybinds
 fish_default_key_bindings
 #fish_vi_key_bindings
@@ -94,7 +97,6 @@ bind \cn 'nvim'
 bind \co 'commandline -i \'nvim \''
 bind \ca "commandline -i \"$add_package_cmd\""
 bind \cu 'commandline -i uu-clean; commandline -f execute'
-
 
 # Themes
 theme_gruvbox dark medium
