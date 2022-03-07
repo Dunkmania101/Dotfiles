@@ -10,6 +10,7 @@ if [ -f ~/.profile ]; then . ~/.profile; fi
 ~/.config/qtile/scripts/run/run-kmonad.sh &
 ~/.config/qtile/scripts/run/run-cbatticon.sh &
 ~/.config/qtile/scripts/run/run-flameshot.sh &
+~/.config/qtile/scripts/run/run-lxappearance_init.sh &
 
 lxsession &
 clipmenud &
