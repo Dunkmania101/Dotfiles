@@ -67,6 +67,21 @@
 (setf (uiop:getenv "WEBKIT_DISABLE_COMPOSITING_MODE") "1")
 
 
+
+;; --------- ;;
+;; - Modes - ;;
+;; --------- ;;
+
+
+(define-mode tor-proxy-mode (nyxt/proxy-mode:proxy-mode)
+  "Set proxy to local Tor SOCKS5 proxy."
+  ((nyxt/proxy-mode:proxy (make-instance 'proxy
+                                         :url (quri:uri "socks5://localhost:9050")
+                                         :allowlist '("localhost")
+                                         :proxied-downloads-p t))))
+
+;; ((match-regex "^https?://([a-z0-9.-]+\.)?[a-z2-7]{56}\.onion") :included (tor-proxy-mode) :excluded (nyxt/force-https-mode:force-https-mode)) ||#
+
 ;; ------------ ;;
 ;; - Profiles - ;;
 ;; ------------ ;;

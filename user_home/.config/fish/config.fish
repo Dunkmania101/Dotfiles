@@ -1,6 +1,6 @@
 # Variables
 set fish_greeting
-export PATH="$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.fnm:$HOME/.fnm/aliases/default/bin:$HOME/.guix-profile/bin:$HOME/.nix-profile/bin:/usr/local/bin:$HOME/.nimble/bin:$HOME/Launchers:$HOME/ProgramFiles/doom-emacs/bin/"
+export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.fnm:$HOME/.fnm/aliases/default/bin:$HOME/.guix-profile/bin:$HOME/.nix-profile/bin:/usr/local/bin:$HOME/.nimble/bin:$HOME/Launchers:$HOME/ProgramFiles/doom-emacs/bin/:$PATH"
 export superdrive="$HOME/superdrive-ln/"
 export programming="$superdrive/Programming/"
 export mcmoddev="$programming/Java/MC/MinecraftModDev/"
@@ -37,7 +37,7 @@ alias guixfix="sudo guix gc --verify=contents,repair"
 alias guixconf="sudo -E guix system reconfigure ~/.config/guix/system-config.scm"
 alias guixmanifest="guix package --manifest=$HOME/.config/guix/base/manifest-main.scm"
 alias uu-guix="guix pull; guix package --upgrade; guixclean"
-alias guix-nvdaify='guix package --with-graft=mesa=nvda -i (guix package --list-installed | awk \'{print $1}\')'
+alias guix-nvdaify="guix package --manifest=$HOME/.config/guix/manifests/nvidiaify-packages.scm"
 alias nixclean="nix-collect-garbage"
 alias nixclean-full="nix-collect-garbage --delete-old"
 alias uu-nix="nix-channel --update; nix-env --upgrade; nixclean"
@@ -78,8 +78,9 @@ if test -d "$GUIX_PROFILE"; bass . "$GUIX_PROFILE/etc/profile"; end
 
 #. "/run/current-system/profile/etc/profile.d/nix.sh"
 set NIX_PROFILE "$HOME/.nix-profile"
-if test -f "$HOME/.profile"; bass . "$HOME/.profile"; end
 #if test -d "$NIX_PROFILE"; bass . "$NIX_PROFILE/etc/profile.d/nix.sh"; end
+
+if test -f "$HOME/.profile"; bass . "$HOME/.profile"; end
 
 # fnm
 if test -f $HOME/.fnm/fnm; fnm env | source; end
