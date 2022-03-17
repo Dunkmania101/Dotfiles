@@ -19,7 +19,8 @@
 (defvar *my-search-engines*
   (list
     '("qw" "https://www.qwant.com?theme=1&hc=0&vt=1&s=0&b=0&q=~a" "https://www.qwant.com?theme=1&hc=0&vt=1&s=0&b=0")
-    '("ddg" "https://duckduckgo.com?q=~a" "https://duckduckgo.com")))
+    '("ddg" "https://duckduckgo.com?q=~a" "https://duckduckgo.com")
+    '("srx" "http://0.0.0.0:8888/?q=~a" "http://0.0.0.0:8888/")))
 
 ;; Color Codes
 ;(defmethod main-bg-color () (str "#212121"))
@@ -80,7 +81,7 @@
                                          :allowlist '("localhost")
                                          :proxied-downloads-p t))))
 
-;; ((match-regex "^https?://([a-z0-9.-]+\.)?[a-z2-7]{56}\.onion") :included (tor-proxy-mode) :excluded (nyxt/force-https-mode:force-https-mode)) ||#
+;((match-regex "^https?://([a-z0-9.-]+\.)?[a-z2-7]{56}\.onion") :included (tor-proxy-mode) :excluded (nyxt/force-https-mode:force-https-mode))
 
 ;; ------------ ;;
 ;; - Profiles - ;;
