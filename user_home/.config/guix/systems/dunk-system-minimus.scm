@@ -14,9 +14,9 @@
  (nongnu system linux-initrd))
 (use-package-modules gtk xorg gcc shells mtools gnome wm search) ;; fonts)
 (use-service-modules
- linux
  mcron
  file-sharing
+ linux
  cups
  desktop
  networking
@@ -88,12 +88,12 @@ EndSection
                                                        )"))
                                   %default-authorized-guix-keys))))))
 
-(define-public dunk-system-thunkus
+(define-public dunk-system-minimus
 (operating-system
  (kernel linux)
  (firmware (list linux-firmware))
  (initrd microcode-initrd)
- (host-name "thunkuscomputicus")
+ (host-name "minimuscomputicus")
  (timezone "America/Indiana/Indianapolis")
  (keyboard-layout (keyboard-layout "us"))
 (groups
