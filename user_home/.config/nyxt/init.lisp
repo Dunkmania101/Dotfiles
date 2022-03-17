@@ -20,7 +20,7 @@
   (list
     '("qw" "https://www.qwant.com?theme=1&hc=0&vt=1&s=0&b=0&q=~a" "https://www.qwant.com?theme=1&hc=0&vt=1&s=0&b=0")
     '("ddg" "https://duckduckgo.com?q=~a" "https://duckduckgo.com")
-    '("srx" "http://0.0.0.0:8888/?q=~a" "http://0.0.0.0:8888/")))
+    '("srx" "http://localhost:8888/?q=~a" "http://localhost:8888/")))
 
 ;; Color Codes
 ;(defmethod main-bg-color () (str "#212121"))
