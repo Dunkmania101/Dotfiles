@@ -145,7 +145,6 @@ my_gmail_pass = env_data.get("gmail.pass", "")
 #my_terminal = "kitty -e tmux"
 #my_terminal_tmux = f"kitty -e \'{cfg_dir}/scripts/run/run-tmux-session.sh\'"
 #my_terminal = f"uxterm -si -fa \"{my_font}\""
-#my_terminal = f"uxterm -si -fa \"{my_font}\""
 my_terminal = "kitty"
 my_terminal_alt = "st"
 #my_terminal_alt = "cool-retro-term"
@@ -751,19 +750,23 @@ def get_widgets_1(i):
                 widget.Spacer(length=5),
                 widget.TextBox("|"),
                 widget.Spacer(length=5),
-                widget.CheckUpdates(
-                    distro=my_distro,
-                    custom_command=my_check_updates_cmd,
-                    no_update_string="",
-                    colour_no_updates=green_color,
-                    colour_have_updates=red_color,
-                ),
-                widget.Spacer(length=5),
-                widget.Canto(),
-                widget.Spacer(length=5),
-                ColorGmailChecker(
-                    username=my_gmail_username,
-                    password=my_gmail_pass,
+                OpenWidgetBox(
+                    [
+                        widget.CheckUpdates(
+                            distro=my_distro,
+                            custom_command=my_check_updates_cmd,
+                            no_update_string="",
+                            colour_no_updates=green_color,
+                            colour_have_updates=red_color,
+                        ),
+                        widget.Spacer(length=5),
+                        widget.Canto(),
+                        widget.Spacer(length=5),
+                        ColorGmailChecker(
+                            username=my_gmail_username,
+                            password=my_gmail_pass,
+                        ),
+                    ]
                 ),
                 widget.Spacer(length=5),
                 widget.TextBox("|"),
