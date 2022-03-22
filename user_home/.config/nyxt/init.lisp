@@ -57,7 +57,7 @@
     ((session-restore-prompt :never-restore)))
 
 (define-configuration buffer
-                      ((default-modes (append '(dark-mode vi-normal-mode reduce-tracking-mode blocker-mode) %slot-default%))))
+                      ((default-modes (append '(vi-normal-mode reduce-tracking-mode blocker-mode) %slot-default%)))) ; dark-mode
 
 (define-configuration prompt-buffer
     ((default-modes (append '(vi-insert-mode) %slot-default%))))
@@ -194,7 +194,7 @@
       '((title
          :color "d4be98")
         (body
-         :background-color "2c2826"
+         :background-color "1d2021"
          :color "d4be98")
         (hr
          :color "d4be98")
@@ -213,12 +213,12 @@
                :background-color "#2c2826"
                :color "#d4be98")
               ("#prompt-area"
-               :background-color "#1c1816")
+               :background-color "#1d2021")
               ("#input"
                :background-color "#2c2826"
                :color "#d4be98")
               (".source-name"
-               :background-color "#1c1816"
+               :background-color "#1d2021"
                :color "d4be98")
               (".source-content"
                :background-color "2c2826")
@@ -226,12 +226,12 @@
                :background-color "2c2826"
                :font-weight "bold")
               ("#selection"
-               :background-color "#1c1816"
+               :background-color "#1d2021"
                :color "#d8a657"
-              (.marked :background-color "1c1816"
+              (.marked :background-color "1d2021"
                        :font-weight "bold"
                        :color "d8a657")
-              (.selected :background-color "1c1816"
+              (.selected :background-color "1d2021"
                          :color "d4be98"))))))))
 
 ;history tree
