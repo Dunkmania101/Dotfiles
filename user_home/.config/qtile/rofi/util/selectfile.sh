@@ -31,9 +31,9 @@ rofi="rofi -theme ~/.config/qtile/rofi/gruvbox-dark.rasi -dmenu -p "$prompt" -li
 
 if [[ -z $1 || ! "$save_file" == "" ]]
 then
-    dir=`readlink -f "$default_dir"`
+    dir="$default_dir"
 else
-    dir=`readlink -f "$1"`
+    dir="$1"
 fi
 
 # selected will be set to empty string, if user cancels in rofi.  This should
@@ -79,7 +79,7 @@ then
     if [[ ! "$save_file" == "" ]]
     then
         mkdir --parents "$(dirname $save_file)"
-        echo "$file" >> $save_file
+        echo "$file" > $save_file
     fi
     echo "$file"
 fi
