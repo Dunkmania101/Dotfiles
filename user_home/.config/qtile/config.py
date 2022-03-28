@@ -275,12 +275,12 @@ def run_kmonad(start=True):
         run_cmd('tmux kill-session -t kmonad-bar; rm -f /tmp/tmux-bar-kmonad-pipe')
 
 
-def run_plank(start=True):
-    if start:
-        for _ in monitors:
-            run_cmd(f"plank")
-    else:
-        run_cmd("killall -q plank")
+#def run_plank(start=True):
+#    if start:
+#        for _ in monitors:
+#            run_cmd(f"plank")
+#    else:
+#        run_cmd("killall -q plank")
 
 
 # ------------------------------ #
@@ -476,8 +476,8 @@ keys = [
     Key([sup, shift, ctrl, alt], "q", lazy.shutdown()),
 
     # Apps
-    Key([sup], period, lazy.function(exec_func_no_qtile, run_plank, [True])),
-    Key([sup, shift], period, lazy.function(exec_func_no_qtile, run_plank, [False])),
+    #Key([sup], period, lazy.function(exec_func_no_qtile, run_plank, [True])),
+    #Key([sup, shift], period, lazy.function(exec_func_no_qtile, run_plank, [False])),
     #Key([sup], apostrophe, lazy.function(exec_func_no_qtile, run_keysboard, [True])),
     Key([sup], apostrophe, lazy.function(exec_func_no_qtile, run_kmonad, [True])),
     #Key([sup, shift], apostrophe, lazy.function(exec_func_no_qtile, run_keysboard, [False])),
