@@ -167,7 +167,7 @@ my_editor_alt2 = "kitty zsh -c \'source ~/.zshrc; nvim\'"
 
 my_browser = "nyxt -S"
 #my_browser_alt = os.path.expanduser("~/.nix-profile/bin/vivaldi")
-my_browser_alt = "firefox"
+my_browser_alt = "firefox-developer-edition"
 #my_browser_alt = "vivaldi"
 #my_browser_alt = "vivaldi-stable"
 my_browser_alt1 = "firedragon"
@@ -191,8 +191,9 @@ my_file_manager_alt1 = "thunar"
 #my_mp = "lollypop"
 #my_mp = "celluloid"
 my_mp = rofi_dir + "/mpvselect/mpvselect.sh"
-my_mp_alt = rofi_dir + "/ytfzf/ytfzf.sh"
-my_mp_alt1 = rofi_dir + "/notflix/notflix.sh"
+my_mp_alt = rofi_dir + "/ytfzf/ytfzf.sh --savefile"
+my_mp_alt1 = rofi_dir + "/ytfzf/ytfzf.sh"
+#my_mp_alt1 = rofi_dir + "/notflix/notflix.sh"
 my_mp_alt2 = "freetube"
 #my_mp_alt = "motionbox"
 #my_mp_alt = "freetube"
@@ -635,9 +636,9 @@ class FileReaderWidget(widget_base.ThreadPoolText):
 
 class OpenWidgetBox(widget.WidgetBox):
     def _configure(self, qtile, bar):
-        super()._configure(qtile, bar)
-        if not self.box_is_open:
-            self.cmd_toggle()
+        widget.WidgetBox._configure(self, qtile, bar)
+        #if not self.box_is_open:
+        #    self.cmd_toggle() # Currently broken
 
 class ColorGmailChecker(widget.GmailChecker):
     def __init__(self, clear_foreground=green_color, unseen_foreground=red_color, **config):
@@ -713,7 +714,7 @@ def get_widgets_1(i):
                 widget.TextBox("|"),
                 widget.Spacer(length=5),
                 OpenWidgetBox(
-                    [
+                    widgets=[
                         widget.GroupBox(
                             border_width=2,
                             disable_drag=True,
@@ -751,7 +752,7 @@ def get_widgets_1(i):
                 widget.TextBox("|"),
                 widget.Spacer(length=5),
                 OpenWidgetBox(
-                    [
+                    widgets=[
                         widget.CheckUpdates(
                             distro=my_distro,
                             custom_command=my_check_updates_cmd,
