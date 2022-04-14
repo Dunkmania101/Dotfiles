@@ -146,7 +146,8 @@ my_gmail_pass = env_data.get("gmail.pass", "")
 #my_terminal_tmux = f"kitty -e \'{cfg_dir}/scripts/run/run-tmux-session.sh\'"
 #my_terminal = f"uxterm -si -fa \"{my_font}\""
 my_terminal = "kitty"
-my_terminal_alt = "st"
+my_terminal_alt = f"uxterm -si -fa \"{my_font}\""
+#my_terminal_alt = "st"
 #my_terminal_alt = "cool-retro-term"
 #my_terminal_alt = "darktile"
 #my_terminal_alt = "extraterm"
@@ -608,6 +609,8 @@ widget_defaults = dict(
     margin=3,
     background=[dark_bg_color, dark_bg_color],
     foreground=[fg_txt_color, fg_txt_color],
+    graph_color=[fg_txt_color, fg_txt_color],
+    fill_color=[bg_txt_color, bg_txt_color],
 )
 
 

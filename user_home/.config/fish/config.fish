@@ -8,8 +8,8 @@ export games="$superdrive/Games/"
 export gdlauncher="$games/GDlauncher/"
 export mcinstances="$gdlauncher/instances/"
 # export TERM=xterm-kitty
-#export VISUAL="emacs -nw"
-#export EDITOR="emacs -nw"
+export VISUAL="nvim"
+export EDITOR="nvim"
 #export ALTERNATE_EDITOR=""
 
 
