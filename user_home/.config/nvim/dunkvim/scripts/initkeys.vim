@@ -88,7 +88,7 @@ if $amirealvim
 
   nnoremap <leader>oft :RnvimrToggle<CR>
   nnoremap <leader>ofv :RangerVSplit<CR>
-  nnoremap f :NvimTreeToggle<CR>
+  nnoremap f :CHADopen<CR>
 
   nnoremap <silent> bg :BufferLinePick<CR>
   nnoremap <silent> bc :lua require('close_buffers').delete({type = 'this'})<CR>
@@ -103,5 +103,4 @@ endif
 
 
 if $amirealvim && has("nvim")
-  let g:CtrlSpaceDefaultMappingKey = "<C-space> "
 endif

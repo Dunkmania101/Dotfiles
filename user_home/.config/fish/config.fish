@@ -95,10 +95,11 @@ fish_default_key_bindings
 bind \ck 'commandline -i clear; commandline -f execute'
 bind \cb 'btop'
 bind \cn 'nvim'
+bind \cf 'newsboat'
+bind \ce 'lf'
 bind \co 'commandline -i \'nvim \''
 bind \ca "commandline -i \"$add_package_cmd\""
 bind \cu 'commandline -i uu-clean; commandline -f execute'
 
 # Themes
-theme_gruvbox dark medium
 base16-gruvbox-dark-medium

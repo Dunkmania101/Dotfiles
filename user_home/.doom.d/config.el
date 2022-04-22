@@ -82,7 +82,7 @@
 (after! evil-collection-webkit
   (evil-collection-xwidget-setup))
 
-(setq ytdious-invidious-api-url "https://invidious.snopyta.org/")
+(setq empv-invidious-instance "https://invidio.xamh.de/api/v1")
 
 (setf ement-save-sessions t)
 (map! :leader

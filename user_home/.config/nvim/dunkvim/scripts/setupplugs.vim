@@ -12,8 +12,8 @@ if $amirealvim
     \ 'coc-explorer',
     \ ]
   "  autocmd VimEnter * CocInstall
-  autocmd VimEnter * TSInstall maintained
-  autocmd VimEnter * TSEnableAll highlight indent
+  autocmd VimEnter * TSInstall all
+  autocmd VimEnter * TSEnable rainbow highlight indent
 endif
 
 if executable('rg')

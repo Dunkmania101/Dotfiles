@@ -54,7 +54,7 @@
 
 (package! crux)
 
-(package! ytdious)
+(package! empv)
 
 (package! screenshot)
 
@@ -88,7 +88,7 @@
 (require 'eaf-rss-reader)))
 
 (unpin! lsp-java)
-(unpin! treemacs)
+;(unpin! treemacs)
 ;(unpin! t)
 
 ;; If you'd like to disable a package included with Doom, you can do so here

@@ -36,10 +36,10 @@ Plug 'tpope/vim-fugitive'
 Plug 'voldikss/vim-floaterm'
 
 " Files
-Plug 'kevinhwang91/rnvimr'
-Plug 'rafaqz/ranger.vim'
+" Plug 'kevinhwang91/rnvimr'
+" Plug 'rafaqz/ranger.vim'
 Plug 'kyazdani42/nvim-web-devicons' " for file icons
-Plug 'kyazdani42/nvim-tree.lua'
+" Plug 'kyazdani42/nvim-tree.lua'
 " Plug 'scrooloose/nerdtree'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
 
@@ -104,7 +104,7 @@ Plug 'junegunn/fzf'
 Plug 'ctrlpvim/ctrlp.vim'
 
 " Space
-Plug 'vim-ctrlspace/vim-ctrlspace'
+"Plug 'vim-ctrlspace/vim-ctrlspace'
 Plug 'vimwiki/vimwiki'
 
 " Misc
@@ -114,3 +114,8 @@ Plug 'tpope/vim-eunuch'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'mfussenegger/nvim-dap'
 Plug 'npxbr/glow.nvim', {'do': ':GlowInstall','branch':'main'}
+
+if $amirealvim
+  Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
+endif
+

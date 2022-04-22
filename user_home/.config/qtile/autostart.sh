@@ -16,8 +16,8 @@ lxsession &
 clipmenud &
 copyq &
 #element-desktop-nightly --hidden &
-element-desktop --hidden &
-# agordejo --hide --load-session Main &
+pgrep element-desktop || element-desktop --hidden &
+#agordejo --hide --load-session Main &
 emacs --daemon &
 
 xsetroot -cursor_name left_ptr

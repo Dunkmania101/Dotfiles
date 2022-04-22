@@ -18,14 +18,9 @@ then
         mkdir --parents "$(dirname $save_file)"
         printf "$ytfzf_history" | grep -x "$query" || printf "\n$query" >> $save_file
     fi
-    vid="$(ytfzf -DLl $query)"
+    vid="$(ytfzf --pages=5 -cY,P,O -DLl $query)"
     if [[ ! "$vid" == "" ]]
     then
-        if [[ ! "$save_file" == "" ]]
-        then
-            mkdir --parents "$(dirname $save_file)"
-            printf "$ytfzf_history" | grep -x "$vid" || printf "\n$vid" >> $save_file
-        fi
         mpv --script=$HOME/.guix-profile/lib/mpris.so --force-window --no-keepaspect-window --loop "$vid"
     fi
 fi

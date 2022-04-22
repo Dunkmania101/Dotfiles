@@ -117,6 +117,8 @@ my_base_groups = " 1 2 3 4 5 6 7 8 9 0 M1 M2".split(" ")
 # Screen to put the systray widget on
 my_systray_screen = 0
 
+my_border_width = 4
+
 # Directories
 my_wallpapers = os.path.expanduser("~/Wallpapers") # Can point to a directory or a single image file.
 my_screenshots_dir = os.path.expanduser("~/Screenshots")
@@ -146,7 +148,7 @@ my_gmail_pass = env_data.get("gmail.pass", "")
 #my_terminal_tmux = f"kitty -e \'{cfg_dir}/scripts/run/run-tmux-session.sh\'"
 #my_terminal = f"uxterm -si -fa \"{my_font}\""
 my_terminal = "kitty"
-my_terminal_alt = f"uxterm -si -fa \"{my_font}\""
+my_terminal_alt = f"uxterm -si -fa \"{my_font}\" -bg 21212191"
 #my_terminal_alt = "st"
 #my_terminal_alt = "cool-retro-term"
 #my_terminal_alt = "darktile"
@@ -549,8 +551,8 @@ keys = [
     Key([], "Print", lazy.function(exec_func_no_qtile, take_screenshot)),
 
     # Special Keys
-    Key([], 'XF86AudioRaiseVolume', lazy.spawn('amixer sset Master 2%+')),
-    Key([], 'XF86AudioLowerVolume', lazy.spawn('amixer sset Master 2%-')),
+    Key([], 'XF86AudioRaiseVolume', lazy.spawn('amixer sset Master 1%+')),
+    Key([], 'XF86AudioLowerVolume', lazy.spawn('amixer sset Master 1%-')),
     Key([shift], 'XF86AudioRaiseVolume', lazy.spawn('amixer sset Master 1%+')),
     Key([shift], 'XF86AudioLowerVolume', lazy.spawn('amixer sset Master 1%-')),
     Key([], 'XF86AudioMute', lazy.spawn('amixer sset Master toggle')),
@@ -558,12 +560,12 @@ keys = [
     Key([], 'XF86AudioPlay', lazy.spawn('playerctl play-pause')),
     Key([ctrl], 'XF86AudioPause', lazy.spawn('playerctl -a play-pause')),
     Key([ctrl], 'XF86AudioPlay', lazy.spawn('playerctl -a play-pause')),
-    Key([], 'XF86AudioNext', lazy.spawn('playerctl position 2+')),
-    Key([], 'XF86AudioPrev', lazy.spawn('playerctl position 2-')),
+    Key([], 'XF86AudioNext', lazy.spawn('playerctl position 1+')),
+    Key([], 'XF86AudioPrev', lazy.spawn('playerctl position 1-')),
     Key([shift], 'XF86AudioNext', lazy.spawn('playerctl position 1+')),
     Key([shift], 'XF86AudioPrev', lazy.spawn('playerctl position 1-')),
-    Key([], 'XF86MonBrightnessUp', lazy.spawn('brightnessctl set 5%+')),
-    Key([], 'XF86MonBrightnessDown', lazy.spawn('brightnessctl set 5%-')),
+    Key([], 'XF86MonBrightnessUp', lazy.spawn('brightnessctl set 1%+')),
+    Key([], 'XF86MonBrightnessDown', lazy.spawn('brightnessctl set 1%-')),
 ]
 
 for i, g in enumerate(my_base_groups):
@@ -719,7 +721,7 @@ def get_widgets_1(i):
                 OpenWidgetBox(
                     widgets=[
                         widget.GroupBox(
-                            border_width=2,
+                            border_width=my_border_width,
                             disable_drag=True,
                             rounded=True,
                             active=[fg_txt_color, fg_txt_color],
@@ -887,8 +889,8 @@ for monitor in monitors:
             wallpaper = None
         screens.append(
             Screen(
-                top=bar.Bar(get_widgets_1(i), 30, background=bg_color, border_color=bg_line_color, border_width=2),
-                bottom=bar.Bar(get_widgets_2(i), 30, background=bg_color, border_color=bg_line_color, border_width=2),
+                top=bar.Bar(get_widgets_1(i), 30, background=bg_color, border_color=bg_line_color, border_width=my_border_width),
+                bottom=bar.Bar(get_widgets_2(i), 30, background=bg_color, border_color=bg_line_color, border_width=my_border_width),
                 wallpaper=wallpaper,
                 wallpaper_mode="stretch",
             )
@@ -935,7 +937,7 @@ layouts = [
         border_normal_stack=bg_line_color,
         border_focus_stack=fg_line_color,
         border_on_single=True,
-        border_width=3,
+        border_width=my_border_width,
         num_columns=2,
         ratio=0.70,
     )
@@ -953,7 +955,7 @@ floating_layout = layout.Floating(
     ],
     border_normal=bg_line_color_alt,
     border_focus=fg_line_color_alt,
-    border_width=3,
+    border_width=my_border_width,
 )
 
 dont_auto_float_rules = []

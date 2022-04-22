@@ -338,38 +338,38 @@ require("nvim-autopairs.completion.compe").setup({
   auto_select = false  -- auto select first item
 })
 
-require'nvim-tree'.setup {
-    disable_netrw = true,
-    hijack_netrw = true,
-    hijack_cursor = true,
-    auto_close = true,
-    update_cwd = true,
-    ignore_ft_on_setup = {'startify', 'dashboard'},
-    diagnostics = {
-        enable = true,
-        icons = {
-            hint = "",
-            info = "",
-            warning = "",
-            error = "",
-        }
-    },
-    group_empty = false,
-    indent_markers = true,
-    highlight_opened_files = true,
-    tree_git_hl = true,
-    add_trailing = true,
-    view = {
-        width = 30,
-        height = 30,
-        side = 'left',
-        auto_resize = true,
-        mappings = {
-          custom_only = false,
-          list = {}
-        }
-    },
-}
+-- require'nvim-tree'.setup {
+--     disable_netrw = true,
+--     hijack_netrw = true,
+--     hijack_cursor = true,
+--     auto_close = true,
+--     update_cwd = true,
+--     ignore_ft_on_setup = {'startify', 'dashboard'},
+--     diagnostics = {
+--         enable = true,
+--         icons = {
+--             hint = "",
+--             info = "",
+--             warning = "",
+--             error = "",
+--         }
+--     },
+--     group_empty = false,
+--     indent_markers = true,
+--     highlight_opened_files = true,
+--     tree_git_hl = true,
+--     add_trailing = true,
+--     view = {
+--         width = 30,
+--         height = 30,
+--         side = 'left',
+--         auto_resize = true,
+--         mappings = {
+--           custom_only = false,
+--           list = {}
+--         }
+--     },
+-- }
 
 require("nvim-treesitter.configs").setup {
   highlight = {
@@ -402,3 +402,4 @@ function start_nvim_jdtls()
         })
     end
 end
+

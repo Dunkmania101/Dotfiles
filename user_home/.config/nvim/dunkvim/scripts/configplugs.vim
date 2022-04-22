@@ -97,39 +97,39 @@ let g:dashboard_custom_header = [
     \'|_____\__,_|_|\__(_)'
     \]
 
-let g:nvim_tree_icons = {
-    \ 'default': '',
-    \ 'symlink': '',
-    \ 'git': {
-    \   'unstaged': "✗",
-    \   'staged': "✓",
-    \   'unmerged': "",
-    \   'renamed': "➜",
-    \   'untracked': "★",
-    \   'deleted': "",
-    \   'ignored': "◌"
-    \   },
-    \ 'folder': {
-    \   'arrow_open': "",
-    \   'arrow_closed': "",
-    \   'default': "",
-    \   'open': "",
-    \   'empty': "",
-    \   'empty_open': "",
-    \   'symlink': "",
-    \   'symlink_open': "",
-    \   },
-    \   'lsp': {
-    \     'hint': "",
-    \     'info': "",
-    \     'warning': "",
-    \     'error': "",
-    \   }
-    \ }
-
-highlight NvimTreeFolderIcon guibg=green
-
-:lua require'nvim-tree'.setup()
+" let g:nvim_tree_icons = {
+"     \ 'default': '',
+"     \ 'symlink': '',
+"     \ 'git': {
+"     \   'unstaged': "✗",
+"     \   'staged': "✓",
+"     \   'unmerged': "",
+"     \   'renamed': "➜",
+"     \   'untracked': "★",
+"     \   'deleted': "",
+"     \   'ignored': "◌"
+"     \   },
+"     \ 'folder': {
+"     \   'arrow_open': "",
+"     \   'arrow_closed': "",
+"     \   'default': "",
+"     \   'open': "",
+"     \   'empty': "",
+"     \   'empty_open': "",
+"     \   'symlink': "",
+"     \   'symlink_open': "",
+"     \   },
+"     \   'lsp': {
+"     \     'hint': "",
+"     \     'info': "",
+"     \     'warning': "",
+"     \     'error': "",
+"     \   }
+"     \ }
+" 
+" highlight NvimTreeFolderIcon guibg=green
+" 
+" :lua require'nvim-tree'.setup()
 
 let g:indentLine_fileTypeExclude = ['startify', 'dashboard']
 
@@ -140,3 +140,4 @@ endfunction
 set statusline+=%{NearestMethodOrFunction()}
 autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 
+let g:chadtree_settings = {'theme': {'text_colour_set': 'nerdtree_syntax_dark'}}
