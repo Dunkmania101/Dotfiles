@@ -19,7 +19,8 @@
 (defvar *my-search-engines*
   (list
     '("qw" "https://www.qwant.com?theme=1&hc=0&vt=1&s=0&b=0&q=~a" "https://www.qwant.com?theme=1&hc=0&vt=1&s=0&b=0")
-    '("ddg" "https://duckduckgo.com?q=~a" "https://duckduckgo.com")
+    '("ddg" "https://duckduckgo.com/?q=~a" "https://duckduckgo.com")
+    '("gh" "https://github.com/search?q=~a" "https://github.com")
     '("srx" "http://localhost:8888/?q=~a" "http://localhost:8888/")))
 
 ;; Color Codes
@@ -48,16 +49,23 @@
 ;; ------------ ;;
 
 
+(define-configuration browser
+    ((session-restore-prompt :never-restore)))
+
+
+(define-configuration password:keepassxc-interface
+                      ((password:password-file (str:concat main-data-path "kpxc-ln.kdbx"))))
+
+
 (define-configuration buffer
   ((search-engines (append %slot-default%
                            (mapcar (lambda (engine) (apply 'make-search-engine engine))
                                    *my-search-engines*)))))
 
-(define-configuration browser
-    ((session-restore-prompt :never-restore)))
 
 (define-configuration buffer
-                      ((default-modes (append '(vi-normal-mode reduce-tracking-mode blocker-mode) %slot-default%)))) ; dark-mode
+                      ((password-interface (make-instance 'password:user-keepassxc-interface))
+                       (default-modes (append '(vi-normal-mode reduce-tracking-mode) %slot-default%)))) ; dark-mode blocker-mode
 
 (define-configuration prompt-buffer
     ((default-modes (append '(vi-insert-mode) %slot-default%))))

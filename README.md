@@ -13,6 +13,8 @@ Here are some screenshots:
 
 ![Desktop1](Media/Desktop1.png)
 
-
 The wallpaper is called "Streets of Gruvbox". I found it on Reddit.
+
+
+![DesktopWithEmacs1](Media/DesktopWithEmacs1.png)
 

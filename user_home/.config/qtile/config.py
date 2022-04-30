@@ -83,7 +83,8 @@ if os.path.isfile(env_file):
 
 # Themes
 
-my_font = "Hack Nerd Font"
+my_font = "Iosevka"
+my_term_font = "Iosevka Term"
 
 # One Dark
 #bg_color = "#282c34"
@@ -146,9 +147,10 @@ my_gmail_pass = env_data.get("gmail.pass", "")
 # Applications
 #my_terminal = "kitty -e tmux"
 #my_terminal_tmux = f"kitty -e \'{cfg_dir}/scripts/run/run-tmux-session.sh\'"
-#my_terminal = f"uxterm -si -fa \"{my_font}\""
-my_terminal = "kitty"
-my_terminal_alt = f"uxterm -si -fa \"{my_font}\" -bg 21212191"
+#my_terminal = "kitty"
+my_terminal = f"uxterm -si -fs 10 -fa \"{my_term_font}\" -bg \'#212121\' -bd \'#212111\'"
+my_terminal_alt = "kitty"
+#my_terminal_alt = f"uxterm -si -fa \"{my_font}\" -bg 21212191"
 #my_terminal_alt = "st"
 #my_terminal_alt = "cool-retro-term"
 #my_terminal_alt = "darktile"
@@ -805,7 +807,7 @@ def get_widgets_1(i):
                 ),
                 widget.Spacer(length=7),
                 widget.TextBox("vol:"),
-                widget.Volume(fontsize=10, update_interval=0.1),
+                widget.Volume(update_interval=0.1, step=1),
                 # widget.CurrentLayoutIcon(scale=0.70),
                 widget.Spacer(length=5),
                 widget.TextBox("|"),

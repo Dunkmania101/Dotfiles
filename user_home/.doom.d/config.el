@@ -54,7 +54,7 @@
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type 'relative)
 
 (setq minimap-recreate-window t
       minimap-automatically-delete-window nil)
@@ -82,7 +82,10 @@
 (after! evil-collection-webkit
   (evil-collection-xwidget-setup))
 
-(setq empv-invidious-instance "https://invidio.xamh.de/api/v1")
+(after! empv
+  (setq empv-invidious-instance "https://vid.puffyan.us/api/v1")
+  (mapc (lambda (a) (add-to-list 'empv-mpv-args a)) '("--ytdl-format=best" "--force-window" "--no-keepaspect-window" "--loop"))
+  (mapc (lambda (a) (delete a empv-mpv-args)) '("--no-video")))
 
 (setf ement-save-sessions t)
 (map! :leader
@@ -112,6 +115,8 @@
 (setq company-idle-delay nil)
 (setq +lsp-prompt-to-install-server 'quiet
       lsp-enable-file-watchers nil)
+
+(setq org-journal-file-format "%Y-%m-%d.org")
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

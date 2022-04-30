@@ -9,11 +9,13 @@ if [ -f ~/.profile ]; then . ~/.profile; fi
 # ~/.config/qtile/scripts/run/run-keysboard.sh &
 ~/.config/qtile/scripts/run/run-kmonad.sh &
 ~/.config/qtile/scripts/run/run-cbatticon.sh &
+~/.config/qtile/scripts/run/run-volumeicon.sh &
 ~/.config/qtile/scripts/run/run-flameshot.sh &
 ~/.config/qtile/scripts/run/run-lxappearance_init.sh &
 
 lxsession &
 clipmenud &
+deadd-notification-center &
 copyq &
 #element-desktop-nightly --hidden &
 pgrep element-desktop || element-desktop --hidden &

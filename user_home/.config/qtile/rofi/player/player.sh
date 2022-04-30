@@ -2,10 +2,10 @@
 
 back="Back"
 playpause=">/="
-ahead=">>+5"
-prev="<<-5"
-volup="VOL+5%"
-voldown="VOL-5%"
+ahead=">>+1"
+prev="<<-1"
+volup="VOL+1%"
+voldown="VOL-1%"
 
 options="$back\n$playpause\n$ahead\n$prev\n$volup\n$voldown"
 
@@ -23,16 +23,16 @@ if [ "$chosen" != "" ]; then
                 $cmd play-pause
                 ;;
             $ahead)
-                $cmd position 5+
+                $cmd position 1+
                 ;;
             $prev)
-                $cmd position 5-
+                $cmd position 1-
                 ;;
             $volup)
-                $cmd volume 5%+
+                $cmd volume 0.01+
                 ;;
             $voldown)
-                $cmd volume 5%-
+                $cmd volume 0.01-
                 ;;
             $back)
                 $0 & break

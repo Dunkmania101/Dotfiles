@@ -118,7 +118,7 @@
        (common-lisp +lsp)       ; if you've seen one lisp, you've seen them all
        ;;coq               ; proofs-as-programs
        ;;crystal           ; ruby at the speed of c
-       (csharp +lsp)            ; unity, .NET, and mono shenanigans
+       (csharp +unity +dotnet +lsp)            ; unity, .NET, and mono shenanigans
        (data +lsp)              ; config/data formats
        ;;(dart +flutter)   ; paint ui and not much else
        ;;dhall

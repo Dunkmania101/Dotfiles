@@ -8,9 +8,11 @@ export games="$superdrive/Games/"
 export gdlauncher="$games/GDlauncher/"
 export mcinstances="$gdlauncher/instances/"
 # export TERM=xterm-kitty
+#export VISUAL="emacs -nw"
+#export EDITOR="emacs -nw"
+#export ALTERNATE_EDITOR=""
 export VISUAL="nvim"
 export EDITOR="nvim"
-#export ALTERNATE_EDITOR=""
 
 
 # Aliases
@@ -43,8 +45,8 @@ alias nixclean-full="nix-collect-garbage --delete-old"
 alias uu-nix="nix-channel --update; nix-env --upgrade; nixclean"
 alias uu-stack="stack upgrade; stack update"
 alias lsoutdated-pip="pip list --outdated --format=freeze | grep -v "^\-e" | cut -d = -f 1"
-alias uu-pip='pip install (lsoutdated-pip)'
-alias uu-pip-root='sudo pip install (sudo lsoutdated-pip)'
+alias uu-pip='pip install -U (lsoutdated-pip)'
+alias uu-pip-root='sudo pip install -U (echo (alias | grep -x \'alias lsoutdated-pip *.*\' | tail -c +23 | head -c -2) | sudo sh)'
 #alias uu-nim="choosenim update self; choosenim update devel; nimble refresh || rm -rf $HOME/.nimble && nimble refresh; for nim_package in (nimble list --installed | cut -d' ' -f1); nimble --accept install $nim_package"
 alias uu-fish="fisher update"
 alias uu-node="install-fnm; npm install -g npm; npm -g update"
@@ -55,8 +57,8 @@ alias uu-doom="doom --yes upgrade; doom --yes sync; doom --yes purge"
 alias uu-nvim="nvim -c 'UU' -c 'qa!'"
 alias uu="uu-fish; uu-nix; uu-flatpak; uu-pip; uu-nim; uu-node; uu-doom; uu-arch"
 #alias uu="uu-noguix; uu-guix"
-alias uu-clean="uu; guixclean-full"
-export add_package_cmd="paru --needed -S "
+alias uu-clean="uu" #; guixclean-full"
+export add_package_cmd="paru -S --needed "
 #export add_package_cmd="guix install "
 alias lsa="exa -a"
 alias getwinid="xwininfo -display :0"
@@ -97,6 +99,7 @@ bind \cb 'btop'
 bind \cn 'nvim'
 bind \cf 'newsboat'
 bind \ce 'lf'
+bind \cw 'weechat'
 bind \co 'commandline -i \'nvim \''
 bind \ca "commandline -i \"$add_package_cmd\""
 bind \cu 'commandline -i uu-clean; commandline -f execute'
