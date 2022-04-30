@@ -84,6 +84,9 @@ set NIX_PROFILE "$HOME/.nix-profile"
 
 if test -f "$HOME/.profile"; bass . "$HOME/.profile"; end
 
+# Atuin
+if type -q atuin; atuin init fish | source; end
+
 # fnm
 if test -f $HOME/.fnm/fnm; fnm env | source; end
 
