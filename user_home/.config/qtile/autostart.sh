@@ -15,7 +15,7 @@ if [ -f ~/.profile ]; then . ~/.profile; fi
 
 lxsession &
 clipmenud &
-deadd-notification-center &
+#deadd-notification-center &
 copyq &
 #element-desktop-nightly --hidden &
 pgrep element-desktop || element-desktop --hidden &
@@ -24,6 +24,7 @@ emacs --daemon &
 
 xsetroot -cursor_name left_ptr
 xset b off
-xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Tapping Enabled" 1
 xset r rate 280 40
+xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Tapping Enabled" 1
 # xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Natural Scrolling Enabled" 1
+

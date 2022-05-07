@@ -9,6 +9,7 @@ import os, subprocess, imaplib, re #, gi
 #gi.require_version("Gdk", "3.0")
 #from gi.repository import Gdk
 from json import loads as jloads #, dumps as jdumps
+from time import sleep
 from shutil import which
 from threading import Thread
 from random import choice
@@ -69,7 +70,7 @@ def gen_jgmenu_cmd(fmt="uxterm"):
 
 
 cfg_dir = os.path.expanduser("~/.config/qtile")
-run_cmd(cfg_dir + "/autostart.sh")
+#run_cmd(cfg_dir + "/autostart.sh")
 rofi_dir = cfg_dir + "/rofi"
 env_file = os.path.expanduser("~/.private/data/env.json")
 env_data = {}
@@ -215,6 +216,10 @@ my_calculator_alt = "qalculate-gtk"
 my_control_panel = my_terminal + " -e btop"
 #my_control_panel = "kitty -e btop"
 my_control_panel_alt = "stacer"
+
+my_audio_mixer = my_terminal + " -e pulsemixer"
+my_audio_mixer_alt = "easyeffects"
+my_audio_mixer_alt1 = my_terminal + " -e alsamixer"
 
 # Menus (Rofi Scripts, etc...)
 my_launcher = rofi_dir + "/launcher/launcher.sh"
@@ -482,8 +487,13 @@ keys = [
     Key([sup, shift, ctrl, alt], "q", lazy.shutdown()),
 
     # Apps
-    #Key([sup], period, lazy.function(exec_func_no_qtile, run_plank, [True])),
-    #Key([sup, shift], period, lazy.function(exec_func_no_qtile, run_plank, [False])),
+    Key([sup], period, lazy.spawn(my_audio_mixer)),
+    Key([sup, shift], period, lazy.spawn(my_audio_mixer_alt)),
+    KeyChord([sup, ctrl, shift], period, [
+        Key([], period, lazy.spawn(my_audio_mixer)),
+        Key([shift], period, lazy.spawn(my_audio_mixer_alt)),
+        Key([], "1", lazy.spawn(my_audio_mixer_alt1)),
+    ]),
     #Key([sup], apostrophe, lazy.function(exec_func_no_qtile, run_keysboard, [True])),
     Key([sup], apostrophe, lazy.function(exec_func_no_qtile, run_kmonad, [True])),
     #Key([sup, shift], apostrophe, lazy.function(exec_func_no_qtile, run_keysboard, [False])),
@@ -642,10 +652,16 @@ class FileReaderWidget(widget_base.ThreadPoolText):
             return self.msg_base + msg
 
 class OpenWidgetBox(widget.WidgetBox):
-    def _configure(self, qtile, bar):
-        widget.WidgetBox._configure(self, qtile, bar)
-        #if not self.box_is_open:
-        #    self.cmd_toggle() # Currently broken
+    def __init__(self, _widgets: list[widget_base._Widget] | None = None, **config):
+        super().__init__(_widgets=_widgets, **config)
+        Thread(target=self.wait_open, daemon=True).start()
+
+    def wait_open(self):
+        if not self.box_is_open:
+            while not self.configured:
+                sleep(0.1)
+            self.cmd_toggle()
+
 
 class ColorGmailChecker(widget.GmailChecker):
     def __init__(self, clear_foreground=green_color, unseen_foreground=red_color, **config):
@@ -875,16 +891,17 @@ img_fmts = (".png", ".jpeg", ".jpg")
 if os.path.isfile(my_wallpapers) and my_wallpapers.endswith(img_fmts):
     wallpapers = [my_wallpapers]
 elif os.path.isdir(my_wallpapers):
-    wallpapers = [my_wallpapers + f"/{img}" for img in os.listdir(my_wallpapers)]
-    for img in wallpapers:
-        if img.startswith(".") or not img.endswith(img_fmts) or not os.path.isfile(img):
-            wallpapers.remove(img)
+    wallpapers = []
+    for f in os.listdir(my_wallpapers):
+        img = my_wallpapers + f"/{f}"
+        if not img.startswith(".") and img.endswith(img_fmts) and os.path.isfile(img):
+            wallpapers.append(img)
 else:
     wallpapers = []
 
 i = 0
 for monitor in monitors:
-    if len(monitor) > 0:
+    if len(monitor) > 0 and monitor != "\n":
         if len(wallpapers) > 0:
             wallpaper = wallpaper=choice(wallpapers)
         else:
@@ -975,7 +992,6 @@ def screen_change_hook(qtile):
     run_cmd(cfg_dir + "scripts/run/run-monitors.sh")
 
 
-@hook.subscribe.startup_once
+@hook.subscribe.startup_complete
 def autostart_hook():
-    #run_cmd(cfg_dir + "/autostart.sh")
-    pass
+    run_cmd(cfg_dir + "/autostart.sh")

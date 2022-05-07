@@ -72,8 +72,8 @@
 
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
-(setq doom-font (font-spec :family "Iosevka Nerd Font" :size 12 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "Iosevka Nerd Font" :size 13))
+(setq doom-font (font-spec :family "Iosevka" :size 12 :weight 'regular)
+      doom-variable-pitch-font (font-spec :family "Iosevka" :size 13))
 
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
