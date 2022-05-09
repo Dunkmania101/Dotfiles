@@ -65,7 +65,7 @@
 
 (define-configuration buffer
                       ((password-interface (make-instance 'password:user-keepassxc-interface))
-                       (default-modes (append '(vi-normal-mode reduce-tracking-mode) %slot-default%)))) ; dark-mode blocker-mode
+                       (default-modes (append '(vi-normal-mode reduce-tracking-mode dark-mode blocker-mode) %slot-default%))))
 
 (define-configuration prompt-buffer
     ((default-modes (append '(vi-insert-mode) %slot-default%))))
