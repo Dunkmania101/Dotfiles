@@ -21,7 +21,7 @@ Plug 'kazhala/close-buffers.nvim'
 " Motion
 Plug 'justinmk/vim-sneak'
 Plug 'psliwka/vim-smoothie'
-Plug 'liuchengxu/vista.vim'
+"Plug 'liuchengxu/vista.vim'
 
 " Changes
 if has('nvim') || has('patch-8.0.902')
@@ -116,6 +116,7 @@ Plug 'mfussenegger/nvim-dap'
 Plug 'npxbr/glow.nvim', {'do': ':GlowInstall','branch':'main'}
 
 if $amirealvim
+  " Files
   Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
 endif
 

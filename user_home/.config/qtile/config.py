@@ -104,7 +104,7 @@ bg_color = "#1B2229"
 fg_color = "#4f443a"
 dark_bg_color = "#222222"
 bg_line_color = "#3c3836"
-fg_line_color = "#3e3f47"
+fg_line_color = "#4f4347"
 bg_line_color_alt = "#aa5000"
 fg_line_color_alt = "#ff8000"
 bg_txt_color = "#3c3836"
@@ -114,12 +114,14 @@ red_color = "#cc241d"
 
 
 # Base Groups (copied to each monitor)
-my_base_groups = " 1 2 3 4 5 6 7 8 9 0 M1 M2".split(" ")
+my_base_groups = "~ 1 2 3 4 5 6 7 8 9 0 - =".split(" ")
 
 # Screen to put the systray widget on
 my_systray_screen = 0
 
+# Gap and border sizes
 my_border_width = 4
+my_margin = 1
 
 # Directories
 my_wallpapers = os.path.expanduser("~/Wallpapers") # Can point to a directory or a single image file.
@@ -620,7 +622,7 @@ widget_defaults = dict(
     font=my_font,
     fontsize=14,
     padding=2,
-    margin=3,
+    margin=my_margin,
     background=[dark_bg_color, dark_bg_color],
     foreground=[fg_txt_color, fg_txt_color],
     graph_color=[fg_txt_color, fg_txt_color],
@@ -957,6 +959,7 @@ layouts = [
         border_focus_stack=fg_line_color,
         border_on_single=True,
         border_width=my_border_width,
+        margin=my_margin,
         num_columns=2,
         ratio=0.70,
     )

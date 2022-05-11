@@ -35,15 +35,12 @@ vnoremap <C-s> <Esc>:w<CR>gv=gv
 
 
 if $amirealvim
-  nnoremap <leader>b :CtrlPBuffer<CR>
-  nnoremap <c>p :CtrlP<CR>
-  nmap <leader>p :Glow<CR>
+  nnoremap <leader>pb :CtrlPBuffer<CR>
+  nnoremap <leader>pm :CtrlPBookmarkDir<CR>
+  nnoremap <leader>pam :CtrlPBookmarkDirAdd<CR>
+  nnoremap <leader>pp :CtrlP<CR>
+  nmap <leader>mg :Glow<CR>
   nmap <silent> g\ :Telescope ultisnips ultisnips<CR>
-
-  nnoremap <A-S-j> :resize -2<CR>
-  nnoremap <A-S-k> :resize +2<CR>
-  nnoremap <A-S-h> :vertical resize -2<CR>
-  nnoremap <A-S-l> :vertical resize +2<CR>
 
   inoremap <silent><expr> <C-Space> compe#complete()
   inoremap <silent><expr> <CR>      compe#confirm('<CR>')
@@ -81,26 +78,30 @@ if $amirealvim
   nmap <leader>QQ :q!<CR>
   nmap <leader>QWQ :wq!<CR>
 
-  nmap <silent> <A-h> :wincmd h<CR>
-  nmap <silent> <A-j> :wincmd j<CR>
-  nmap <silent> <A-k> :wincmd k<CR>
-  nmap <silent> <A-l> :wincmd l<CR>
+  nmap <silent> <leader>wh :wincmd h<CR>
+  nmap <silent> <leader>wj :wincmd j<CR>
+  nmap <silent> <leader>wk :wincmd k<CR>
+  nmap <silent> <leader>wl :wincmd l<CR>
+
+  nnoremap <A-S-j> :resize +2<CR>
+  nnoremap <A-S-k> :resize -2<CR>
+  nnoremap <A-S-h> :vertical resize +2<CR>
+  nnoremap <A-S-l> :vertical resize -2<CR>
 
   nnoremap <leader>oft :RnvimrToggle<CR>
   nnoremap <leader>ofv :RangerVSplit<CR>
   nnoremap f :CHADopen<CR>
 
-  nnoremap <silent> bg :BufferLinePick<CR>
-  nnoremap <silent> bc :lua require('close_buffers').delete({type = 'this'})<CR>
-  nnoremap <silent> bC :BufferLinePickClose<CR>
-  nnoremap <silent> bl :BufferLineCycleNext<CR>
-  nnoremap <silent> bk :BufferLineCycleNext<CR>
-  nnoremap <silent> bh :BufferLineCyclePrev<CR>
-  nnoremap <silent> bj :BufferLineCyclePrev<CR>
-  nnoremap <silent> be :BufferLineSortByExtension<CR>
-  nnoremap <silent> bd :BufferLineSortByDirectory<CR>
+  nnoremap <silent> <leader>bg :BufferLinePick<CR>
+  nnoremap <silent> <leader>bb :CtrlPBuffer<CR>
+  nnoremap <silent> <leader>bC :BufferLinePickClose<CR>
+  nnoremap <silent> <leader>bl :BufferLineCycleNext<CR>
+  nnoremap <silent> <leader>bh :BufferLineCyclePrev<CR>
+  nnoremap <silent> <leader>be :BufferLineSortByExtension<CR>
+  nnoremap <silent> <leader>bd :BufferLineSortByDirectory<CR>
+
+  if has("nvim")
+    nnoremap <silent> <leader>bk :lua require('close_buffers').delete({type = 'this'})<CR>
+  endif
 endif
 
-
-if $amirealvim && has("nvim")
-endif

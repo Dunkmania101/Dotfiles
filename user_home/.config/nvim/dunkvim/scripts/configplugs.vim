@@ -133,11 +133,11 @@ let g:dashboard_custom_header = [
 
 let g:indentLine_fileTypeExclude = ['startify', 'dashboard']
 
-function! NearestMethodOrFunction() abort
-  return get(b:, 'vista_nearest_method_or_function', '')
-endfunction
+"function! NearestMethodOrFunction() abort
+"  return get(b:, 'vista_nearest_method_or_function', '')
+"endfunction
 
-set statusline+=%{NearestMethodOrFunction()}
-autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+"set statusline+=%{NearestMethodOrFunction()}
+"autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 
 let g:chadtree_settings = {'theme': {'text_colour_set': 'nerdtree_syntax_dark'}}

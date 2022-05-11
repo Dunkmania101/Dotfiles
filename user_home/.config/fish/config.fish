@@ -60,6 +60,7 @@ alias uu="uu-fish; uu-nix; uu-flatpak; uu-pip; uu-nim; uu-node; uu-doom; uu-arch
 alias uu-clean="uu" #; guixclean-full"
 export add_package_cmd="paru -S --needed "
 #export add_package_cmd="guix install "
+alias lfi="~/.config/lf/run_lf.sh"
 alias lsa="exa -a"
 alias getwinid="xwininfo -display :0"
 alias lsmon="xrandr --query | grep ' connected' | cut -d' ' -f1"
@@ -101,7 +102,7 @@ bind \ck 'commandline -i clear; commandline -f execute'
 bind \cb 'btop'
 bind \cn 'nvim'
 bind \cf 'newsboat'
-bind \ce 'lf'
+bind \ce 'lfi'
 bind \cw 'weechat'
 bind \co 'commandline -i \'nvim \''
 bind \ca "commandline -i \"$add_package_cmd\""
