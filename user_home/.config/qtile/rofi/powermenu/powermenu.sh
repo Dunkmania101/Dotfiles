@@ -7,12 +7,12 @@ uptime=$(uptime -p | sed -e 's/up //g')
 rofi_command="rofi -theme ~/.config/qtile/rofi/gruvbox-dark.rasi"
 
 # Options
-shutdown="⏻"
-reboot="累"
-lock=""
-suspend=""
-monitor=""
-logout=""
+shutdown="⏻ - Shutdown"
+reboot="累 - Reboot"
+lock=" - Lock"
+suspend=" - Suspend"
+monitor=" - Monitor Off"
+logout=" - Logout"
 
 
 # Message

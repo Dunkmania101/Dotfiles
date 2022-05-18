@@ -142,6 +142,9 @@ if is_wayland():
 else:
     my_get_monitors_cmd = "xrandr --query | grep \" connected\" | cut -d\" \" -f1"
 
+my_mouse_move_cmd = "xdotool mousemove_relative -- "
+my_mouse_move_dist = "10"
+my_mouse_click_cmd = "xdotool click "
 
 my_gmail_username = env_data.get("gmail.username", "")
 my_gmail_pass = env_data.get("gmail.pass", "")
@@ -488,6 +491,17 @@ keys = [
     Key([sup, shift], "r", lazy.restart()),
     Key([sup, shift, ctrl, alt], "q", lazy.shutdown()),
 
+    # Mouse Emulation
+    Key([sup, ctrl], "h", lazy.spawn(my_mouse_move_cmd + f"-{my_mouse_move_dist} 0")),
+    Key([sup, ctrl], "j", lazy.spawn(my_mouse_move_cmd + f"0 {my_mouse_move_dist}")),
+    Key([sup, ctrl], "k", lazy.spawn(my_mouse_move_cmd + f"0 -{my_mouse_move_dist}")),
+    Key([sup, ctrl], "l", lazy.spawn(my_mouse_move_cmd + f"{my_mouse_move_dist} 0")),
+    Key([sup, ctrl], "a", lazy.spawn(my_mouse_click_cmd + "1")), # LC
+    Key([sup, ctrl], "d", lazy.spawn(my_mouse_click_cmd + "3")), # RC
+    Key([sup, ctrl], "x", lazy.spawn(my_mouse_click_cmd + "2")), # MC
+    Key([sup, ctrl], "s", lazy.spawn(my_mouse_click_cmd + "5")), # WU
+    Key([sup, ctrl], "w", lazy.spawn(my_mouse_click_cmd + "4")), # WD
+
     # Apps
     Key([sup], period, lazy.spawn(my_audio_mixer)),
     Key([sup, shift], period, lazy.spawn(my_audio_mixer_alt)),
@@ -630,6 +644,10 @@ widget_defaults = dict(
 )
 
 
+class DividerWidget(widget.TextBox):
+    def __init__(self, div_mid="|", div_padding_left=1, div_padding_right=1, **config):
+        super().__init__(f"{' ' * div_padding_left}{div_mid}{' ' * div_padding_right}", **config)
+
 class FileReaderWidget(widget_base.ThreadPoolText):
     def __init__(self, msg_base="", empty_msg="No Data", read_file="", **config):
         self.msg_base = msg_base
@@ -735,9 +753,7 @@ def get_widgets_1(i):
                     fmt='﩯',
                     mouse_callbacks={'Button1': lambda: qtile.cmd_spawn(my_launcher)},
                 ),
-                widget.Spacer(length=5),
-                widget.TextBox("|"),
-                widget.Spacer(length=5),
+                DividerWidget(),
                 OpenWidgetBox(
                     widgets=[
                         widget.GroupBox(
@@ -755,8 +771,7 @@ def get_widgets_1(i):
                         ),
                     ],
                 ),
-                widget.Spacer(length=5),
-                widget.TextBox("|"),
+                DividerWidget(),
 #                widget.TextBox(
 #                    fontsize=16,
 #                    fmt='',
@@ -765,17 +780,14 @@ def get_widgets_1(i):
 #                        'Button3': lambda: qtile.cmd_spawn(my_window_killer),
 #                    },
 #                ),
-                widget.Spacer(length=20),
+                widget.Spacer(),
                 widget.Systray(icon_size=24),
                 widget.Spacer(),
-                widget.TextBox("|"),
-                widget.Spacer(length=5),
+                DividerWidget(),
                 widget.Clock(
                     format='%a %b %d %Y, %I:%M:%S',
                 ),
-                widget.Spacer(length=5),
-                widget.TextBox("|"),
-                widget.Spacer(length=5),
+                DividerWidget(),
                 OpenWidgetBox(
                     widgets=[
                         widget.CheckUpdates(
@@ -794,18 +806,13 @@ def get_widgets_1(i):
                         ),
                     ]
                 ),
-                widget.Spacer(length=5),
-                widget.TextBox("|"),
-                widget.Spacer(length=5),
+                DividerWidget(),
                 widget.CapsNumLockIndicator(
                     frequency=0.1,
                 ),
-                widget.Spacer(length=5),
-                widget.TextBox("|"),
+                DividerWidget(),
                 widget.WidgetBox(widgets=get_sys_stat_widgets()),
-                widget.Spacer(length=5),
-                widget.TextBox("|"),
-                widget.Spacer(length=5),
+                DividerWidget(),
                 widget.TextBox(
                     fmt='',
                     mouse_callbacks={'Button1': lambda: qtile.cmd_spawn('playerctl position 2-')},
@@ -827,9 +834,7 @@ def get_widgets_1(i):
                 widget.TextBox("vol:"),
                 widget.Volume(update_interval=0.1, step=1),
                 # widget.CurrentLayoutIcon(scale=0.70),
-                widget.Spacer(length=5),
-                widget.TextBox("|"),
-                widget.Spacer(length=5),
+                DividerWidget(),
                 widget.TextBox(
                     fontsize=16,
                     fmt='',
@@ -846,17 +851,13 @@ def get_widgets_1(i):
 
 def get_widgets_2(i):
     widgets = [
-                widget.Spacer(length=5),
-                widget.TextBox("|"),
-                widget.Spacer(length=5),
+                DividerWidget(),
                 widget.TaskList(
                     border=fg_line_color,
                     unfocused_border=bg_line_color,
                     rounded=True,
                 ),
-                widget.Spacer(length=5),
-                widget.TextBox("|"),
-                widget.Spacer(length=5),
+                DividerWidget(),
                 FileReaderWidget(
                     #file = "/tmp/tmux-bar-keysboard-pipe",
                     #msg_base = "Keysboard: ",
@@ -872,9 +873,7 @@ def get_widgets_2(i):
                         'Button3': lambda: run_kmonad(False),
                     },
                 ),
-                widget.Spacer(length=5),
-                widget.TextBox("|"),
-                widget.Spacer(length=5),
+                DividerWidget(),
     ]
     return widgets
 
