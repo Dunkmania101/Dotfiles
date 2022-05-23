@@ -492,15 +492,15 @@ keys = [
     Key([sup, shift, ctrl, alt], "q", lazy.shutdown()),
 
     # Mouse Emulation
-    Key([sup, alt], "h", lazy.spawn(my_mouse_move_cmd + f"-{my_mouse_move_dist} 0")),
-    Key([sup, alt], "j", lazy.spawn(my_mouse_move_cmd + f"0 {my_mouse_move_dist}")),
-    Key([sup, alt], "k", lazy.spawn(my_mouse_move_cmd + f"0 -{my_mouse_move_dist}")),
-    Key([sup, alt], "l", lazy.spawn(my_mouse_move_cmd + f"{my_mouse_move_dist} 0")),
-    Key([sup, alt], "a", lazy.spawn(my_mouse_click_cmd + "1")), # LC
-    Key([sup, alt], "d", lazy.spawn(my_mouse_click_cmd + "3")), # RC
-    Key([sup, alt], "x", lazy.spawn(my_mouse_click_cmd + "2")), # MC
-    Key([sup, alt], "s", lazy.spawn(my_mouse_click_cmd + "5")), # WU
-    Key([sup, alt], "w", lazy.spawn(my_mouse_click_cmd + "4")), # WD
+    Key([sup, ctrl], "h", lazy.spawn(my_mouse_move_cmd + f"-{my_mouse_move_dist} 0")),
+    Key([sup, ctrl], "j", lazy.spawn(my_mouse_move_cmd + f"0 {my_mouse_move_dist}")),
+    Key([sup, ctrl], "k", lazy.spawn(my_mouse_move_cmd + f"0 -{my_mouse_move_dist}")),
+    Key([sup, ctrl], "l", lazy.spawn(my_mouse_move_cmd + f"{my_mouse_move_dist} 0")),
+    Key([sup, ctrl], "a", lazy.spawn(my_mouse_click_cmd + "1")), # LC
+    Key([sup, ctrl], "d", lazy.spawn(my_mouse_click_cmd + "3")), # RC
+    Key([sup, ctrl], "x", lazy.spawn(my_mouse_click_cmd + "2")), # MC
+    Key([sup, ctrl], "s", lazy.spawn(my_mouse_click_cmd + "5")), # WU
+    Key([sup, ctrl], "w", lazy.spawn(my_mouse_click_cmd + "4")), # WD
 
     # Apps
     Key([sup], period, lazy.spawn(my_audio_mixer)),
