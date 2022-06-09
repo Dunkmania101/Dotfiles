@@ -13,18 +13,21 @@ if [ -f ~/.profile ]; then . ~/.profile; fi
 ~/.config/qtile/scripts/run/run-flameshot.sh &
 ~/.config/qtile/scripts/run/run-lxappearance_init.sh &
 
-lxsession &
+pgrep lxsession || lxsession &
 clipmenud &
 #deadd-notification-center &
-copyq &
+pgrep copyq || copyq &
 #element-desktop-nightly --hidden &
 pgrep element-desktop || element-desktop --hidden &
+#pgrep easyeffects || easyeffects & sleep 1 && easyeffects --hide-window &
 #agordejo --hide --load-session Main &
-emacs --daemon &
+pgrep emacs || emacs --daemon &
 
 xsetroot -cursor_name left_ptr
-xset b off
-xset r rate 280 40
 xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Tapping Enabled" 1
 # xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Natural Scrolling Enabled" 1
+xset b off
+xset r rate 280 40
+xset 1800
+xss-lock -l -- i3lock --ignore-empty-password --color=3c3836 &
 

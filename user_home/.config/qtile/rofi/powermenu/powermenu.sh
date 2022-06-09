@@ -7,7 +7,7 @@ uptime=$(uptime -p | sed -e 's/up //g')
 rofi_command="rofi -theme ~/.config/qtile/rofi/gruvbox-dark.rasi"
 
 # Options
-shutdown="⏻ - Shutdown"
+shutdown="⏻ - Poweroff"
 reboot="累 - Reboot"
 lock=" - Lock"
 suspend=" - Suspend"
@@ -52,8 +52,10 @@ case $chosen in
         fi
         ;;
     $lock)
-        if [[ ! -f "$HOME/.cache/betterlockscreen/wall_color.png" ]]; then betterlockscreen -u . --fx color --color 252323; fi
-		betterlockscreen --lock dimblur
+        #if [[ ! -f "$HOME/.cache/betterlockscreen/wall_color.png" ]]; then betterlockscreen -u . --fx color --color 252323; fi
+        #betterlockscreen --lock dimblur
+        #xss-lock -l -- i3lock --ignore-empty-password --color=3c3836 
+        loginctl lock-session
         ;;
     $suspend)
 		if [[ $(confirm_exit &) == "y" ]]; then
