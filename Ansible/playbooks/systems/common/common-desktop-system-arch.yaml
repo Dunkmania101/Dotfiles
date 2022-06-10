@@ -21,7 +21,11 @@
               Include = /etc/pacman.d/chaotic-mirrorlist
     - name: "Update System"
       command: pacman -Syyu --noconfirm
+    - name: "Install Aura & Paru"
+      command: "pacman -S --needed --noconfirm aura paru"
     - name: "Install Base Packages"
-      command: pacman -S --needed --noconfirm btop xterm acpi vim qtile thunderbird firefox-developer-edition nyxt transmission-gtk transmission-cli lf exa bat fd ripgrep vscodium emacs-pgtk-native-comp-git neovim python-pynvim ctags libvterm cmake gcc paru aura cool-retro-term kitty blender steam-native-runtime lutris kicad linux-tkg-bmq linux-tkg-bmq-headers ardour wireshark-qt wireshark-cli speedtest-cli fish pypy3 update-grub element-desktop copyq network-manager-applet cbatticon volumeicon pamac-aur pcmanfm-gtk3 lxappearance-gtk3 lxsession-gtk3 feh sxiv gamemode blueman pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber easyeffects alsa-support obs-studio chrony fcron rofi rofimoji rofi-pass rofi-calc neofetch keepassxc pass file-roller tor torsocks onionshare torbrowser-launcher galculator qalculate ttf-iosevka-nerd searx curl wget curlie
+      command: aura -S --needed --noconfirm btop xterm acpi vim qtile thunderbird firefox-developer-edition nyxt transmission-gtk transmission-cli lf exa bat fd ripgrep vscodium emacs-pgtk-native-comp-git neovim python-pynvim ctags libvterm cmake gcc cool-retro-term kitty blender steam-native-runtime lutris kicad linux-tkg-bmq linux-tkg-bmq-headers ardour wireshark-qt wireshark-cli speedtest-cli fish pypy3 update-grub element-desktop copyq network-manager-applet cbatticon volumeicon pamac-aur pcmanfm-gtk3 lxappearance-gtk3 lxsession-gtk3 feh sxiv gamemode blueman pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber easyeffects alsa-support obs-studio chrony fcron rofi rofimoji rofi-pass rofi-calc neofetch keepassxc pass file-roller tor torsocks onionshare torbrowser-launcher galculator qalculate ttf-iosevka-nerd searx curl wget curlie
+    - name: "Install Base Packages (AUR)"
+      command: "aura -A gruvbox-material-gtk-theme-git gruvbox-material-icon-theme-git"
     - name: "Update Grub"
       command: update-grub

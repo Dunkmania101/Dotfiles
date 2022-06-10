@@ -31,7 +31,7 @@ alias install-nyxt-git-guix="guix install --with-branch=nyxt=master nyxt"
 alias install-blender-oldgl='guix install blender --with-source="https://download.blender.org/release/Blender2.79/blender-2.79b-linux-glibc219-x86_64.tar.bz2"'
 alias with-ld-path="LD_LIBRARY_PATH=$HOME/.guix-profile/lib "
 alias uu-fontcache="fc-cache -rv"
-alias uu-arch="paru -Syyu --noconfirm --needed; paru -c; paru -cc; sudo paccache -rk 1; sudo paccache -ruk0"
+alias uu-arch="sudo aura -Syyu --noconfirm --needed; sudo aura -Ayyu --noconfirm --needed; sudo aura -c; sudo aura -Ac; sudo aura -cc; sudo aura -Acc; sudo paccache -rk 1; sudo paccache -ruk0"
 alias uu-flatpak="flatpak update; flatpak uninstall --unused"
 alias guixclean="guix gc; guix gc --optimize"
 alias guixclean-full="guix gc --delete-generations; guixclean"
@@ -55,10 +55,10 @@ alias uu-apt="sudo apt update; sudo apt -y full-upgrade; sudo apt -y autoremove"
 alias uu-dnf="sudo dnf check-update; sudo dnf -y distro-sync; sudo dnf -y autoremove"
 alias uu-doom="doom --yes upgrade; doom --yes sync; doom --yes purge"
 alias uu-nvim="nvim -c 'UU' -c 'qa!'"
-alias uu="uu-arch; uu-fish; uu-nix; uu-flatpak; uu-pip; uu-nim; uu-node; uu-doom"
-#alias uu="uu-noguix; uu-guix"
+alias uu-noguix="uu-arch; uu-fish; uu-nix; uu-flatpak; uu-pip; uu-nim; uu-node; uu-doom"
+alias uu="uu-noguix" #; uu-guix"
 alias uu-clean="uu" #; guixclean-full"
-export add_package_cmd="paru -S --needed "
+export add_package_cmd="sudo aura -S --needed "
 #export add_package_cmd="guix install "
 alias lfi="~/.config/lf/run_lf.sh"
 alias lsa="exa -a"
@@ -93,6 +93,7 @@ if test -f $HOME/.fnm/fnm; fnm env | source; end
 
 # Functions
 function strdiff -a 'a'; command diff --color --from (echo $a | psub) (for s in $argv[2..-1]; echo $s | psub; end); end
+function aura-check-pkgbuild -a 'a'; command aura -Ap $a | aura -P; end
 
 # Keybinds
 fish_default_key_bindings
