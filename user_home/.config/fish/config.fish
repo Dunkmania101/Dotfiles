@@ -31,7 +31,7 @@ alias install-nyxt-git-guix="guix install --with-branch=nyxt=master nyxt"
 alias install-blender-oldgl='guix install blender --with-source="https://download.blender.org/release/Blender2.79/blender-2.79b-linux-glibc219-x86_64.tar.bz2"'
 alias with-ld-path="LD_LIBRARY_PATH=$HOME/.guix-profile/lib "
 alias uu-fontcache="fc-cache -rv"
-alias uu-arch="sudo aura -Syyu --noconfirm --needed; sudo aura -Ayyu --noconfirm --needed; sudo aura -c; sudo aura -Ac; sudo aura -cc; sudo aura -Acc; sudo paccache -rk 1; sudo paccache -ruk0"
+alias uu-arch="sudo aura -Syyu --noconfirm --needed; sudo aura -Ayyu --noconfirm --needed; sudo paccache -rk 1; sudo paccache -ruk0"
 alias uu-flatpak="flatpak update; flatpak uninstall --unused"
 alias guixclean="guix gc; guix gc --optimize"
 alias guixclean-full="guix gc --delete-generations; guixclean"
