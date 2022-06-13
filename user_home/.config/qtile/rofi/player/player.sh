@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
-back="Back"
+back="Select Player"
 playpause=">/="
 ahead=">>+1"
 prev="<<-1"
+begin="<<Restart"
 volup="VOL+1%"
 voldown="VOL-1%"
 
-options="$back\n$playpause\n$ahead\n$prev\n$volup\n$voldown"
+options="$back\n$playpause\n$ahead\n$prev\n$begin\n$volup\n$voldown"
 
 players="$(playerctl --list-all)"
 chosen="$(echo -e "$players" | rofi -theme ~/.config/qtile/rofi/gruvbox-dark.rasi -dmenu -p 'Choose player to control')"
@@ -27,6 +28,9 @@ if [ "$chosen" != "" ]; then
                 ;;
             $prev)
                 $cmd position 1-
+                ;;
+            $begin)
+                $cmd position 0
                 ;;
             $volup)
                 $cmd volume 0.01+
