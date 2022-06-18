@@ -169,7 +169,8 @@ my_terminal_alt3 = "urxvt"
 my_terminal_alt4 = f"uxterm -si -fa \"{my_font}\""
 
 #my_editor = cfg_dir + "/scripts/run/run-emacs.sh"
-my_editor = "emacsclient -a '' -c"
+my_editor = "emacs"
+#my_editor = "emacsclient -a '' -c"
 my_editor_alt = "neovide --multigrid"
 #my_editor_alt = "vscodium"
 # my_editor_alt = "notepadqq"
@@ -189,7 +190,8 @@ my_browser_alt3 = "brave-beta"
 
 my_private_browser = "nyxt --data-profile nosave"
 #my_private_browser_alt = "vivaldi --incognito"
-my_private_browser_alt = "vivaldi-stable --incognito"
+#my_private_browser_alt = "vivaldi-stable --incognito"
+my_private_browser_alt = "firefox-developer-edition --private-window"
 
 my_browser_profile_menu = rofi_dir + "/nyxt_profile_menu/nyxt_profile_menu.sh"
 
@@ -209,8 +211,10 @@ my_mp_alt2 = "freetube"
 #my_mp_alt = "motionbox"
 #my_mp_alt = "freetube"
 #my_mp_alt = "vlc"
+
 #my_mp_private = rofi_dir + "/mpvselect/mpvselect.sh"
 my_mp_private = rofi_dir + "/mpvselect/mpvselect.sh --nosave"
+my_mp_private_alt = rofi_dir + "/ytfzf/ytfzf.sh"
 
 my_package_manager = "pamac-manager"
 my_package_manager_alt = "pamac-manager"
@@ -533,7 +537,7 @@ keys = [
         Key([], "2", lazy.spawn(my_editor_alt2)),
     ]),
     Key([sup], "b", lazy.spawn(my_browser)),
-    Key([sup, alt], "b", lazy.spawn(my_browser_profile_menu)),
+    Key([sup, ctrl], "b", lazy.spawn(my_browser_profile_menu)),
     Key([sup, shift], "b", lazy.spawn(my_browser_alt)),
     KeyChord([sup, ctrl, shift], "b", [
         Key([], "b", lazy.spawn(my_browser)),
@@ -542,8 +546,8 @@ keys = [
         Key([], "2", lazy.spawn(my_browser_alt2)),
         Key([], "3", lazy.spawn(my_browser_alt3)),
     ]),
-    Key([sup, ctrl], "b", lazy.spawn(my_private_browser)),
-    Key([sup, ctrl, alt], "b", lazy.spawn(my_private_browser_alt)),
+    Key([sup, alt], "b", lazy.spawn(my_private_browser)),
+    Key([sup, alt, shift], "b", lazy.spawn(my_private_browser_alt)),
     Key([sup], "e", lazy.spawn(my_file_manager)),
     Key([sup, shift], "e", lazy.spawn(my_file_manager_alt)),
     KeyChord([sup, ctrl, shift], "e", [
@@ -554,6 +558,7 @@ keys = [
     Key([sup], "x", lazy.spawn(my_mp)),
     Key([sup, alt], "x", lazy.spawn(my_mp_private)),
     Key([sup, shift], "x", lazy.spawn(my_mp_alt)),
+    Key([sup, alt, shift], "x", lazy.spawn(my_mp_private_alt)),
     KeyChord([sup, ctrl, shift], "x", [
         Key([], "x", lazy.spawn(my_mp)),
         Key([shift], "x", lazy.spawn(my_mp_alt)),
@@ -771,6 +776,8 @@ def get_widgets_1(i):
                         ),
                     ],
                 ),
+                DividerWidget(),
+                widget.CurrentScreen(active_color=green_color, inactive_color=red_color),
                 DividerWidget(),
 #                widget.TextBox(
 #                    fontsize=16,
