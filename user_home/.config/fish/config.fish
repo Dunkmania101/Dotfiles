@@ -53,7 +53,7 @@ alias uu-node="install-fnm; npm install -g npm; npm -g update"
 alias uu-brl="sudo brl apply; sudo brl update"
 alias uu-apt="sudo apt update; sudo apt -y full-upgrade; sudo apt -y autoremove"
 alias uu-dnf="sudo dnf check-update; sudo dnf -y distro-sync; sudo dnf -y autoremove"
-alias uu-doom="doom --yes upgrade; doom --yes sync; doom --yes purge"
+alias uu-doom="doom --force upgrade; doom --force sync; doom --force purge"
 alias uu-nvim="nvim -c 'UU' -c 'qa!'"
 alias uu-noguix="uu-arch; uu-fish; uu-nix; uu-flatpak; uu-pip; uu-nim; uu-node; uu-doom"
 alias uu="uu-noguix" #; uu-guix"
@@ -98,7 +98,7 @@ function aura-check-pkgbuild -a 'a'; command aura -Ap $a | aura -P; end
 # Keybinds
 fish_default_key_bindings
 #fish_vi_key_bindings
-#bind \ck 'commandline -f repaint-mode; command clear'
+#bind \ck 'command clear; commandline -f repaint-mode; commandline -f repaint'
 bind \ck 'commandline -i clear; commandline -f execute'
 bind \cb 'btop'
 bind \cn 'nvim'
@@ -111,3 +111,4 @@ bind \cu 'commandline -i uu-clean; commandline -f execute'
 
 # Themes
 base16-gruvbox-dark-medium
+
