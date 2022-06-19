@@ -24,6 +24,7 @@ pgrep element-desktop || element-desktop --hidden &
 #pgrep easyeffects || easyeffects & sleep 1 && easyeffects --hide-window &
 #agordejo --hide --load-session Main &
 pgrep emacs || emacs --daemon &
+pgrep mpd || mpd &
 
 xsetroot -cursor_name left_ptr
 xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Tapping Enabled" 1

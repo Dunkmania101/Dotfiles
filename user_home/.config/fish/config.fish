@@ -29,6 +29,7 @@ alias install-nvm="wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/latest
 alias install-choosenim="curl https://nim-lang.org/choosenim/init.sh -sSf | sh"
 alias install-nyxt-git-guix="guix install --with-branch=nyxt=master nyxt"
 alias install-blender-oldgl='guix install blender --with-source="https://download.blender.org/release/Blender2.79/blender-2.79b-linux-glibc219-x86_64.tar.bz2"'
+alias dockerclean="docker system prune --all"
 alias with-ld-path="LD_LIBRARY_PATH=$HOME/.guix-profile/lib "
 alias uu-fontcache="fc-cache -rv"
 alias uu-arch="sudo aura -Syyu --noconfirm --needed; sudo aura -Ayyu --noconfirm --needed; sudo paccache -rk 1; sudo paccache -ruk0"
@@ -90,6 +91,9 @@ if type -q atuin; atuin init fish | source; end
 
 # fnm
 if test -f $HOME/.fnm/fnm; fnm env | source; end
+
+# Ferium
+if type -q ferium; ferium  complete fish | source; end
 
 # Functions
 function strdiff -a 'a'; command diff --color --from (echo $a | psub) (for s in $argv[2..-1]; echo $s | psub; end); end
