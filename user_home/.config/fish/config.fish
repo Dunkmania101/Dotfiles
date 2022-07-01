@@ -17,6 +17,7 @@ export EDITOR="nvim"
 
 # Aliases
 alias sudo="sudo "
+alias vfzf="ytfzf -tcY,P,O"
 alias install-fisher="curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher"
 alias install-brl="wget -O /tmp/brl-installer.sh https://raw.githubusercontent.com/bedrocklinux/bedrocklinux-userland/master/src/installer/installer.sh; sudo sh /tmp/brl-installer.sh --hijack"
 alias install-guix="wget -O /tmp/guix-install.sh https://git.savannah.gnu.org/cgit/guix.git/plain/etc/guix-install.sh; chmod +x /tmp/guix-install.sh; sudo bash \"/tmp/guix-install.sh\""
@@ -32,7 +33,7 @@ alias install-blender-oldgl='guix install blender --with-source="https://downloa
 alias dockerclean="docker system prune --all"
 alias with-ld-path="LD_LIBRARY_PATH=$HOME/.guix-profile/lib "
 alias uu-fontcache="fc-cache -rv"
-alias uu-arch="sudo aura -Syyu --noconfirm --needed; sudo aura -Ayyu --noconfirm --needed; sudo paccache -rk 1; sudo paccache -ruk0"
+alias uu-arch="sudo aura -Syyu --noconfirm; sudo aura -Ayyu --noconfirm; sudo paccache -rk 1; sudo paccache -ruk0"
 alias uu-flatpak="flatpak update; flatpak uninstall --unused"
 alias guixclean="guix gc; guix gc --optimize"
 alias guixclean-full="guix gc --delete-generations; guixclean"

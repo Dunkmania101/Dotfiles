@@ -43,9 +43,12 @@
 (setq projectile-project-search-path (list (concat superdrive-directory "/Programming/")))
 
 (after! org
+  ((setq org-priority-faces '((65 :foreground "#cd0000")
+                             (66 :foreground "#ff8c00")
+                             (67 :foreground "#006400")))
   (map! :map org-mode-map
         :n "M-j" #'org-metadown
-        :n "M-k" #'org-metaup))
+        :n "M-k" #'org-metaup)))
 
 (setq deft-directory (concat superdrive-directory "/.private/Notes")
       deft-extensions '("org" "md" "txt")

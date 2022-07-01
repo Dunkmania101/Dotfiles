@@ -143,13 +143,13 @@ EndSection
 ;    (license license:bsd-2))
    (package
      (inherit qtile)
-     (version "0.20.0")
+     (version "0.21.0")
      (source
        (origin
          (method url-fetch)
          (uri (pypi-uri "qtile" version))
          (sha256
-           (base32 "1hfsgrzwyacc7sn8yfyrfqwag8k60pwjg99iqqkn07k7br9fh40f"))))
+           (base32 "1hfsgrzwyacc7sn8yfyrfqwag8k60pwjg99iqqkn07k7br9fh40f")))) ; This hash needs to be updated for 0.21.0 but Guix is failing to download it for testing on Arch because of file permissions and I don't currently have a Guix System machine set up.
      (arguments
        (substitute-keyword-arguments (package-arguments qtile)
          ((#:phases phases)

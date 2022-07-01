@@ -1,5 +1,5 @@
 # Dotfiles
-You've feel you've seen this repository before...
+You feel you've seen this repository before...
 
 
 

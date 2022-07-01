@@ -10,13 +10,13 @@
 #fi
 
 
-env=~/.ssh/agent.env
+sshenv=~/.ssh/agent.env
 
-agent_load_env () { test -f "$env" && . "$env" >| /dev/null ; }
+agent_load_env () { test -f "$sshenv" && . "$sshenv" >| /dev/null ; }
 
 agent_start () {
-    (umask 077; ssh-agent >| "$env")
-    . "$env" >| /dev/null ; }
+    (umask 077; ssh-agent >| "$sshenv")
+    . "$sshenv" >| /dev/null ; }
 
 agent_load_env
 
@@ -30,5 +30,5 @@ elif [ "$SSH_AUTH_SOCK" ] && [ $agent_run_state = 1 ]; then
     ssh-add
 fi
 
-unset env
+unset sshenv
 

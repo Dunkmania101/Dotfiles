@@ -11,7 +11,7 @@ configuration {
     kb-row-down: "Down,Control+n,Alt+j,Control+Alt+j";
     lines:							10;
     columns:						1;
-    font: 							"Hack Nerd Font 12";
+    font: 							"Iosevka Regular 12";
     bw: 							0;
     location: 						0;
     padding: 						0;
