@@ -46,9 +46,8 @@ alias nixclean="nix-collect-garbage"
 alias nixclean-full="nix-collect-garbage --delete-old"
 alias uu-nix="nix-channel --update; nix-env --upgrade; nixclean"
 alias uu-stack="stack upgrade; stack update"
-alias lsoutdated-pip="pip list --outdated --format=freeze | grep -v "^\-e" | cut -d = -f 1"
-alias uu-pip='pip install -U (lsoutdated-pip)'
-alias uu-pip-root='sudo pip install -U (echo (alias | grep -x \'alias lsoutdated-pip *.*\' | tail -c +23 | head -c -2) | sudo sh)'
+function lsoutdated-pip; eval "$P list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1"; end
+function uu-pip; for P in "python -m pip" "sudo python -m pip" "pypy3 -m pip" "sudo pypy3 -m pip"; eval "$P install -U (P=\"$P\" lsoutdated-pip)"; end; end
 #alias uu-nim="choosenim update self; choosenim update devel; nimble refresh || rm -rf $HOME/.nimble && nimble refresh; for nim_package in (nimble list --installed | cut -d' ' -f1); nimble --accept install $nim_package"
 alias uu-fish="fisher update"
 alias uu-node="install-fnm; npm install -g npm; npm -g update"
