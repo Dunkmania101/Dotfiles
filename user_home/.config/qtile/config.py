@@ -960,9 +960,9 @@ wmname = "LG3D"
 layouts = [
     layout.Columns(
         border_normal=bg_line_color,
-        border_focus=fg_line_color,
+        border_focus=[red_color, fg_line_color],
         border_normal_stack=bg_line_color,
-        border_focus_stack=fg_line_color,
+        border_focus_stack=[red_color, fg_line_color],
         border_on_single=True,
         border_width=my_border_width,
         margin=my_margin,
@@ -1005,3 +1005,4 @@ def screen_change_hook(qtile):
 @hook.subscribe.startup_complete
 def autostart_hook():
     run_cmd(cfg_dir + "/autostart.sh")
+
