@@ -1,7 +1,7 @@
 (cons*
-  ;(channel
-  ;  (name 'dunk-guixchan)
-  ;  (url "file:///home/dunk/ProgramFiles/dunk-guixchan"))
+  (channel
+    (name 'dunk-guixchan)
+    (url "file:///home/dunk/ProgramFiles/dunk-guixchan"))
   ;(channel
   ;  (name 'flat)
   ;  (url "https://github.com/flatwhatson/guix-channel.git")
@@ -18,19 +18,19 @@
         "257cebd587b66e4d865b3537a9a88cccd7107c95"
         (openpgp-fingerprint
           "2841 9AC6 5038 7440 C7E9  2FFA 2208 D209 58C1 DEB0"))))
-  (channel
-    (name 'home-service-dwl-guile)
-    (url "https://github.com/engstrand-config/home-service-dwl-guile")
-    (branch "main")
-    (introduction
-      (make-channel-introduction
-        "314453a87634d67e914cfdf51d357638902dd9fe"
-        (openpgp-fingerprint
-          "C9BE B8A0 4458 FDDF 1268 1B39 029D 8EB7 7E18 D68C"))))
-  (channel
-    (name 'nvidiachannel)
-    (url "https://gitlab.com/squarerectangle/nvidiachannel.git")
-    (branch "master"))
+  ;(channel
+  ;  (name 'home-service-dwl-guile)
+  ;  (url "https://github.com/engstrand-config/home-service-dwl-guile")
+  ;  (branch "main")
+  ;  (introduction
+  ;    (make-channel-introduction
+  ;      "314453a87634d67e914cfdf51d357638902dd9fe"
+  ;      (openpgp-fingerprint
+  ;        "C9BE B8A0 4458 FDDF 1268 1B39 029D 8EB7 7E18 D68C"))))
+  ;(channel
+  ;  (name 'nvidiachannel)
+  ;  (url "https://gitlab.com/squarerectangle/nvidiachannel.git")
+  ;  (branch "master"))
   ;        (introduction
   ;          (make-channel-introduction
   ;            "314453a87634d67e914cfdf51d357638902dd9fe"

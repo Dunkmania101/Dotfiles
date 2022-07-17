@@ -413,6 +413,11 @@ def win_cycle_screen_next_noswitch(qtile):
 
 def win_cycle_screen_prev_noswitch(qtile):
     cycle_screen(qtile, -1, False, True)
+
+def win_toggle_minimize(qtile):
+    qtile.current_window.cmd_toggle_minimize()
+
+
 # ----------
 
 
@@ -434,12 +439,14 @@ keys = [
     Key([sup], "q", lazy.spawn(my_powermenu)),
     Key([sup], "p", lazy.spawn(my_player_ctrl)),
     Key([sup], "y", lazy.spawn(my_workspaces)),
-    Key([sup], "r", lazy.spawn(my_handy)),
+    #Key([sup], "r", lazy.spawn(my_handy)),
     Key([sup], "i", lazy.spawn(my_emoji)),
 
     # Window / Layout Management
     Key([sup], "f", lazy.window.toggle_fullscreen()),
+    Key([sup], "f", lazy.window.toggle_fullscreen()),
     Key([sup], "t", lazy.window.toggle_floating()),
+    Key([sup], "r", lazy.function(win_toggle_minimize)),
     Key([sup], "F4", lazy.window.kill()),
     Key([sup, shift], "F4", lazy.spawn(my_window_killer)),
     Key([sup, shift], "q", lazy.window.kill()),
