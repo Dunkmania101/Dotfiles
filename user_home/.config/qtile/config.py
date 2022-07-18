@@ -100,7 +100,7 @@ my_term_font = "Iosevka Term"
 #green_color = "#504945"
 
 # Gruvbox
-bg_color = "#1B2229"
+bg_color = "#29221B"
 fg_color = "#4f443a"
 dark_bg_color = "#222222"
 bg_line_color = "#3c3836"
@@ -125,17 +125,18 @@ my_margin = 1
 
 # Directories
 my_wallpapers = os.path.expanduser("~/Wallpapers") # Can point to a directory or a single image file.
-my_screenshots_dir = os.path.expanduser("~/Screenshots")
+my_screenshots_dir = os.path.expanduser("~/Pictures/Screenshots")
 
 # Details
-my_distro = "Guix"
-my_check_updates_cmd = ""
-#if shcmd_exists("pip"):
-#    my_check_updates_cmd += "; pip list --outdated --format=freeze"
-if shcmd_exists("paru"):
-    my_check_updates_cmd += "; paru --query --upgrades"
-if shcmd_exists("guix"):
-    my_check_updates_cmd += "; guix refresh"
+my_distro = "Arch"
+my_check_updates_cmd = None
+#my_check_updates_cmd = ""
+##if shcmd_exists("pip"):
+##    my_check_updates_cmd += "; pip list --outdated --format=freeze"
+#if shcmd_exists("paru"):
+#    my_check_updates_cmd += "; paru --query --upgrades"
+#if shcmd_exists("guix"):
+#    my_check_updates_cmd += "; guix refresh"
 
 if is_wayland():
     my_get_monitors_cmd = "wlr-randr"
@@ -780,7 +781,7 @@ def get_widgets_1(i):
                 widget.Spacer(length=15),
                 widget.TextBox(
                     fontsize=16,
-                    fmt='﩯',
+                    fmt='::',
                     mouse_callbacks={'Button1': lambda: qtile.cmd_spawn(my_launcher)},
                 ),
                 DividerWidget(),
@@ -824,8 +825,8 @@ def get_widgets_1(i):
                     widgets=[
                         widget.CheckUpdates(
                             distro=my_distro,
-                            custom_command=my_check_updates_cmd,
-                            no_update_string="",
+                            custom_command=my_check_updates_cmd if my_check_updates_cmd is not None else ...,
+                            no_update_string=":)",
                             colour_no_updates=green_color,
                             colour_have_updates=red_color,
                         ),
@@ -846,21 +847,21 @@ def get_widgets_1(i):
                 widget.WidgetBox(widgets=get_sys_stat_widgets()),
                 DividerWidget(),
                 widget.TextBox(
-                    fmt='',
+                    fmt='[-',
                     mouse_callbacks={'Button1': lambda: qtile.cmd_spawn('playerctl position 2-')},
                 ),
-                widget.Spacer(length=7),
+                widget.Spacer(7),
                 widget.TextBox(
-                    fmt='',
-                    mouse_callbacks={'Button1': lambda: qtile.cmd_spawn('playerctl position 2+')},
-                ),
-                widget.Spacer(length=7),
-                widget.TextBox(
-                    fmt='',
+                    fmt='>/=',
                     mouse_callbacks={
                         'Button1': lambda: qtile.cmd_spawn('playerctl -a pause'),
                         'Button3': lambda: qtile.cmd_spawn('playerctl play'),
                     },
+                ),
+                widget.Spacer(7),
+                widget.TextBox(
+                    fmt='-]',
+                    mouse_callbacks={'Button1': lambda: qtile.cmd_spawn('playerctl position 2+')},
                 ),
                 widget.Spacer(length=7),
                 widget.TextBox("vol:"),
@@ -869,7 +870,7 @@ def get_widgets_1(i):
                 DividerWidget(),
                 widget.TextBox(
                     fontsize=16,
-                    fmt='',
+                    fmt='Q',
                     mouse_callbacks={'Button1': lambda: qtile.cmd_spawn(my_powermenu)},
                 ),
                 widget.Spacer(length=15),
