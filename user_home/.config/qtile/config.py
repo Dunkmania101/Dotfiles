@@ -395,6 +395,21 @@ def cycle_screen_prev(qtile):
     cycle_screen(qtile, -1, True, False)
 
 
+def swap_current_screen(qtile, offset=1):
+    i = get_current_screen_index(qtile)
+    o = i+offset
+    if o >= len(qtile.screens):
+        o = len(qtile.screens) % o
+    qtile.screens[i], qtile.screens[o] = qtile.screens[o], qtile.screens[i]
+    qtile.cmd_reconfigure_screens()
+
+def swap_current_screen_next(qtile):
+    swap_current_screen(qtile)
+
+def swap_current_screen_prev(qtile):
+    swap_current_screen(qtile, -1)
+
+
 def cycle_group_next(qtile):
     set_current_screen_group_by_offset(qtile)
 
@@ -497,6 +512,9 @@ keys = [
     Key([sup, ctrl, alt], "m", lazy.function(win_cycle_screen_next_switch)),
     Key([sup, shift, ctrl, alt], "n", lazy.function(win_cycle_screen_prev_noswitch)),
     Key([sup, shift, ctrl, alt], "m", lazy.function(win_cycle_screen_next_noswitch)),
+    Key([sup, shift, ctrl], "n", lazy.function(swap_current_screen_prev)),
+    Key([sup, shift, ctrl], "m", lazy.function(swap_current_screen_next)),
+
 
     # WM Cmds
     Key([sup, shift], "r", lazy.restart()),
