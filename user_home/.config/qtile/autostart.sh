@@ -19,6 +19,7 @@ if [ -f ~/.profile ]; then . ~/.profile; fi
 pgrep lxsession || lxsession &
 #pgrep agordejo || agordejo --continue &
 clipmenud &
+playerctld daemon &
 #deadd-notification-center &
 pgrep copyq || copyq &
 #element-desktop-nightly --hidden &

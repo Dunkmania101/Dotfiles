@@ -116,5 +116,5 @@ bind \ca "commandline -i \"$add_package_cmd\""
 bind \cu 'commandline -i uu-clean; commandline -f execute'
 
 # Themes
-base16-gruvbox-dark-medium
+base16-onedark
 

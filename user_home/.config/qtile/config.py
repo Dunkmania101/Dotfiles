@@ -87,30 +87,34 @@ if os.path.isfile(env_file):
 my_font = "Iosevka"
 my_term_font = "Iosevka Term"
 
-# One Dark
-#bg_color = "#282c34"
-#fg_color = "#5c6370"
-#dark_bg_color = "#222222"
-#bg_line_color = "#5c6370"
-#fg_line_color = "#61afef"
-#bg_line_color_alt = "#504d4d"
-#fg_line_color_alt = "#4b5263"
-#bg_txt_color = "#abb2bf"
-#fg_txt_color = "#61afef"
-#green_color = "#504945"
+my_color_theme = "blue_dark" # "blue_dark" or "red_dark"
 
-# Gruvbox
-bg_color = "#29221B"
-fg_color = "#4f443a"
-dark_bg_color = "#222222"
-bg_line_color = "#3c3836"
-fg_line_color = "#4f4347"
-bg_line_color_alt = "#aa5000"
-fg_line_color_alt = "#ff8000"
-bg_txt_color = "#3c3836"
-fg_txt_color = "#ebdbb2"
-green_color = "#687b01"
-red_color = "#cc241d"
+if my_color_theme == "blue_dark":
+    # Blue Dark
+    bg_color = "#282c34"
+    fg_color = "#5c6370"
+    dark_bg_color = "#222222"
+    bg_line_color = "#425370"
+    fg_line_color = "#618fef"
+    bg_line_color_alt = "#504d6d"
+    fg_line_color_alt = "#4b4263"
+    bg_txt_color = "#414f4f"
+    fg_txt_color = "#abb2bf"
+    green_color = "#504945"
+    red_color = "#cc241d"
+else:
+    # Red Dark
+    bg_color = "#29221B"
+    fg_color = "#4f443a"
+    dark_bg_color = "#222222"
+    bg_line_color = "#3c3836"
+    fg_line_color = "#4f4347"
+    bg_line_color_alt = "#aa5000"
+    fg_line_color_alt = "#ff8000"
+    bg_txt_color = "#3c3836"
+    fg_txt_color = "#ebdbb2"
+    green_color = "#687b01"
+    red_color = "#cc241d"
 
 
 # Base Groups (copied to each monitor)
@@ -986,9 +990,9 @@ wmname = "LG3D"
 layouts = [
     layout.Columns(
         border_normal=bg_line_color,
-        border_focus=[red_color, fg_line_color],
+        border_focus=[fg_line_color_alt, fg_line_color],
         border_normal_stack=bg_line_color,
-        border_focus_stack=[red_color, fg_line_color],
+        border_focus_stack=[fg_line_color_alt, fg_line_color],
         border_on_single=True,
         border_width=my_border_width,
         margin=my_margin,

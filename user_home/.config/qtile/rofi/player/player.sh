@@ -1,46 +1,24 @@
 #!/usr/bin/env bash
 
-back="Select Player"
-playpause=">/="
-ahead=">>+1"
-prev="<<-1"
-begin="<<Restart"
-volup="VOL+1%"
-voldown="VOL-1%"
+control_player="Control Player"
+pctld_shift="Shift Playerctld Selection"
+pctld_unshift="Unshift Playerctld Selection"
 
-options="$back\n$playpause\n$ahead\n$prev\n$begin\n$volup\n$voldown"
+options="$control_player\n$pctld_shift\n$pctld_unshift"
 
-players="$(playerctl --list-all)"
-chosen="$(echo -e "$players" | rofi -theme ~/.config/qtile/rofi/gruvbox-dark.rasi -dmenu -p 'Choose player to control')"
+action="a"
+while [ "$action" != "" ]; do
+    action="$(echo -e "$options" | rofi -theme ~/.config/qtile/rofi/gruvbox-dark.rasi -dmenu -p "Playerctl")"
 
-if [ "$chosen" != "" ]; then
-    action="a"
-    while [ "$action" != "" ]; do
-        action="$(echo -e "$options" | rofi -theme ~/.config/qtile/rofi/gruvbox-dark.rasi -dmenu -p "Player: $chosen")"
-
-        cmd="playerctl -p $chosen"
-        case $action in
-            $playpause)
-                $cmd play-pause
-                ;;
-            $ahead)
-                $cmd position 1+
-                ;;
-            $prev)
-                $cmd position 1-
-                ;;
-            $begin)
-                $cmd position 0
-                ;;
-            $volup)
-                $cmd volume 0.01+
-                ;;
-            $voldown)
-                $cmd volume 0.01-
-                ;;
-            $back)
-                $0 & break
-                ;;
-        esac
-    done
-fi
+    case $action in
+        $control_player)
+            ~/.config/qtile/rofi/player/player_controller.sh
+            ;;
+        $pctld_shift)
+            playerctld shift
+            ;;
+        $pctld_unshift)
+            playerctld unshift
+            ;;
+    esac
+done
