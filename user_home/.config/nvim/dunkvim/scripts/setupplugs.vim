@@ -11,9 +11,10 @@ if $amirealvim
     \ 'coc-vimlsp',
     \ 'coc-explorer',
     \ ]
-  "  autocmd VimEnter * CocInstall
+  autocmd VimEnter * CocInstall
   autocmd VimEnter * TSInstall all
   autocmd VimEnter * TSEnable rainbow highlight indent
+  autocmd CursorHold * silent call CocActionAsync('highlight')
 endif
 
 if executable('rg')

@@ -1,0 +1,91 @@
+import subprocess
+from json import loads as jloads
+
+
+# XONSH WEBCONFIG START
+$PROMPT = '{INTENSE_GREEN}┬─[{YELLOW}{user}{RESET}@{BLUE}{hostname}{RESET}:{cwd}{INTENSE_GREEN}]─[{localtime}]─[{RESET}G:{INTENSE_GREEN}{curr_branch}=]\r\n{INTENSE_GREEN}╰─>{INTENSE_RED}{prompt_end}{RESET} '
+$XONSH_COLOR_STYLE = 'one-dark'
+# XONSH WEBCONFIG END
+
+
+# Vars
+$PATH="~/bin:$HOME/.local/bin:$HOME/.fnm:$HOME/.fnm/aliases/default/bin:$HOME/.guix-profile/bin:$HOME/.nix-profile/bin:/usr/local/bin:$HOME/.nimble/bin:$HOME/Launchers:$HOME/ProgramFiles/doom-emacs/bin/:".split(":") + $PATH
+$superdrive="~/superdrive-ln/"
+$programming=$superdrive + "/Programming/"
+$mcmoddev=$programming + "/Java/MC/MinecraftModDev/"
+$games=$superdrive + "/Games/"
+$gdlauncher=$games + "/GDlauncher/"
+$mcinstances=$gdlauncher + "/instances/"
+#$TERM=xterm-kitty
+#$VISUAL="emacs -nw"
+#$EDITOR="emacs -nw"
+#$ALTERNATE_EDITOR=""
+$VISUAL="nvim"
+$EDITOR="nvim"
+$XONSH_CAPTURE_ALWAYS=True
+$XONTRIB_SH_SHELLS = ['bash', 'zsh', 'fish', 'sh']
+$XONSH_HISTORY_ENCRYPTOR = 'base64'
+$COMPLETIONS_CONFIRM=True
+
+
+# Xontribs
+xontrib load z sh bashisms coreutils abbrevs fish_completer pdb vox voxapi autovox whole_word_jumping xog output_search history_encrypt
+
+
+# Functions
+def get_cmd_output(cmd, cwd=None):
+    output = ""
+    try:
+        output = str(subprocess.run(cmd, cwd=cwd, shell=True, stdout=subprocess.PIPE).stdout.decode('utf-8'))
+    except Exception as e:
+        print(str(e))
+        pass
+    return output
+
+def get_outdated_xpip_pkgs():
+    cmdout = $(xpip list --outdated --format=json)
+    if cmdout != "" and not cmdout.isspace():
+        return [pkg["name"] for pkg in jloads(cmdout)]
+    return []
+
+def uu_xpip():
+    for $name in get_outdated_xpip_pkgs():
+        if $name != " " and not $name.isspace():
+            xpip install -U $name
+
+
+# Aliases
+aliases["lsa"] = "exa -a"
+aliases["sudo"] = "sudo "
+aliases["sl"] = "sl -e"
+aliases["vfzf"] = "ytfzf -tcY,P,O"
+aliases["ferium-config1"] = "ferium --config-file=$games/Ferium/Configs/1/config.json"
+aliases["install-searx"] = "docker stop searx-1; docker rm -v searx-1; PORT=8888 docker run --name=searx-1 --restart=unless-stopped -d -v ~/ProgramFiles/searx:/etc/searx -p $PORT:8080 -e BASE_URL=http://localhost:$PORT/ searx/searx"
+aliases["install-tmux-config"] = "git clone https://github.com/gpakosz/.tmux.git ~/ProgramFiles/oh-my-tmux; git --git-dir=~/ProgramFiles/oh-my-tmux/.git pull --force;  ln -s -f ~/ProgramFiles/oh-my-tmux/.tmux.conf ~/.tmux.conf; test -f ~/.tmux.conf.local || cp ~/ProgramFiles/oh-my-tmux/.tmux.conf.local ~/.tmux.conf.local"
+aliases["install-chemacs"] = "[ -f ~/.emacs ] && mv ~/.emacs ~/.emacs.bak; [ -f ~/.emacs ] && mv ~/.emacs ~/.emacs.bak; git clone https://github.com/plexus/chemacs2.git ~/.emacs.d"
+aliases["install-doom"] = "mkdir -p ~/ProgramFiles; git clone --depth 1 https://github.com/hlissner/doom-emacs ~/ProgramFiles/doom-emacs; ~/ProgramFiles/doom-emacs/bin/doom install"
+aliases["install-emacs-config"] = "install-chemacs; install-doom"
+aliases["dockerclean"] = "docker system prune --all"
+aliases["uu-fontcache"] = "fc-cache -rv"
+aliases["uu-arch"] = 'sudo aura -Syyu --noconfirm; sudo aura -Ayyu --noconfirm; sudo paccache -rk 1; sudo paccache -ruk0'
+aliases["uu-flatpak"] = "flatpak update; flatpak uninstall --unused"
+aliases["guixclean"] = "guix gc; guix gc --optimize"
+aliases["guixclean-full"] = "guix gc --delete-generations; guixclean"
+aliases["guixfix"] = "sudo guix gc --verify=contents,repair"
+aliases["guixconf"] = "sudo -E guix system reconfigure ~/.config/guix/system-config.scm"
+aliases["guixmanifest"] = "guix package --manifest=~/.config/guix/base/manifest-main.scm"
+aliases["uu-guix"] = "guix pull; guix package --upgrade; guixclean"
+aliases["guix-nvdaify"] = "guix package --manifest=~/.config/guix/manifests/nvidiaify-packages.scm"
+aliases["nixclean"] = "nix-collect-garbage"
+aliases["nixclean-full"] = "nix-collect-garbage --delete-old"
+aliases["uu-xpip"] = uu_xpip
+aliases["uu-nix"] = "nix-channel --update; nix-env --upgrade; nixclean"
+aliases["uu-doom"] = "doom --force upgrade; doom --force sync; doom --force purge"
+aliases["uu-noguix"] ="uu-arch; uu-fish; uu-nix; uu-flatpak; uu-xpip; uu-node; uu-doom"
+aliases["uu"] = "uu-noguix; uu-guix"
+aliases["uu-clean"] = "uu; guixclean-full"
+
+
+if $XONSH_INTERACTIVE and "screen" not in str($TERM) and "tmux" not in str($TERM):
+    exec tmux
+

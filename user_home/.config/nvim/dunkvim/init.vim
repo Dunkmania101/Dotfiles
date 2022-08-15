@@ -9,7 +9,7 @@ let $amirealvim = !($amivscode)
 let $dunkvimdir = $HOME . '/.config/nvim/dunkvim'
 
 " Set Color Scheme To Load
-let $colorsname = 'onedark' " Valid are 'gruvbox-material' / 'sonokai' / 'onedark'
+let $colorsname = 'gruvbox-material' " Valid are 'gruvbox-material' / 'sonokai' / 'onedark'
 """"""""""
 
 """"""""""

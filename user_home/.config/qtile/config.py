@@ -87,7 +87,7 @@ if os.path.isfile(env_file):
 my_font = "Iosevka"
 my_term_font = "Iosevka Term"
 
-my_color_theme = "blue_dark" # "blue_dark" or "red_dark"
+my_color_theme = "red_dark" # "blue_dark" or "red_dark"
 
 if my_color_theme == "blue_dark":
     # Blue Dark
@@ -124,8 +124,8 @@ my_base_groups = "~ 1 2 3 4 5 6 7 8 9 0 - =".split(" ")
 my_systray_screen = 0
 
 # Gap and border sizes
-my_border_width = 4
-my_margin = 1
+my_border_width = 2
+my_margin = 4
 
 # Directories
 my_wallpapers = os.path.expanduser("~/Wallpapers") # Can point to a directory or a single image file.
@@ -158,7 +158,8 @@ my_gmail_pass = env_data.get("gmail.pass", "")
 # Applications
 #my_terminal = "kitty -e tmux"
 #my_terminal_tmux = f"kitty -e \'{cfg_dir}/scripts/run/run-tmux-session.sh\'"
-my_terminal = "kitty"
+#my_terminal = "kitty"
+my_terminal = "contour"
 #my_terminal = f"uxterm -si -fs 10 -fa \"{my_term_font}\" -bg \'#212121\' -bd \'#212111\'"
 #my_terminal_alt = "kitty"
 my_terminal_alt = f"uxterm -si -fs 10 -fa \"{my_term_font}\" -bg \'#212121\' -bd \'#212111\'"
@@ -679,9 +680,6 @@ widget_defaults = dict(
 )
 
 
-class DividerWidget(widget.TextBox):
-    def __init__(self, div_mid="|", div_padding_left=1, div_padding_right=1, **config):
-        super().__init__(f"{' ' * div_padding_left}{div_mid}{' ' * div_padding_right}", **config)
 
 class FileReaderWidget(widget_base.ThreadPoolText):
     def __init__(self, msg_base="", empty_msg="No Data", read_file="", **config):
@@ -785,10 +783,11 @@ def get_widgets_1(i):
                 widget.Spacer(length=15),
                 widget.TextBox(
                     fontsize=16,
+                    foreground=green_color,
                     fmt='::',
                     mouse_callbacks={'Button1': lambda: qtile.cmd_spawn(my_launcher)},
                 ),
-                DividerWidget(),
+                widget.Sep(linewidth=my_border_width, padding=my_margin),
                 OpenWidgetBox(
                     widgets=[
                         widget.GroupBox(
@@ -806,9 +805,9 @@ def get_widgets_1(i):
                         ),
                     ],
                 ),
-                DividerWidget(),
+                widget.Sep(linewidth=my_border_width, padding=my_margin),
                 widget.CurrentScreen(active_color=green_color, inactive_color=red_color),
-                DividerWidget(),
+                widget.Sep(linewidth=my_border_width, padding=my_margin),
 #                widget.TextBox(
 #                    fontsize=16,
 #                    fmt='',
@@ -820,11 +819,11 @@ def get_widgets_1(i):
                 widget.Spacer(),
                 widget.Systray(icon_size=24),
                 widget.Spacer(),
-                DividerWidget(),
+                widget.Sep(linewidth=my_border_width, padding=my_margin),
                 widget.Clock(
                     format='%a %b %d %Y, %I:%M:%S',
                 ),
-                DividerWidget(),
+                widget.Sep(linewidth=my_border_width, padding=my_margin),
                 OpenWidgetBox(
                     widgets=[
                         widget.CheckUpdates(
@@ -843,13 +842,13 @@ def get_widgets_1(i):
                         ),
                     ]
                 ),
-                DividerWidget(),
+                widget.Sep(linewidth=my_border_width, padding=my_margin),
                 widget.CapsNumLockIndicator(
                     frequency=0.1,
                 ),
-                DividerWidget(),
+                widget.Sep(linewidth=my_border_width, padding=my_margin),
                 widget.WidgetBox(widgets=get_sys_stat_widgets()),
-                DividerWidget(),
+                widget.Sep(linewidth=my_border_width, padding=my_margin),
                 widget.TextBox(
                     fmt='[-',
                     mouse_callbacks={'Button1': lambda: qtile.cmd_spawn('playerctl position 2-')},
@@ -871,9 +870,10 @@ def get_widgets_1(i):
                 widget.TextBox("vol:"),
                 widget.Volume(update_interval=0.1, step=1),
                 # widget.CurrentLayoutIcon(scale=0.70),
-                DividerWidget(),
+                widget.Sep(linewidth=my_border_width, padding=my_margin),
                 widget.TextBox(
                     fontsize=16,
+                    foreground=red_color,
                     fmt='Q',
                     mouse_callbacks={'Button1': lambda: qtile.cmd_spawn(my_powermenu)},
                 ),
@@ -888,13 +888,13 @@ def get_widgets_1(i):
 
 def get_widgets_2(i):
     widgets = [
-                DividerWidget(),
+                widget.Sep(linewidth=my_border_width, padding=my_margin),
                 widget.TaskList(
                     border=fg_line_color,
                     unfocused_border=bg_line_color,
                     rounded=True,
                 ),
-                DividerWidget(),
+                widget.Sep(linewidth=my_border_width, padding=my_margin),
                 FileReaderWidget(
                     #file = "/tmp/tmux-bar-keysboard-pipe",
                     #msg_base = "Keysboard: ",
@@ -910,7 +910,7 @@ def get_widgets_2(i):
                         'Button3': lambda: run_kmonad(False),
                     },
                 ),
-                DividerWidget(),
+                widget.Sep(linewidth=my_border_width, padding=my_margin),
     ]
     return widgets
 

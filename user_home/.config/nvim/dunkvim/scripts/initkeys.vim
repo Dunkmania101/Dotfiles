@@ -42,21 +42,32 @@ if $amirealvim
   nmap <leader>mg :Glow<CR>
   nmap <silent> g\ :Telescope ultisnips ultisnips<CR>
 
-  inoremap <silent><expr> <C-Space> compe#complete()
-  inoremap <silent><expr> <CR>      compe#confirm('<CR>')
-  inoremap <silent><expr> <C-e>     compe#close('<C-e>')
-  inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
-  inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
-
-  nmap gd :lua vim.lsp.buf.definition()<CR>
-  nmap gD :lua vim.lsp.buf.declaration()<CR>
-  nmap gr :lua vim.lsp.buf.references()<CR>
-  nmap gR :lua vim.lsp.buf.rename()<CR>
-  nmap gt :lua vim.lsp.buf.type_definition()<CR>
-  nmap gf :lua vim.lsp.buf.formatting()<CR>
+  " inoremap <silent><expr> <C-Space> compe#complete()
+  " inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+  " inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+  " inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+  " inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> gr <Plug>(coc-references)
+  nmap <leader>cf :CocCommand editor.action.formatDocument<CR>
+  nmap <leader>co :CocCommand editor.action.organizeImport<CR>
+  nmap <leader>cr <Plug>(coc-rename)
   nmap gi :lua vim.lsp.buf.implementation()<CR>
   nmap gs :lua vim.lsp.buf.signature_help()<CR>
   nmap gca :lua vim.lsp.bufncode_action()<CR>
+
+  nnoremap <silent> K :call ShowDocumentation()<CR>
+  " nmap gd :lua vim.lsp.buf.definition()<CR>
+  " nmap gD :lua vim.lsp.buf.declaration()<CR>
+  " nmap gr :lua vim.lsp.buf.references()<CR>
+  " nmap gR :lua vim.lsp.buf.rename()<CR>
+  " nmap gt :lua vim.lsp.buf.type_definition()<CR>
+  " nmap gf :lua vim.lsp.buf.formatting()<CR>
+  " nmap gi :lua vim.lsp.buf.implementation()<CR>
+  " nmap gs :lua vim.lsp.buf.signature_help()<CR>
+  " nmap gca :lua vim.lsp.bufncode_action()<CR>
   " nmap gd :call LanguageClient_textDocument_definition()<CR>
   " nmap gr :cal LanguageClient_textDocument_references()<CR>
   " nmap grn :call LanguageClient_textDocument_rename<CR>

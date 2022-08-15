@@ -48,7 +48,7 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'onsails/lspkind-nvim'
 
 " Syntax
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'valloric/youcompleteme'
 " Plug 'autozimu/LanguageClient-neovim', {
 "     \ 'branch': 'next',
@@ -70,11 +70,11 @@ Plug 'alvan/vim-closetag'
 " Plug 'tpope/vim-surround'
 Plug 'machakann/vim-sandwich'
 Plug 'windwp/nvim-autopairs'
-Plug 'scrooloose/syntastic'
+" Plug 'scrooloose/syntastic'
 Plug 'mattn/emmet-vim'
 " Plug 'dense-analysis/ale'
-Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/nvim-lsp-installer'
+" Plug 'neovim/nvim-lspconfig'
+" Plug 'williamboman/nvim-lsp-installer'
 " Plug 'kabouzeid/nvim-lspinstall'
 Plug 'p00f/nvim-ts-rainbow'
 

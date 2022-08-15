@@ -61,8 +61,8 @@ if has('nvim')
 endif
 
 if $amirealvim
-    autocmd BufNewFile,BufRead * lua setup_servers()
-    autocmd FileType java lua start_nvim_jdtls()
+"    autocmd BufNewFile,BufRead * lua setup_servers()
+"    autocmd FileType java lua start_nvim_jdtls()
 "        call coc#config(
 "             \ 'explorer',
 "             \  {

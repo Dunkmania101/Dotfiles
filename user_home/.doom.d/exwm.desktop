@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=EXWM
+Comment=EXWM (Emacs X Window Manager)
+Exec=$HOME/.doom.d/start-exwm.sh
+Type=Application
+Keywords=wm;tiling

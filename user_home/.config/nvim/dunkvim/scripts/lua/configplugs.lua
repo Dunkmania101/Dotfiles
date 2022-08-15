@@ -11,20 +11,20 @@
 --         vim.cmd [[ do User LspAttachBuffers ]]
 --     end)
 
-function setup_servers()
-  local servers = require'nvim-lsp-installer.servers'.get_installed_servers()
-  for i=1, #servers do
-      servers[i]:setup({})
-  end
-end
-
-setup_servers()
-
--- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-require'nvim-lsp-installer'.post_install_hook = function ()
-  setup_servers() -- reload installed servers
-  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
-end
+-- function setup_servers()
+--   local servers = require'nvim-lsp-installer.servers'.get_installed_servers()
+--   for i=1, #servers do
+--       servers[i]:setup({})
+--   end
+-- end
+-- 
+-- setup_servers()
+-- 
+-- -- Automatically reload after `:LspInstall <server>` so we don't have to restart neovim
+-- require'nvim-lsp-installer'.post_install_hook = function ()
+--   setup_servers() -- reload installed servers
+--   vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
+-- end
 
 
 -- require("indent_blankline").setup( {
@@ -386,20 +386,20 @@ require("nvim-treesitter.configs").setup {
 }
 
 
-function start_nvim_jdtls()
-    local servers = require'nvim-lsp-installer.servers'
-    if servers.is_server_installed('jdtls') then
-        require('jdtls').start_or_attach({
-          -- The command that starts the language server
-          cmd = {
-              vim.fn.stdpath("data") .. "/lspinstall/java/jdtls.sh",
-              vim.fn.getcwd()
-          },
-    
-          -- This is the default if not provided, you can remove it. Or adjust as needed.
-          -- One dedicated LSP server & client will be started per unique root_dir
-          root_dir = require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'})
-        })
-    end
-end
+-- function start_nvim_jdtls()
+--     local servers = require'nvim-lsp-installer.servers'
+--     if servers.is_server_installed('jdtls') then
+--         require('jdtls').start_or_attach({
+--           -- The command that starts the language server
+--           cmd = {
+--               vim.fn.stdpath("data") .. "/lspinstall/java/jdtls.sh",
+--               vim.fn.getcwd()
+--           },
+--     
+--           -- This is the default if not provided, you can remove it. Or adjust as needed.
+--           -- One dedicated LSP server & client will be started per unique root_dir
+--           root_dir = require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'})
+--         })
+--     end
+-- end
 

@@ -126,6 +126,18 @@
 
 (package! guix)
 
+(use-package! zig-mode
+  :hook ((zig-mode . lsp-deferred))
+  :custom (zig-format-on-save nil)
+  :config
+  (after! lsp-mode
+    (add-to-list 'lsp-language-id-configuration '(zig-mode . "zig"))
+    (lsp-register-client
+      (make-lsp-client
+        :new-connection (lsp-stdio-connection "~/ProgramFiles/zls/zls")
+        :major-modes '(zig-mode)
+        :server-id 'zls))))
+
 ;(package! eaf
 ;  :recipe (:host github :repo "emacs-eaf/emacs-application-framework"
 ;                 :files (:defaults "*.js" "*.css" "*.so" "*.py" ".json" "core" "extension" "app")
@@ -153,7 +165,12 @@
 (require 'eaf-netease-cloud-music)
 (require 'eaf-rss-reader)))
 
+(package! exwm)
+(package! app-launcher
+  :recipe (:host github :repo "SebastienWae/app-launcher"))
+
 (unpin! lsp-java)
+(unpin! centaur-tabs)
 ;; (unpin! treemacs)
 ;; (unpin! company)
 ;(unpin! t)

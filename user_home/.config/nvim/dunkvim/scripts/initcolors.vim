@@ -1,6 +1,8 @@
 if $colorsname == 'onedark'
-    let g:onedark_style = 'darker'
-    colorscheme onedark
+    let g:onedark_config = {
+        \ 'style': 'darker',
+    \}
+     colorscheme onedark
     let g:lightline.colorscheme = 'onedark'
 endif
 

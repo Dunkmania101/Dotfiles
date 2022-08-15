@@ -44,7 +44,7 @@ set nowritebackup
 set shortmess+=c
 set signcolumn=yes
 set updatetime=100
-set timeoutlen=300
+set timeoutlen=700
 set clipboard=unnamedplus
 set incsearch
 set guifont=Hack

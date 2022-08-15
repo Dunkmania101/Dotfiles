@@ -9,26 +9,34 @@ endfunction
 
 command! Reload source $dunkvimdir/init.vim
 
-function! InstallLspServers()
-    :LspInstall java
-    :LspInstall python
-    :LspInstall json
-    :LspInstall html
-    :LspInstall css
-    :LspInstall typescript
-    :LspInstall dockerfile
-    :LspInstall vim
-    :LspInstall yaml
-    :LspInstall lua
-    :LspInstall haskell
-    :LspInstall bash
-    :LspInstall cpp
-    :LspInstall csharp
-    :LspInstall cmake
-    :LspInstall latex
-    :LspInstall rust
-endfunction
+" function! InstallLspServers()
+"     :LspInstall java
+"     :LspInstall python
+"     :LspInstall json
+"     :LspInstall html
+"     :LspInstall css
+"     :LspInstall typescript
+"     :LspInstall dockerfile
+"     :LspInstall vim
+"     :LspInstall yaml
+"     :LspInstall lua
+"     :LspInstall haskell
+"     :LspInstall bash
+"     :LspInstall cpp
+"     :LspInstall csharp
+"     :LspInstall cmake
+"     :LspInstall latex
+"     :LspInstall rust
+" endfunction
 
-command! InstallLspServers call InstallLspServers()
-command! SetupLspServers lua setup_servers()
+" command! InstallLspServers call InstallLspServers()
+" command! SetupLspServers lua setup_servers()
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
 

@@ -173,8 +173,8 @@
        (zig +lsp)               ; C, but simpler
 
        :email
-       (mu4e +org +gmail)
-       ;;notmuch
+       ;;(mu4e +org +gmail)
+       (notmuch +org)
        ;;(wanderlust +gmail)
 
        :app
@@ -186,5 +186,5 @@
        ;;twitter           ; twitter client https://twitter.com/vnought
 
        :config
-       literate
+       ;;literate
        (default +bindings +smartparens))
