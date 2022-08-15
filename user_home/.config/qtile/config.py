@@ -185,7 +185,8 @@ my_editor_alt2 = "kitty zsh -c \'source ~/.zshrc; nvim\'"
 
 my_browser = "nyxt -S"
 #my_browser_alt = os.path.expanduser("~/.nix-profile/bin/vivaldi")
-my_browser_alt = "firefox-developer-edition"
+#my_browser_alt = "firefox-developer-edition"
+my_browser_alt = "librewolf"
 #my_browser_alt = "vivaldi"
 #my_browser_alt = "vivaldi-stable"
 my_browser_alt1 = "firedragon"
