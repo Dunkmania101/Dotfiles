@@ -47,6 +47,7 @@ if $amirealvim
   " inoremap <silent><expr> <C-e>     compe#close('<C-e>')
   " inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
   " inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+  inoremap <silent><expr> <C-Space> coc#pum#visible() ? coc#pum#confirm() : coc#refresh()
   nmap <silent> gd <Plug>(coc-definition)
   nmap <silent> gy <Plug>(coc-type-definition)
   nmap <silent> gi <Plug>(coc-implementation)

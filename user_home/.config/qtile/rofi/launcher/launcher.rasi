@@ -7,7 +7,7 @@ configuration {
     kb-mode-previous: "Shift+Left,Control+ISO_Left_Tab,Alt+h";
     kb-row-left: "Control+Page_Up,Control+Alt+h";
     kb-row-right: "Control+Page_Down,Control+Alt+l";
-    kb-row-up: "Up,Control+p,ISO_Left_Tab,Alt+k,Control+Alt+k";
+    kb-row-up: "Up,Alt+k,Control+Alt+k";
     kb-row-down: "Down,Control+n,Alt+j,Control+Alt+j";
     lines:							10;
     columns:						1;

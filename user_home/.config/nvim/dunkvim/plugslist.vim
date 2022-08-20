@@ -49,6 +49,7 @@ Plug 'onsails/lspkind-nvim'
 
 " Syntax
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'dgileadi/vscode-java-decompiler'
 " Plug 'valloric/youcompleteme'
 " Plug 'autozimu/LanguageClient-neovim', {
 "     \ 'branch': 'next',
@@ -62,21 +63,21 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'ncm2/ncm2-ultisnips'
 " Plug 'ncm2/ncm2-markdown-subscope'
 " Plug 'ncm2/ncm2-rst-subscope'
-Plug 'hrsh7th/nvim-compe'
+" Plug 'hrsh7th/nvim-compe'
 " Plug 'glepnir/lspsaga.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'mfussenegger/nvim-jdtls'
-Plug 'alvan/vim-closetag'
+"Plug 'mfussenegger/nvim-jdtls'
+" Plug 'alvan/vim-closetag'
 " Plug 'tpope/vim-surround'
-Plug 'machakann/vim-sandwich'
-Plug 'windwp/nvim-autopairs'
+" Plug 'machakann/vim-sandwich'
+" Plug 'windwp/nvim-autopairs'
 " Plug 'scrooloose/syntastic'
-Plug 'mattn/emmet-vim'
+" Plug 'mattn/emmet-vim'
 " Plug 'dense-analysis/ale'
 " Plug 'neovim/nvim-lspconfig'
 " Plug 'williamboman/nvim-lsp-installer'
 " Plug 'kabouzeid/nvim-lspinstall'
-Plug 'p00f/nvim-ts-rainbow'
+" Plug 'p00f/nvim-ts-rainbow'
 
 " Telescope
 Plug 'nvim-lua/popup.nvim'
@@ -117,6 +118,6 @@ Plug 'npxbr/glow.nvim', {'do': ':GlowInstall','branch':'main'}
 
 if $amirealvim
   " Files
-  Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': 'python3 -m chadtree deps'}
+  Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':CHADdeps'}
 endif
 

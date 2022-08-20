@@ -147,10 +147,15 @@ if is_wayland():
 else:
     my_get_monitors_cmd = "xrandr --query | grep \" connected\" | cut -d\" \" -f1"
 
+# Input Simulation
+my_kbd_key_cmd = "xdotool key --window -- "
+my_kbd_type_cmd = "xdotool type --window -- "
+
 my_mouse_move_cmd = "xdotool mousemove_relative -- "
 my_mouse_move_dist = "10"
 my_mouse_click_cmd = "xdotool click "
 
+# Accounts
 my_gmail_username = env_data.get("gmail.username", "")
 my_gmail_pass = env_data.get("gmail.pass", "")
 
@@ -158,8 +163,8 @@ my_gmail_pass = env_data.get("gmail.pass", "")
 # Applications
 #my_terminal = "kitty -e tmux"
 #my_terminal_tmux = f"kitty -e \'{cfg_dir}/scripts/run/run-tmux-session.sh\'"
-#my_terminal = "kitty"
-my_terminal = "contour"
+my_terminal = "kitty"
+#my_terminal = "contour"
 #my_terminal = f"uxterm -si -fs 10 -fa \"{my_term_font}\" -bg \'#212121\' -bd \'#212111\'"
 #my_terminal_alt = "kitty"
 my_terminal_alt = f"uxterm -si -fs 10 -fa \"{my_term_font}\" -bg \'#212121\' -bd \'#212111\'"
@@ -209,10 +214,11 @@ my_file_manager_alt1 = "thunar"
 #my_mp = "deadbeef"
 #my_mp = "kawaii-player"
 #my_mp = "lollypop"
-#my_mp = "celluloid"
-my_mp = rofi_dir + "/mpvselect/mpvselect.sh"
+my_mp = "celluloid"
+#my_mp = rofi_dir + "/mpvselect/mpvselect.sh"
 my_mp_alt = rofi_dir + "/ytfzf/ytfzf.sh --savefile"
-my_mp_alt1 = rofi_dir + "/ytfzf/ytfzf.sh"
+#my_mp_alt1 = rofi_dir + "/ytfzf/ytfzf.sh"
+my_mp_alt1 = rofi_dir + "/mpvselect/mpvselect.sh"
 #my_mp_alt1 = rofi_dir + "/notflix/notflix.sh"
 my_mp_alt2 = "freetube"
 #my_mp_alt = "motionbox"
@@ -527,6 +533,17 @@ keys = [
     Key([sup, shift], "r", lazy.restart()),
     Key([sup, shift, ctrl, alt], "q", lazy.shutdown()),
 
+    # Vim Emulation
+    KeyChord([sup, ctrl, shift], "v", [
+        Key([], "i", lazy.spawn(my_kbd_key_cmd + "Escape")),
+        Key([], "h", lazy.spawn(my_kbd_key_cmd + "Left")),
+        Key([], "j", lazy.spawn(my_kbd_key_cmd + "Down")),
+        Key([], "k", lazy.spawn(my_kbd_key_cmd + "Up")),
+        Key([], "l", lazy.spawn(my_kbd_key_cmd + "Right")),
+        Key([], "w", lazy.spawn(my_kbd_key_cmd + "ctrl+Right")),
+        Key([], "b", lazy.spawn(my_kbd_key_cmd + "ctrl+Left")),
+    ], mode="vim"),
+
     # Mouse Emulation
     Key([sup, ctrl], "h", lazy.spawn(my_mouse_move_cmd + f"-{my_mouse_move_dist} 0")),
     Key([sup, ctrl], "j", lazy.spawn(my_mouse_move_cmd + f"0 {my_mouse_move_dist}")),
@@ -607,8 +624,11 @@ keys = [
     # DropDown
     KeyChord([sup], "d", [
         Key([], ret, lazy.group['main-scratchpad'].dropdown_toggle('term')),
+        Key([], semicolon, lazy.group['main-scratchpad'].dropdown_toggle('panel')),
         Key([], 'x', lazy.group['main-scratchpad'].dropdown_toggle('media')),
     ]),
+    Key([sup, alt], ret, lazy.group['main-scratchpad'].dropdown_toggle('term')),
+    Key([sup, alt], semicolon, lazy.group['main-scratchpad'].dropdown_toggle('panel')),
 
     # System
     # Key([sup, shift, ctrl], "F11", lazy.spawn("sudo hibernate-reboot")),
@@ -920,6 +940,7 @@ groups = [
         ScratchPad(
             "main-scratchpad", [
                 DropDown("term", my_terminal, opacity=0.8),
+                DropDown("panel", my_control_panel, opacity=0.8, height=0.5),
                 DropDown("media", my_mp, opacity=1.0),
                 ]
     )

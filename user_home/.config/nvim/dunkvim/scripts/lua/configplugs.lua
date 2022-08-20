@@ -83,7 +83,7 @@ require('bufferline').setup {
         return true
       end
     end,
-    offsets = {{filetype = "NvimTree"}},
+    offsets = {{filetype = "NvimTree"}, {filetype="CHADTree"}},
     show_buffer_icons = true, -- disable filetype icons for buffers
     show_buffer_close_icons = true,
     show_close_icon = true,
@@ -124,7 +124,7 @@ local colors = {
 
 local condition = require('galaxyline.condition')
 local gls = gl.section
-gl.short_line_list = {'NvimTree','vista','dbui','packer'}
+gl.short_line_list = {'NvimTree','CHADTREE','vista','dbui','packer'}
 
 gls.left[1] = {
   RainbowRed = {
@@ -331,12 +331,12 @@ gls.short_line_right[1] = {
   }
 }
 
-require('nvim-autopairs').setup{}
-require("nvim-autopairs.completion.compe").setup({
-  map_cr = true, --  map <CR> on insert mode
-  map_complete = true, -- it will auto insert `(` after select function or method item
-  auto_select = false  -- auto select first item
-})
+-- require('nvim-autopairs').setup{}
+-- require("nvim-autopairs.completion.compe").setup({
+--   map_cr = true, --  map <CR> on insert mode
+--   map_complete = true, -- it will auto insert `(` after select function or method item
+--   auto_select = false  -- auto select first item
+-- })
 
 -- require'nvim-tree'.setup {
 --     disable_netrw = true,
