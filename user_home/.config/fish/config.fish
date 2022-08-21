@@ -15,6 +15,15 @@ export VISUAL="nvim"
 export EDITOR="nvim"
 set -g fish_escape_delay_ms 30
 
+# Zellij
+if type -q zellij
+    if status is-interactive
+        # Configure auto-attach/exit to your likings (default is off).
+        #set ZELLIJ_AUTO_ATTACH true
+        #set ZELLIJ_AUTO_EXIT true
+        #eval (zellij setup --generate-auto-start fish | string collect)
+    end
+end
 
 # Aliases
 alias sudo="sudo "
@@ -127,14 +136,4 @@ bind \ck 'commandline -i clear; commandline -f execute'
 # Themes
 #base16-onedark
 base16-gruvbox-dark-medium
-
-# Zellij
-if type -q zellij
-    if status is-interactive
-        # Configure auto-attach/exit to your likings (default is off).
-        #set ZELLIJ_AUTO_ATTACH true
-        #set ZELLIJ_AUTO_EXIT true
-        #eval (zellij setup --generate-auto-start fish | string collect)
-    end
-end
 
