@@ -87,10 +87,10 @@ if os.path.isfile(env_file):
 my_font = "Iosevka"
 my_term_font = "Iosevka Term"
 
-my_color_theme = "red_dark" # "blue_dark" or "red_dark"
+my_color_theme = "gruvbox_dark" # "one_dark" or "gruvbox_dark"
 
-if my_color_theme == "blue_dark":
-    # Blue Dark
+if my_color_theme == "one_dark":
+    # One Dark
     bg_color = "#282c34"
     fg_color = "#5c6370"
     dark_bg_color = "#222222"
@@ -103,7 +103,7 @@ if my_color_theme == "blue_dark":
     green_color = "#504945"
     red_color = "#cc241d"
 else:
-    # Red Dark
+    # Gruvbox Dark
     bg_color = "#29221B"
     fg_color = "#4f443a"
     dark_bg_color = "#222222"
@@ -623,12 +623,14 @@ keys = [
 
     # DropDown
     KeyChord([sup], "d", [
-        Key([], ret, lazy.group['main-scratchpad'].dropdown_toggle('term')),
-        Key([], semicolon, lazy.group['main-scratchpad'].dropdown_toggle('panel')),
-        Key([], 'x', lazy.group['main-scratchpad'].dropdown_toggle('media')),
+        # Sys
+        Key([], ret, lazy.group['sys'].dropdown_toggle('term')),
+        Key([], semicolon, lazy.group['sys'].dropdown_toggle('panel')),
+        Key([], "e", lazy.group['sys'].dropdown_toggle('files')),
+
+        # Media
+        Key([], 'x', lazy.group['media'].dropdown_toggle('mp')),
     ]),
-    Key([sup, alt], ret, lazy.group['main-scratchpad'].dropdown_toggle('term')),
-    Key([sup, alt], semicolon, lazy.group['main-scratchpad'].dropdown_toggle('panel')),
 
     # System
     # Key([sup, shift, ctrl], "F11", lazy.spawn("sudo hibernate-reboot")),
@@ -726,12 +728,13 @@ class FileReaderWidget(widget_base.ThreadPoolText):
             return self.msg_base + msg
 
 class OpenWidgetBox(widget.WidgetBox):
-    def __init__(self, _widgets: list[widget_base._Widget] | None = None, **config):
+    def __init__(self, _widgets: list[widget_base._Widget] | None = None, starts_open: bool = True, **config):
         super().__init__(_widgets=_widgets, **config)
+        self.starts_open = starts_open
         Thread(target=self.wait_open, daemon=True).start()
 
     def wait_open(self):
-        if not self.box_is_open:
+        if self.box_is_open != self.starts_open:
             while not self.configured:
                 sleep(0.1)
             self.cmd_toggle()
@@ -938,12 +941,17 @@ def get_widgets_2(i):
 
 groups = [
         ScratchPad(
-            "main-scratchpad", [
+            "sys", [
                 DropDown("term", my_terminal, opacity=0.8),
                 DropDown("panel", my_control_panel, opacity=0.8, height=0.5),
-                DropDown("media", my_mp, opacity=1.0),
-                ]
-    )
+                DropDown("files", my_file_manager, opacity=0.8, height=0.5),
+            ]
+        ),
+        ScratchPad(
+            "media", [
+                DropDown("mp", my_mp, opacity=1.0),
+            ]
+        ),
 ]
 
 screens = []
