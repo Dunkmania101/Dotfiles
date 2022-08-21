@@ -109,6 +109,8 @@ if $amirealvim
   nnoremap <silent> <leader>bC :BufferLinePickClose<CR>
   nnoremap <silent> <leader>bl :BufferLineCycleNext<CR>
   nnoremap <silent> <leader>bh :BufferLineCyclePrev<CR>
+  nnoremap <silent> <leader>bL :BufferLineMoveNext<CR>
+  nnoremap <silent> <leader>bH :BufferLineMovePrev<CR>
   nnoremap <silent> <leader>be :BufferLineSortByExtension<CR>
   nnoremap <silent> <leader>bd :BufferLineSortByDirectory<CR>
 

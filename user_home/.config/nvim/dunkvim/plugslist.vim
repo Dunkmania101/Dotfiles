@@ -66,6 +66,7 @@ Plug 'dgileadi/vscode-java-decompiler'
 " Plug 'hrsh7th/nvim-compe'
 " Plug 'glepnir/lspsaga.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'RRethy/vim-illuminate'
 "Plug 'mfussenegger/nvim-jdtls'
 " Plug 'alvan/vim-closetag'
 " Plug 'tpope/vim-surround'
