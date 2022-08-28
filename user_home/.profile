@@ -9,6 +9,8 @@
 #    export __GLX_VENDOR_LIBRARY_NAME=nvidia
 #fi
 
+export QT_QPA_PLATFORMTHEME="qt5ct"
+
 
 sshenv=~/.ssh/agent.env
 

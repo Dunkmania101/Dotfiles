@@ -12,6 +12,7 @@ configuration {
     lines:							10;
     columns:						1;
     font: 							"Iosevka Regular 12";
+    icon-theme:                     "Gruvbox-Material-Dark";
     bw: 							0;
     location: 						0;
     padding: 						0;

@@ -31,6 +31,7 @@ alias sl="sl -e"
 alias ferium-cfg1="ferium --config-file=$games/Ferium/Configs/1/config.json"
 alias vfzf="ytfzf -tcY,P,O"
 alias install-searx='docker stop searx-1; docker rm -v searx-1; PORT=8888 docker run --name=searx-1 --restart=unless-stopped -d -v ~/ProgramFiles/searx:/etc/searx -p $PORT:8080 -e BASE_URL=http://localhost:$PORT/ searx/searx'
+alias install-librewolf-native-host="test -e ~/.librewolf/native-messaging-hosts || ln -s ~/.mozilla/native-messaging-hosts ~/.librewolf/native-messaging-hosts; test -e /usr/lib/librewolf/native-messaging-hosts || sudo ln -s /usr/lib/mozilla/native-messaging-hosts /usr/lib/librewolf/native-messaging-hosts"
 alias install-lieer="python3 -m pip install -U https://github.com/gauteh/lieer/archive/refs/heads/master.zip"
 alias install-blender-cad-sketcher="mkdir -p ~/blender_scripts/addons; git clone --depth=1 https://github.com/hlorus/CAD_Sketcher.git ~/blender_scripts/addons/CAD_Sketcher"
 alias install-fisher="curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher"

@@ -101,6 +101,7 @@ if my_color_theme == "one_dark":
     bg_txt_color = "#414f4f"
     fg_txt_color = "#abb2bf"
     green_color = "#504945"
+    blue_color = "#61afef"
     red_color = "#cc241d"
 else:
     # Gruvbox Dark
@@ -114,6 +115,7 @@ else:
     bg_txt_color = "#3c3836"
     fg_txt_color = "#ebdbb2"
     green_color = "#687b01"
+    blue_color = "#59614c"
     red_color = "#cc241d"
 
 
@@ -770,10 +772,20 @@ class ColorGmailChecker(widget.GmailChecker):
             return "UNKNOWN ERROR"
 
 
+def get_alternating_colors_1():
+    return [dark_bg_color, red_color, dark_bg_color]
+
+def get_alternating_colors_2():
+    return [dark_bg_color, green_color, dark_bg_color]
+
+def get_alternating_colors_3():
+    return [dark_bg_color, blue_color, dark_bg_color]
+
+
 def get_sys_stat_widgets():
     return [
         widget.Spacer(length=5),
-        widget.TextBox("cpu:"),
+        widget.TextBox("cpu:", background=get_alternating_colors_1()),
         widget.CPUGraph(
             width=30,
             border_width=1,
@@ -781,24 +793,29 @@ def get_sys_stat_widgets():
             frequency=5,
             line_width=1,
             samples=50,
+            background=get_alternating_colors_1(),
         ),
-        widget.TextBox("mem:"),
+        widget.Spacer(length=5),
+        widget.TextBox("mem:", background=get_alternating_colors_2()),
         widget.MemoryGraph(
             width=30,
             border_width=1,
             border_color=dark_bg_color,
             line_width=1,
             frequency=5,
+            background=get_alternating_colors_2(),
         ),
         widget.Memory(
             measure_mem = "G",
             measure_swap = "G",
+            background=get_alternating_colors_2(),
         ),
-        widget.Spacer(length=15),
-        widget.TextBox("net:"),
+        widget.Spacer(length=5),
+        widget.TextBox("net:", background=get_alternating_colors_3()),
         widget.Net(
             format = '{down} ↓↑ {up}',
-            padding = 0
+            padding = 0,
+            background=get_alternating_colors_3(),
         ),
     ]
 
@@ -846,6 +863,7 @@ def get_widgets_1(i):
                 widget.Sep(linewidth=my_border_width, padding=my_margin),
                 widget.Clock(
                     format='%a %b %d %Y, %I:%M:%S',
+                    background=get_alternating_colors_2(),
                 ),
                 widget.Sep(linewidth=my_border_width, padding=my_margin),
                 OpenWidgetBox(
@@ -869,6 +887,7 @@ def get_widgets_1(i):
                 widget.Sep(linewidth=my_border_width, padding=my_margin),
                 widget.CapsNumLockIndicator(
                     frequency=0.1,
+                    background=get_alternating_colors_3(),
                 ),
                 widget.Sep(linewidth=my_border_width, padding=my_margin),
                 widget.WidgetBox(widgets=get_sys_stat_widgets()),
