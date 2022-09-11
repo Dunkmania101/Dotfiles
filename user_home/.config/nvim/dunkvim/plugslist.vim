@@ -10,6 +10,7 @@ Plug 'sainnhe/sonokai'
 " Fancy
 "Plug 'mhinz/vim-startify'
 Plug 'glepnir/dashboard-nvim'
+" Plug 'konapun/vacuumline.nvim'
 Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 " Plug 'itchyny/lightline.vim'
 " Plug 'hoob3rt/lualine.nvim'
@@ -79,6 +80,7 @@ Plug 'RRethy/vim-illuminate'
 " Plug 'williamboman/nvim-lsp-installer'
 " Plug 'kabouzeid/nvim-lspinstall'
 " Plug 'p00f/nvim-ts-rainbow'
+Plug 'https://github.com/ap/vim-css-color.git'
 
 " Telescope
 Plug 'nvim-lua/popup.nvim'

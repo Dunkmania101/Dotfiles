@@ -16,21 +16,30 @@ export EDITOR="nvim"
 set -g fish_escape_delay_ms 30
 
 # Zellij
-if type -q zellij
-    if status is-interactive
-        # Configure auto-attach/exit to your likings (default is off).
-        #set ZELLIJ_AUTO_ATTACH true
-        #set ZELLIJ_AUTO_EXIT true
-        #eval (zellij setup --generate-auto-start fish | string collect)
+set NO_ZELLIJ 1
+if not set -q $NO_ZELLIJ
+    if type -q zellij
+        if status is-interactive
+            # Configure auto-attach/exit to your likings (default is off).
+            #set ZELLIJ_AUTO_ATTACH true
+            #set ZELLIJ_AUTO_EXIT true
+            #eval (zellij setup --generate-auto-start fish | string collect)
+        end
     end
 end
 
 # Aliases
 alias sudo="sudo "
+alias ff="fd . / --type f | fzf"
+alias fh="fd . --type f | fzf"
+alias ffv='$EDITOR (ff)'
+alias fhv='$EDITOR (fh)'
 alias sl="sl -e"
 alias ferium-cfg1="ferium --config-file=$games/Ferium/Configs/1/config.json"
 alias vfzf="ytfzf -tcY,P,O"
 alias install-searx='docker stop searx-1; docker rm -v searx-1; PORT=8888 docker run --name=searx-1 --restart=unless-stopped -d -v ~/ProgramFiles/searx:/etc/searx -p $PORT:8080 -e BASE_URL=http://localhost:$PORT/ searx/searx'
+alias install-pax-mc="mkdir -p ~/.local/bin; curl -L https://github.com/froehlichA/pax/releases/latest/download/pax > ~/.local/bin/pax; chmod +x ~/.local/bin/pax"
+alias install-sdkman='curl -s "https://get.sdkman.io?rcupdate=false" | bash'
 alias install-librewolf-native-host="test -e ~/.librewolf/native-messaging-hosts || ln -s ~/.mozilla/native-messaging-hosts ~/.librewolf/native-messaging-hosts; test -e /usr/lib/librewolf/native-messaging-hosts || sudo ln -s /usr/lib/mozilla/native-messaging-hosts /usr/lib/librewolf/native-messaging-hosts"
 alias install-lieer="python3 -m pip install -U https://github.com/gauteh/lieer/archive/refs/heads/master.zip"
 alias install-blender-cad-sketcher="mkdir -p ~/blender_scripts/addons; git clone --depth=1 https://github.com/hlorus/CAD_Sketcher.git ~/blender_scripts/addons/CAD_Sketcher"
@@ -49,9 +58,10 @@ alias install-nyxt-git-guix="guix install --with-branch=nyxt=master nyxt"
 alias install-blender-oldgl='guix install blender --with-source="https://download.blender.org/release/Blender2.79/blender-2.79b-linux-glibc219-x86_64.tar.bz2"'
 alias dockerclean="docker system prune --all"
 alias with-ld-path="LD_LIBRARY_PATH=$HOME/.guix-profile/lib "
+function uu-pax-ensureloop; while true; pax upgrade -y && break; end; end # Because CurseForge is unreliable
 alias uu-fontcache="fc-cache -rv"
 alias uu-arch='sudo aura -Syyu --noconfirm; sudo aura -Ayyu --noconfirm; sudo aura -R (aura -O); sudo paccache -rk 1; sudo paccache -ruk0'
-alias uu-flatpak="flatpak update; flatpak uninstall --unused"
+alias uu-flatpak="flatpak update --assumeyes; flatpak uninstall --unused"
 alias guixclean="guix gc; guix gc --optimize"
 alias guixclean-full="guix gc --delete-generations; guixclean"
 alias guixfix="sudo guix gc --verify=contents,repair"
@@ -118,6 +128,7 @@ if type -q pacwiz; packwiz completion fish | source; end
 
 # Functions
 function strdiff -a 'a'; command diff --color --from (echo $a | psub) (for s in $argv[2..-1]; echo $s | psub; end); end
+function strdiff-i -a 'a'; command diff --ignore-case --color --from (echo $a | psub) (for s in $argv[2..-1]; echo $s | psub; end); end
 function aura-check-pkgbuild -a 'a'; command aura -Ap $a | aura -P; end
 
 # Keybinds
@@ -137,4 +148,8 @@ bind \ck 'commandline -i clear; commandline -f execute'
 # Themes
 #base16-onedark
 base16-gruvbox-dark-medium
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+#export SDKMAN_DIR="$HOME/.sdkman"
+#test -f "$HOME/.sdkman/bin/sdkman-init.sh" && bass source "$HOME/.sdkman/bin/sdkman-init.sh"
 

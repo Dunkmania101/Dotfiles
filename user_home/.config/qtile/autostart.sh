@@ -22,6 +22,7 @@ clipmenud &
 playerctld daemon &
 #deadd-notification-center &
 pgrep copyq || copyq &
+#pgrep synapse || synapse --startup &
 #element-desktop-nightly --hidden &
 pgrep element-desktop || element-desktop --hidden &
 #pgrep easyeffects || easyeffects & sleep 1 && easyeffects --hide-window &

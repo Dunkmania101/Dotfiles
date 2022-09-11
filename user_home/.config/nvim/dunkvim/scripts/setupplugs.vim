@@ -15,6 +15,7 @@ if $amirealvim
   autocmd VimEnter * TSInstall all
   autocmd VimEnter * TSEnable rainbow highlight indent
   autocmd CursorHold * silent call CocActionAsync('highlight')
+  " lua require('vacuumline').setup()
 endif
 
 if executable('rg')

@@ -13,6 +13,7 @@ from time import sleep
 from shutil import which
 from threading import Thread
 from random import choice
+from typing import Union
 from libqtile import qtile, layout, hook, bar, widget, extension
 from libqtile.backend.x11.core import get_keys
 # from libqtile.backend.wayland.core import keyboard as wl_kbd
@@ -34,6 +35,7 @@ def sub_run_cmd(cmd, cwd):
         subprocess.run(cmd, cwd=cwd, shell=True)
     except Exception as e:
         print(str(e))
+        qtile.logger.warning(e)
         pass
 
 def run_cmd(cmd, cwd=None, thread=True):
@@ -102,6 +104,7 @@ if my_color_theme == "one_dark":
     fg_txt_color = "#abb2bf"
     green_color = "#504945"
     blue_color = "#61afef"
+    cyan_color = "#55b6c2"
     red_color = "#cc241d"
 else:
     # Gruvbox Dark
@@ -115,7 +118,11 @@ else:
     bg_txt_color = "#3c3836"
     fg_txt_color = "#ebdbb2"
     green_color = "#687b01"
-    blue_color = "#59614c"
+    blue_color = "#61afef"
+    cyan_color = "#89b482"
+    #blue_color = "#7daea3"
+    #blue_color = "#59614c"
+    #blue_color = "#61afef"
     red_color = "#cc241d"
 
 
@@ -130,24 +137,24 @@ my_border_width = 2
 my_margin = 4
 
 # Directories
-my_wallpapers = os.path.expanduser("~/Wallpapers") # Can point to a directory or a single image file.
-my_screenshots_dir = os.path.expanduser("~/Pictures/Screenshots")
+my_wallpapers: str = os.path.expanduser("~/Wallpapers") # Can point to a directory or a single image file.
+my_screenshots_dir: str = os.path.expanduser("~/Pictures/Screenshots")
 
 # Details
-my_distro = "Arch"
-my_check_updates_cmd = None
-#my_check_updates_cmd = ""
-##if shcmd_exists("pip"):
-##    my_check_updates_cmd += "; pip list --outdated --format=freeze"
-#if shcmd_exists("paru"):
-#    my_check_updates_cmd += "; paru --query --upgrades"
-#if shcmd_exists("guix"):
-#    my_check_updates_cmd += "; guix refresh"
+my_distro: str = "Arch"
+#my_check_updates_cmd: Union[str, None] = None
+my_check_updates_cmd: Union[str, None] = ""
+if shcmd_exists("pip"):
+    my_check_updates_cmd += "; pip list --outdated --format=freeze"
+if shcmd_exists("paru"):
+    my_check_updates_cmd += "; paru --query --upgrades"
+if shcmd_exists("guix"):
+    my_check_updates_cmd += "; guix refresh"
 
 if is_wayland():
-    my_get_monitors_cmd = "wlr-randr"
+    my_get_monitors_cmd: str = "wlr-randr"
 else:
-    my_get_monitors_cmd = "xrandr --query | grep \" connected\" | cut -d\" \" -f1"
+    my_get_monitors_cmd: str = "xrandr --query | grep \" connected\" | cut -d\" \" -f1"
 
 # Input Simulation
 my_kbd_key_cmd = "xdotool key --window -- "
@@ -184,7 +191,8 @@ my_terminal_alt4 = f"uxterm -si -fa \"{my_font}\""
 #my_editor = cfg_dir + "/scripts/run/run-emacs.sh"
 my_editor = "emacs"
 #my_editor = "emacsclient -a '' -c"
-my_editor_alt = "neovide --multigrid"
+my_editor_alt = "geany"
+#my_editor_alt = "neovide --multigrid"
 #my_editor_alt = "vscodium"
 # my_editor_alt = "notepadqq"
 my_editor_alt1 = "emacs"
@@ -238,8 +246,8 @@ my_calculator = "qalculate-gtk"
 my_calculator_alt = "qalculate-gtk"
 
 my_control_panel = my_terminal + " -e btop"
-#my_control_panel = "kitty -e btop"
-my_control_panel_alt = "stacer"
+my_control_panel_alt = "system-monitoring-center"
+my_control_panel_alt1 = "stacer"
 
 my_audio_mixer = my_terminal + " -e pulsemixer"
 my_audio_mixer_alt = "easyeffects"
@@ -247,7 +255,8 @@ my_audio_mixer_alt1 = my_terminal + " -e alsamixer"
 
 # Menus (Rofi Scripts, etc...)
 my_launcher = rofi_dir + "/launcher/launcher.sh"
-my_launcher_alt = "jgmenu"
+my_launcher_alt = "synapse"
+#my_launcher_alt = "jgmenu"
 my_clipmenu = rofi_dir + "/clipmenu/clipmenu.sh"
 my_clipmenu_alt = "copyq toggle"
 my_powermenu = rofi_dir + "/powermenu/powermenu.sh"
@@ -622,13 +631,28 @@ keys = [
     Key([sup, shift], "c", lazy.spawn(my_calculator_alt)),
     Key([sup], semicolon, lazy.spawn(my_control_panel)),
     Key([sup, shift], semicolon, lazy.spawn(my_control_panel_alt)),
+    KeyChord([sup, ctrl, shift], semicolon, [
+        Key([], semicolon, lazy.spawn(my_control_panel)),
+        Key([shift], semicolon, lazy.spawn(my_control_panel_alt)),
+        Key([], "1", lazy.spawn(my_control_panel_alt1)),
+    ]),
 
     # DropDown
     KeyChord([sup], "d", [
         # Sys
         Key([], ret, lazy.group['sys'].dropdown_toggle('term')),
+        KeyChord([shift], ret, [
+            Key([], "1", lazy.group['sys'].dropdown_toggle('term1')),
+            Key([], "2", lazy.group['sys'].dropdown_toggle('term2')),
+            Key([], "3", lazy.group['sys'].dropdown_toggle('term3')),
+        ]),
         Key([], semicolon, lazy.group['sys'].dropdown_toggle('panel')),
         Key([], "e", lazy.group['sys'].dropdown_toggle('files')),
+        KeyChord([shift], "e", [
+            Key([], "1", lazy.group['sys'].dropdown_toggle('files1')),
+            Key([], "2", lazy.group['sys'].dropdown_toggle('files2')),
+            Key([], "3", lazy.group['sys'].dropdown_toggle('files3')),
+        ]),
 
         # Media
         Key([], 'x', lazy.group['media'].dropdown_toggle('mp')),
@@ -772,20 +796,26 @@ class ColorGmailChecker(widget.GmailChecker):
             return "UNKNOWN ERROR"
 
 
-def get_alternating_colors_1():
+def get_alternating_colors_dark() -> list[str]:
+    return [dark_bg_color, bg_color, dark_bg_color]
+
+def get_alternating_colors_red() -> list[str]:
     return [dark_bg_color, red_color, dark_bg_color]
 
-def get_alternating_colors_2():
+def get_alternating_colors_green() -> list[str]:
     return [dark_bg_color, green_color, dark_bg_color]
 
-def get_alternating_colors_3():
+def get_alternating_colors_blue() -> list[str]:
     return [dark_bg_color, blue_color, dark_bg_color]
 
+def get_alternating_colors_cyan() -> list[str]:
+    return [dark_bg_color, cyan_color, dark_bg_color]
 
-def get_sys_stat_widgets():
+
+def get_sys_stat_widgets() -> list:
     return [
         widget.Spacer(length=5),
-        widget.TextBox("cpu:", background=get_alternating_colors_1()),
+        widget.TextBox("cpu:", background=get_alternating_colors_red()),
         widget.CPUGraph(
             width=30,
             border_width=1,
@@ -793,33 +823,36 @@ def get_sys_stat_widgets():
             frequency=5,
             line_width=1,
             samples=50,
-            background=get_alternating_colors_1(),
+            background=get_alternating_colors_red(),
         ),
         widget.Spacer(length=5),
-        widget.TextBox("mem:", background=get_alternating_colors_2()),
+        widget.TextBox("gpu:", background=get_alternating_colors_green()),
+        widget.NvidiaSensors(background=get_alternating_colors_green()),
+        widget.Spacer(length=5),
+        widget.TextBox("mem:", background=get_alternating_colors_cyan()),
         widget.MemoryGraph(
             width=30,
             border_width=1,
             border_color=dark_bg_color,
             line_width=1,
             frequency=5,
-            background=get_alternating_colors_2(),
+            background=get_alternating_colors_cyan(),
         ),
         widget.Memory(
             measure_mem = "G",
             measure_swap = "G",
-            background=get_alternating_colors_2(),
+            background=get_alternating_colors_cyan(),
         ),
         widget.Spacer(length=5),
-        widget.TextBox("net:", background=get_alternating_colors_3()),
+        widget.TextBox("net:", background=get_alternating_colors_blue()),
         widget.Net(
             format = '{down} ↓↑ {up}',
             padding = 0,
-            background=get_alternating_colors_3(),
+            background=get_alternating_colors_blue(),
         ),
     ]
 
-def get_widgets_1(i):
+def get_widgets_1(i) -> list:
     widgets = [
                 widget.Spacer(length=15),
                 widget.TextBox(
@@ -858,12 +891,12 @@ def get_widgets_1(i):
 #                    },
 #                ),
                 widget.Spacer(),
-                widget.Systray(icon_size=24),
+                widget.Systray(icon_size=24, background=get_alternating_colors_dark()),
                 widget.Spacer(),
                 widget.Sep(linewidth=my_border_width, padding=my_margin),
                 widget.Clock(
                     format='%a %b %d %Y, %I:%M:%S',
-                    background=get_alternating_colors_2(),
+                    background=get_alternating_colors_green(),
                 ),
                 widget.Sep(linewidth=my_border_width, padding=my_margin),
                 OpenWidgetBox(
@@ -887,7 +920,7 @@ def get_widgets_1(i):
                 widget.Sep(linewidth=my_border_width, padding=my_margin),
                 widget.CapsNumLockIndicator(
                     frequency=0.1,
-                    background=get_alternating_colors_3(),
+                    background=get_alternating_colors_cyan(),
                 ),
                 widget.Sep(linewidth=my_border_width, padding=my_margin),
                 widget.WidgetBox(widgets=get_sys_stat_widgets()),
@@ -901,6 +934,7 @@ def get_widgets_1(i):
                     fmt='>/=',
                     mouse_callbacks={
                         'Button1': lambda: qtile.cmd_spawn('playerctl -a pause'),
+                        'Button2': lambda: qtile.cmd_spawn('playerctl stop'),
                         'Button3': lambda: qtile.cmd_spawn('playerctl play'),
                     },
                 ),
@@ -929,7 +963,7 @@ def get_widgets_1(i):
     return widgets
 
 
-def get_widgets_2(i):
+def get_widgets_2(i) -> list:
     widgets = [
                 widget.Sep(linewidth=my_border_width, padding=my_margin),
                 widget.TaskList(
@@ -958,12 +992,18 @@ def get_widgets_2(i):
     return widgets
 
 
-groups = [
+groups: list = [
         ScratchPad(
             "sys", [
                 DropDown("term", my_terminal, opacity=0.8),
+                DropDown("term1", my_terminal, opacity=0.8),
+                DropDown("term2", my_terminal, opacity=0.8),
+                DropDown("term3", my_terminal, opacity=0.8),
                 DropDown("panel", my_control_panel, opacity=0.8, height=0.5),
                 DropDown("files", my_file_manager, opacity=0.8, height=0.5),
+                DropDown("files1", my_file_manager, opacity=0.8, height=0.5),
+                DropDown("files2", my_file_manager, opacity=0.8, height=0.5),
+                DropDown("files3", my_file_manager, opacity=0.8, height=0.5),
             ]
         ),
         ScratchPad(
@@ -973,8 +1013,8 @@ groups = [
         ),
 ]
 
-screens = []
-img_fmts = (".png", ".jpeg", ".jpg")
+screens: list = []
+img_fmts: tuple = (".png", ".jpeg", ".jpg")
 if os.path.isfile(my_wallpapers) and my_wallpapers.endswith(img_fmts):
     wallpapers = [my_wallpapers]
 elif os.path.isdir(my_wallpapers):
@@ -1036,7 +1076,7 @@ wmname = "LG3D"
 # --------------------- #
 
 
-layouts = [
+layouts: list = [
     layout.Columns(
         border_normal=bg_line_color,
         border_focus=[fg_line_color_alt, fg_line_color],
@@ -1068,7 +1108,7 @@ floating_layout = layout.Floating(
 
 dont_auto_float_rules = []
 @hook.subscribe.client_new
-def floating_dialogs_hook(window):
+def floating_dialogs_hook(window) -> None:
     dialog = window.window.get_wm_type() == 'dialog'
     transient = window.window.get_wm_transient_for()
     allowed = all(c not in dont_auto_float_rules for c in window.window.get_wm_class())
@@ -1077,11 +1117,11 @@ def floating_dialogs_hook(window):
 
 
 @hook.subscribe.screen_change
-def screen_change_hook(qtile):
+def screen_change_hook(qtile) -> None:
     run_cmd(cfg_dir + "scripts/run/run-monitors.sh")
 
 
 @hook.subscribe.startup_complete
-def autostart_hook():
+def autostart_hook() -> None:
     run_cmd(cfg_dir + "/autostart.sh")
 

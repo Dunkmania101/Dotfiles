@@ -84,10 +84,12 @@
        grammar           ; tasing grammar mistake every you make
 
        :tools
-       ;;ansible
+       ansible
        (debugger +lsp)          ; FIXME stepping through code, to help you add bugs
+       tree-sitter
+       biblio
        direnv
-       ;;docker
+       (docker +lsp)
        editorconfig      ; let someone else argue about tabs vs spaces
        ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
@@ -131,7 +133,7 @@
        ;;faust             ; dsp, but you get to keep your soul
        ;;fsharp            ; ML stands for Microsoft's Language
        ;;fstar             ; (dependent) types and (monadic) effects and Z3
-       (gdscript +lsp)          ; the language you waited for
+       ;;(gdscript +lsp)          ; the language you waited for
        (go +lsp)         ; the hipster dialect
        (haskell +dante +lsp)  ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
@@ -139,7 +141,7 @@
        (json +lsp)              ; At least it ain't XML
        (java +lsp) ; the poster child for carpal tunnel syndrome
        (javascript +lsp)        ; all(hope(abandon(ye(who(enter(here))))))
-       (julia +lsp)             ; a better, faster MATLAB
+       ;;(julia +lsp)             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
        (latex +lsp)             ; writing papers in Emacs has never been so fun
        ;;lean              ; for folks with too much to prove
@@ -147,7 +149,7 @@
        (lua +fennel +lsp)               ; one-based indices? one-based indices
        (markdown +lsp)          ; writing docs for people to ignore
        (nim +lsp)               ; python + lisp at the speed of c
-       (nix +lsp)               ; I hereby declare "nix geht mehr!"
+       ;;(nix +lsp)               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
        (org +pretty +brain +jupyter +noter +pandoc +journal +dragndrop +present +roam2 +lsp)               ; organize your plain life in plain text
        ;;php               ; perl's insecure younger brother
@@ -165,7 +167,7 @@
        (scheme +guile +lsp)   ; a fully conniving family of lisps
        (sh +fish +powershell +lsp)                ; she sells {ba,z,fi}sh shells on the C xor
        ;;sml
-       (solidity +lsp)          ; do you need a blockchain? No.
+       ;;(solidity +lsp)          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
        ;;web               ; the tubes
@@ -174,7 +176,7 @@
 
        :email
        ;;(mu4e +org +gmail)
-       (notmuch +org)
+       (notmuch +org +afew)
        ;;(wanderlust +gmail)
 
        :app

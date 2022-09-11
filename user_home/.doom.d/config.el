@@ -61,7 +61,7 @@
 
 (setq minimap-recreate-window t
       minimap-automatically-delete-window nil)
-(minimap-mode)
+;(minimap-mode)
 
 (setq evil-split-window-below t
       evil-vsplit-window-right t)
@@ -167,7 +167,11 @@
           ([?\s-e] . (lambda ()
   		     (interactive)
   		     (start-process "" nil "/usr/bin/pcmanfm")))
-          ;; Bind "s-<f2>" to "slock", a simple X display locker.
+          ;; Apps
+          ([?\s-b] . (lambda ()
+  		     (interactive)
+  		     (start-process "" nil "/usr/bin/firefox-developer-edition")))
+          ;; Desktop
           ([s-f2] . (lambda ()
   		    (interactive)
   		    (start-process "" nil "/usr/bin/slock")))))
@@ -194,11 +198,15 @@
           ([?\C-y] . [?\C-v])
           ;; search
           ([?\C-s] . [?\C-f])))
-  (setq exwm-randr-workspace-output-plist '(0 "DP-0" 1 "DVI-D-0"))
+  ;;(setq exwm-randr-workspace-output-plist '(0 "DP-0" 1 "DVI-D-0"))
+  ;;(setq exwm-randr-workspace-output-plist '(0 "eDP1"))
+  (setq exwm-randr-workspace-output-plist '(0 "DP-0"))
   (add-hook 'exwm-randr-screen-change-hook
             (lambda ()
               (start-process-shell-command
-               "xrandr" nil "xrandr --output DVI-D-0 --left-of DP-0 --auto")))
+               ;;"xrandr" nil "xrandr --output DVI-D-0 --left-of DP-0 --auto")))
+               ;;"xrandr" nil "xrandr --output eDP1 --auto")))
+               "xrandr" nil "xrandr --output DP-0 --auto")))
   (exwm-randr-enable))
 
 ;; Here are some additional functions/macros that could help you configure Doom:

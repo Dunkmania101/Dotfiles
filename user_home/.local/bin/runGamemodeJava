@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+gamemoderun ~/.sdkman/candidates/java/current/bin/java $@
+
