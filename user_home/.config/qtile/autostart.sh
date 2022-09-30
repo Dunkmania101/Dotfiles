@@ -20,11 +20,13 @@ pgrep lxsession || lxsession &
 #pgrep agordejo || agordejo --continue &
 clipmenud &
 playerctld daemon &
+pulsemeeter daemon &
 #deadd-notification-center &
 pgrep copyq || copyq &
 #pgrep synapse || synapse --startup &
 #element-desktop-nightly --hidden &
 pgrep element-desktop || element-desktop --hidden &
+pgrep birdtray || birdtray &
 #pgrep easyeffects || easyeffects & sleep 1 && easyeffects --hide-window &
 #agordejo --hide --load-session Main &
 pgrep emacs || emacs --daemon &

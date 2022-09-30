@@ -89,7 +89,7 @@ if os.path.isfile(env_file):
 my_font = "Iosevka"
 my_term_font = "Iosevka Term"
 
-my_color_theme = "gruvbox_dark" # "one_dark" or "gruvbox_dark"
+my_color_theme = "gruvbox_dark" # "one_dark" or "gruvbox_dark" or "everforest_dark"
 
 if my_color_theme == "one_dark":
     # One Dark
@@ -106,6 +106,21 @@ if my_color_theme == "one_dark":
     blue_color = "#61afef"
     cyan_color = "#55b6c2"
     red_color = "#cc241d"
+elif my_color_theme == "everforest_dark":
+    # Everforest Dark
+    bg_color = "#2b3339"
+    fg_color = "#a3967a"
+    dark_bg_color = "#222222"
+    bg_line_color = "#3c3836"
+    fg_line_color = "#7a8478"
+    bg_line_color_alt = "#4e3e43"
+    fg_line_color_alt = "#e69875"
+    bg_txt_color = "#413c32"
+    fg_txt_color = "#d3c6aa"
+    green_color = "#a7c080"
+    blue_color = "#7fbbb3"
+    cyan_color = "#83c092"
+    red_color = "#e67e80"
 else:
     # Gruvbox Dark
     bg_color = "#29221B"
@@ -119,10 +134,10 @@ else:
     fg_txt_color = "#ebdbb2"
     green_color = "#687b01"
     blue_color = "#61afef"
-    cyan_color = "#89b482"
     #blue_color = "#7daea3"
     #blue_color = "#59614c"
     #blue_color = "#61afef"
+    cyan_color = "#89b482"
     red_color = "#cc241d"
 
 
@@ -133,8 +148,12 @@ my_base_groups = "~ 1 2 3 4 5 6 7 8 9 0 - =".split(" ")
 my_systray_screen = 0
 
 # Gap and border sizes
-my_border_width = 2
-my_margin = 4
+my_thick_border_width = 3
+my_thin_border_width = 2
+my_thick_margin = 4
+my_thin_margin = 2
+my_thick_font_size = 14
+my_thin_font_size = 11
 
 # Directories
 my_wallpapers: str = os.path.expanduser("~/Wallpapers") # Can point to a directory or a single image file.
@@ -172,7 +191,8 @@ my_gmail_pass = env_data.get("gmail.pass", "")
 # Applications
 #my_terminal = "kitty -e tmux"
 #my_terminal_tmux = f"kitty -e \'{cfg_dir}/scripts/run/run-tmux-session.sh\'"
-my_terminal = "kitty"
+my_terminal = "tilix"
+#my_terminal = "kitty"
 #my_terminal = "contour"
 #my_terminal = f"uxterm -si -fs 10 -fa \"{my_term_font}\" -bg \'#212121\' -bd \'#212111\'"
 #my_terminal_alt = "kitty"
@@ -189,8 +209,8 @@ my_terminal_alt3 = "urxvt"
 my_terminal_alt4 = f"uxterm -si -fa \"{my_font}\""
 
 #my_editor = cfg_dir + "/scripts/run/run-emacs.sh"
-my_editor = "emacs"
-#my_editor = "emacsclient -a '' -c"
+#my_editor = "emacs"
+my_editor = "emacsclient -a '' -c"
 my_editor_alt = "geany"
 #my_editor_alt = "neovide --multigrid"
 #my_editor_alt = "vscodium"
@@ -217,9 +237,11 @@ my_private_browser_alt = "firefox-developer-edition --private-window"
 
 my_browser_profile_menu = rofi_dir + "/nyxt_profile_menu/nyxt_profile_menu.sh"
 
-my_file_manager = "pcmanfm"
+my_file_manager = "nautilus"
+#my_file_manager = "pcmanfm"
 my_file_manager_alt = "filezilla"
-my_file_manager_alt1 = "thunar"
+my_file_manager_alt1 = "pcmanfm"
+#my_file_manager_alt1 = "thunar"
 
 #my_mp = "deadbeef"
 #my_mp = "kawaii-player"
@@ -299,10 +321,23 @@ monitors = get_cmd_output(my_get_monitors_cmd).split("\n")
 #monitors = [gdkdsp.get_monitor_plug_name(i) for i in range(gdkdsp.get_n_monitors())]
 
 
+#def register_
+
+
 def take_screenshot(cmd="scrot", cwd=my_screenshots_dir):
     if not os.path.isdir(cwd):
         os.makedirs(cwd)
     run_cmd(cmd, cwd)
+
+
+def get_screen_bars(screen):
+    return [g for g in screen.gaps if isinstance(g, bar.Bar)]
+
+
+def reload_only_bars(qtile):
+    for s in qtile.screens:
+        for b in get_screen_bars(s):
+            b.show(); b.show()
 
 
 def run_keysboard(start=True):
@@ -542,7 +577,11 @@ keys = [
 
     # WM Cmds
     Key([sup, shift], "r", lazy.restart()),
-    Key([sup, shift, ctrl, alt], "q", lazy.shutdown()),
+    KeyChord([sup, ctrl, shift], "r", [
+        Key([], "r", lazy.restart()),
+        Key([], "b", lazy.function(reload_only_bars)),
+        Key([], "c", lazy.reload_config()),
+    ],),
 
     # Vim Emulation
     KeyChord([sup, ctrl, shift], "v", [
@@ -553,7 +592,7 @@ keys = [
         Key([], "l", lazy.spawn(my_kbd_key_cmd + "Right")),
         Key([], "w", lazy.spawn(my_kbd_key_cmd + "ctrl+Right")),
         Key([], "b", lazy.spawn(my_kbd_key_cmd + "ctrl+Left")),
-    ], mode="vim"),
+    ], mode=True, name="vim"),
 
     # Mouse Emulation
     Key([sup, ctrl], "h", lazy.spawn(my_mouse_move_cmd + f"-{my_mouse_move_dist} 0")),
@@ -565,6 +604,17 @@ keys = [
     Key([sup, ctrl], "x", lazy.spawn(my_mouse_click_cmd + "2")), # MC
     Key([sup, ctrl], "s", lazy.spawn(my_mouse_click_cmd + "5")), # WU
     Key([sup, ctrl], "w", lazy.spawn(my_mouse_click_cmd + "4")), # WD
+    KeyChord([sup, ctrl, shift], "a", [
+        Key([], "h", lazy.spawn(my_mouse_move_cmd + f"-{my_mouse_move_dist} 0")),
+        Key([], "j", lazy.spawn(my_mouse_move_cmd + f"0 {my_mouse_move_dist}")),
+        Key([], "k", lazy.spawn(my_mouse_move_cmd + f"0 -{my_mouse_move_dist}")),
+        Key([], "l", lazy.spawn(my_mouse_move_cmd + f"{my_mouse_move_dist} 0")),
+        Key([], "a", lazy.spawn(my_mouse_click_cmd + "1")), # LC
+        Key([], "d", lazy.spawn(my_mouse_click_cmd + "3")), # RC
+        Key([], "x", lazy.spawn(my_mouse_click_cmd + "2")), # MC
+        Key([], "s", lazy.spawn(my_mouse_click_cmd + "5")), # WU
+        Key([], "w", lazy.spawn(my_mouse_click_cmd + "4")), # WD
+    ], mode=True, name="mouse"),
 
     # Apps
     Key([sup], period, lazy.spawn(my_audio_mixer)),
@@ -719,9 +769,9 @@ mouse = [
 
 widget_defaults = dict(
     font=my_font,
-    fontsize=14,
-    padding=2,
-    margin=my_margin,
+    fontsize=my_thick_font_size,
+    padding=my_thin_border_width,
+    margin=my_thin_margin,
     background=[dark_bg_color, dark_bg_color],
     foreground=[fg_txt_color, fg_txt_color],
     graph_color=[fg_txt_color, fg_txt_color],
@@ -797,7 +847,7 @@ class ColorGmailChecker(widget.GmailChecker):
 
 
 def get_alternating_colors_dark() -> list[str]:
-    return [dark_bg_color, bg_color, dark_bg_color]
+    return [dark_bg_color, bg_line_color, dark_bg_color]
 
 def get_alternating_colors_red() -> list[str]:
     return [dark_bg_color, red_color, dark_bg_color]
@@ -841,6 +891,7 @@ def get_sys_stat_widgets() -> list:
         widget.Memory(
             measure_mem = "G",
             measure_swap = "G",
+            frequency=5,
             background=get_alternating_colors_cyan(),
         ),
         widget.Spacer(length=5),
@@ -861,11 +912,11 @@ def get_widgets_1(i) -> list:
                     fmt='::',
                     mouse_callbacks={'Button1': lambda: qtile.cmd_spawn(my_launcher)},
                 ),
-                widget.Sep(linewidth=my_border_width, padding=my_margin),
+                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
                 OpenWidgetBox(
                     widgets=[
                         widget.GroupBox(
-                            border_width=my_border_width,
+                            border_width=my_thin_border_width,
                             disable_drag=True,
                             rounded=True,
                             active=[fg_txt_color, fg_txt_color],
@@ -879,9 +930,9 @@ def get_widgets_1(i) -> list:
                         ),
                     ],
                 ),
-                widget.Sep(linewidth=my_border_width, padding=my_margin),
+                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
                 widget.CurrentScreen(active_color=green_color, inactive_color=red_color),
-                widget.Sep(linewidth=my_border_width, padding=my_margin),
+                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
 #                widget.TextBox(
 #                    fontsize=16,
 #                    fmt='',
@@ -890,15 +941,17 @@ def get_widgets_1(i) -> list:
 #                        'Button3': lambda: qtile.cmd_spawn(my_window_killer),
 #                    },
 #                ),
-                widget.Spacer(),
-                widget.Systray(icon_size=24, background=get_alternating_colors_dark()),
-                widget.Spacer(),
-                widget.Sep(linewidth=my_border_width, padding=my_margin),
+                widget.Spacer(length=20),
+                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
+                widget.Systray(icon_size=24),
+                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
+                widget.Spacer(bar.STRETCH),
+                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
                 widget.Clock(
                     format='%a %b %d %Y, %I:%M:%S',
                     background=get_alternating_colors_green(),
                 ),
-                widget.Sep(linewidth=my_border_width, padding=my_margin),
+                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
                 OpenWidgetBox(
                     widgets=[
                         widget.CheckUpdates(
@@ -917,14 +970,15 @@ def get_widgets_1(i) -> list:
                         ),
                     ]
                 ),
-                widget.Sep(linewidth=my_border_width, padding=my_margin),
+                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
                 widget.CapsNumLockIndicator(
                     frequency=0.1,
                     background=get_alternating_colors_cyan(),
                 ),
-                widget.Sep(linewidth=my_border_width, padding=my_margin),
-                widget.WidgetBox(widgets=get_sys_stat_widgets()),
-                widget.Sep(linewidth=my_border_width, padding=my_margin),
+                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
+                OpenWidgetBox(widgets=get_sys_stat_widgets()),
+                #widget.WidgetBox(widgets=get_sys_stat_widgets()),
+                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
                 widget.TextBox(
                     fmt='[-',
                     mouse_callbacks={'Button1': lambda: qtile.cmd_spawn('playerctl position 2-')},
@@ -947,7 +1001,7 @@ def get_widgets_1(i) -> list:
                 widget.TextBox("vol:"),
                 widget.Volume(update_interval=0.1, step=1),
                 # widget.CurrentLayoutIcon(scale=0.70),
-                widget.Sep(linewidth=my_border_width, padding=my_margin),
+                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
                 widget.TextBox(
                     fontsize=16,
                     foreground=red_color,
@@ -965,13 +1019,13 @@ def get_widgets_1(i) -> list:
 
 def get_widgets_2(i) -> list:
     widgets = [
-                widget.Sep(linewidth=my_border_width, padding=my_margin),
+                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
                 widget.TaskList(
                     border=fg_line_color,
                     unfocused_border=bg_line_color,
                     rounded=True,
                 ),
-                widget.Sep(linewidth=my_border_width, padding=my_margin),
+                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
                 FileReaderWidget(
                     #file = "/tmp/tmux-bar-keysboard-pipe",
                     #msg_base = "Keysboard: ",
@@ -987,7 +1041,7 @@ def get_widgets_2(i) -> list:
                         'Button3': lambda: run_kmonad(False),
                     },
                 ),
-                widget.Sep(linewidth=my_border_width, padding=my_margin),
+                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
     ]
     return widgets
 
@@ -1014,7 +1068,7 @@ groups: list = [
 ]
 
 screens: list = []
-img_fmts: tuple = (".png", ".jpeg", ".jpg")
+img_fmts: tuple = (".png", ".jpeg", ".jpg", ".webp")
 if os.path.isfile(my_wallpapers) and my_wallpapers.endswith(img_fmts):
     wallpapers = [my_wallpapers]
 elif os.path.isdir(my_wallpapers):
@@ -1035,8 +1089,8 @@ for monitor in monitors:
             wallpaper = None
         screens.append(
             Screen(
-                top=bar.Bar(get_widgets_1(i), 30, background=bg_color, border_color=bg_line_color, border_width=my_border_width),
-                bottom=bar.Bar(get_widgets_2(i), 30, background=bg_color, border_color=bg_line_color, border_width=my_border_width),
+                top=bar.Bar(get_widgets_1(i), 30, background=bg_color, border_color=bg_line_color, border_width=my_thin_border_width),
+                bottom=bar.Bar(get_widgets_2(i), 30, background=bg_color, border_color=bg_line_color, border_width=my_thin_border_width),
                 wallpaper=wallpaper,
                 wallpaper_mode="stretch",
             )
@@ -1083,8 +1137,8 @@ layouts: list = [
         border_normal_stack=bg_line_color,
         border_focus_stack=[fg_line_color_alt, fg_line_color],
         border_on_single=True,
-        border_width=my_border_width,
-        margin=my_margin,
+        border_width=my_thick_border_width,
+        margin=my_thick_margin,
         num_columns=2,
         ratio=0.70,
     )
@@ -1102,7 +1156,7 @@ floating_layout = layout.Floating(
     ],
     border_normal=bg_line_color_alt,
     border_focus=fg_line_color_alt,
-    border_width=my_border_width,
+    border_width=my_thick_border_width,
 )
 
 

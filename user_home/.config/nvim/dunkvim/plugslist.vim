@@ -3,6 +3,7 @@
 Plug 'rktjmp/lush.nvim'
 " Plug 'npxbr/gruvbox.nvim'
 Plug 'sainnhe/gruvbox-material'
+Plug 'sainnhe/everforest'
 " Plug 'joshdick/onedark.vim'
 Plug 'navarasu/onedark.nvim'
 Plug 'sainnhe/sonokai'

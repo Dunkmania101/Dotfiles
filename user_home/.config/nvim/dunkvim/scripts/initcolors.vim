@@ -12,6 +12,16 @@ endif
 "     colorscheme gruvbox
 " endif
 
+if $colorsname == 'everforest'
+  let g:everforest_background = 'medium'
+  let g:everforest_enable_bold = 1
+  let g:everforest_enable_italic = 1
+  let g:everforest_better_performance = 1
+  let g:everforest_diagnostic_text_highlight = 1
+  colorscheme everforest
+  let g:lightline.colorscheme = 'everforest'
+endif
+
 if $colorsname == 'gruvbox-material'
   let g:gruvbox_material_background = 'medium'
   let g:gruvbox_material_enable_bold = 1

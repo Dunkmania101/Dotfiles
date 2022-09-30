@@ -61,7 +61,10 @@
 
 (setq minimap-recreate-window t
       minimap-automatically-delete-window nil)
-;(minimap-mode)
+(minimap-mode)
+
+(after! centaur-tabs
+  (setq centaur-tabs-set-bar nil))
 
 (setq evil-split-window-below t
       evil-vsplit-window-right t)

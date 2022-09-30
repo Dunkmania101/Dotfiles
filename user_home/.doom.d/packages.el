@@ -31,6 +31,10 @@
 
 (package! crux)
 
+(package! denote)
+
+(package! w3m)
+
 ;(package! meow)
 (after! meow
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
@@ -126,17 +130,17 @@
 
 (package! guix)
 
-(use-package! zig-mode
-  :hook ((zig-mode . lsp-deferred))
-  :custom (zig-format-on-save nil)
-  :config
-  (after! lsp-mode
-    (add-to-list 'lsp-language-id-configuration '(zig-mode . "zig"))
-    (lsp-register-client
-      (make-lsp-client
-        :new-connection (lsp-stdio-connection "~/ProgramFiles/zls/zls")
-        :major-modes '(zig-mode)
-        :server-id 'zls))))
+;;(use-package! zig-mode
+;;  :hook ((zig-mode . lsp-deferred))
+;;  :custom (zig-format-on-save nil)
+;;  :config
+;;  (after! lsp-mode
+;;    (add-to-list 'lsp-language-id-configuration '(zig-mode . "zig"))
+;;    (lsp-register-client
+;;      (make-lsp-client
+;;        :new-connection (lsp-stdio-connection "~/ProgramFiles/zls/zls")
+;;        :major-modes '(zig-mode)
+;;        :server-id 'zls))))
 
 ;(package! eaf
 ;  :recipe (:host github :repo "emacs-eaf/emacs-application-framework"
@@ -171,7 +175,7 @@
 
 (unpin! lsp-java)
 (unpin! centaur-tabs)
-;; (unpin! treemacs)
+;(unpin! treemacs)
 ;; (unpin! company)
 ;(unpin! t)
 

@@ -1,12 +1,14 @@
 # Variables
 set fish_greeting
-export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.fnm:$HOME/.fnm/aliases/default/bin:$HOME/.guix-profile/bin:$HOME/.nix-profile/bin:/usr/local/bin:$HOME/.nimble/bin:$HOME/Launchers:$HOME/ProgramFiles/doom-emacs/bin/:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.fnm:$HOME/.fnm/aliases/default/bin:$HOME/.guix-profile/bin:$HOME/.nix-profile/bin:/usr/local/bin:$HOME/.nimble/bin:$HOME/Launchers:$HOME/.emacs.d/bin/:$PATH"
 export superdrive="$HOME/superdrive-ln/"
 export programming="$superdrive/Programming/"
 export mcmoddev="$programming/Java/MC/MinecraftModDev/"
 export games="$superdrive/Games/"
-export gdlauncher="$games/GDlauncher/"
-export mcinstances="$gdlauncher/instances/"
+export gdlauncher_path="$games/GDlauncher/"
+export creepyr_path="$games/creepyr"
+export mclauncher_path="$creepyr"
+export mcinstances="$mclauncher_path/instances/"
 # export TERM=xterm-kitty
 #export VISUAL="emacs -nw"
 #export EDITOR="emacs -nw"
@@ -30,6 +32,7 @@ end
 
 # Aliases
 alias sudo="sudo "
+function audio-burst-loop -a 'f'; while true; mpv $f --length=0.3; set grimmdelay (random 3 120); echo sleeping for $grimmdelay; sleep $grimmdelay; end; end
 alias ff="fd . / --type f | fzf"
 alias fh="fd . --type f | fzf"
 alias ffv='$EDITOR (ff)'
@@ -38,18 +41,19 @@ alias sl="sl -e"
 alias ferium-cfg1="ferium --config-file=$games/Ferium/Configs/1/config.json"
 alias vfzf="ytfzf -tcY,P,O"
 alias install-searx='docker stop searx-1; docker rm -v searx-1; PORT=8888 docker run --name=searx-1 --restart=unless-stopped -d -v ~/ProgramFiles/searx:/etc/searx -p $PORT:8080 -e BASE_URL=http://localhost:$PORT/ searx/searx'
+alias install-mycroft='docker stop mycroft-1; docker rm -v mycroft-1; docker run --name=mycroft-1 --restart=unless-stopped -d -v ~/ProgramFiles/mycroft:/root/.mycroft --device /dev/snd -e PULSE_SERVER=unix:{$XDG_RUNTIME_DIR}/pulse/native -v {$XDG_RUNTIME_DIR}/pulse/native:{$XDG_RUNTIME_DIR}/pulse/native -v ~/.config/pulse/cookie:/root/.config/pulse/cookie -p 42069:8181 mycroftai/docker-mycroft'
 alias install-pax-mc="mkdir -p ~/.local/bin; curl -L https://github.com/froehlichA/pax/releases/latest/download/pax > ~/.local/bin/pax; chmod +x ~/.local/bin/pax"
 alias install-sdkman='curl -s "https://get.sdkman.io?rcupdate=false" | bash'
 alias install-librewolf-native-host="test -e ~/.librewolf/native-messaging-hosts || ln -s ~/.mozilla/native-messaging-hosts ~/.librewolf/native-messaging-hosts; test -e /usr/lib/librewolf/native-messaging-hosts || sudo ln -s /usr/lib/mozilla/native-messaging-hosts /usr/lib/librewolf/native-messaging-hosts"
-alias install-lieer="python3 -m pip install -U https://github.com/gauteh/lieer/archive/refs/heads/master.zip"
+alias install-lieer="python3 -m pip install --upgrade https://github.com/gauteh/lieer/archive/refs/heads/master.zip"
 alias install-blender-cad-sketcher="mkdir -p ~/blender_scripts/addons; git clone --depth=1 https://github.com/hlorus/CAD_Sketcher.git ~/blender_scripts/addons/CAD_Sketcher"
 alias install-fisher="curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher"
 alias install-brl="wget -O /tmp/brl-installer.sh https://raw.githubusercontent.com/bedrocklinux/bedrocklinux-userland/master/src/installer/installer.sh; sudo sh /tmp/brl-installer.sh --hijack"
 alias install-guix="wget -O /tmp/guix-install.sh https://git.savannah.gnu.org/cgit/guix.git/plain/etc/guix-install.sh; chmod +x /tmp/guix-install.sh; sudo bash \"/tmp/guix-install.sh\""
 alias install-nix="curl -L https://nixos.org/nix/install | sh"
 alias install-chemacs="[ -f ~/.emacs ] && mv ~/.emacs ~/.emacs.bak; [ -f ~/.emacs ] && mv ~/.emacs ~/.emacs.bak; git clone https://github.com/plexus/chemacs2.git ~/.emacs.d"
-alias install-doom="mkdir -p ~/ProgramFiles; git clone --depth 1 https://github.com/hlissner/doom-emacs ~/ProgramFiles/doom-emacs; ~/ProgramFiles/doom-emacs/bin/doom install"
-alias reinstall-doom='mkdir -p ~/ProgramFiles/.bak/doom-emacs; mv ~/ProgramFiles/doom-emacs ~/ProgramFiles/.bak/doom-emacs/(date); install-doom'
+alias install-doom="git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d; ~/.emacs.d/bin/doom install"
+alias reinstall-doom='mkdir -p ~/ProgramFiles/.bak/doom-emacs; mv ~/.emacs.d ~/ProgramFiles/.bak/doom-emacs/(date); install-doom'
 alias install-emacs-config="install-chemacs; install-doom"
 alias install-fnm="curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell; fnm install --lts"
 alias install-nvm="wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/latest/install.sh | bash; nvm install node"
@@ -81,9 +85,11 @@ alias uu-node="install-fnm; npm install -g npm; npm -g update"
 alias uu-brl="sudo brl apply; sudo brl update"
 alias uu-apt="sudo apt update; sudo apt -y full-upgrade; sudo apt -y autoremove"
 alias uu-dnf="sudo dnf check-update; sudo dnf -y distro-sync; sudo dnf -y autoremove"
+alias uu-chemacs="git -C ~/.emacs.d fetch; git -C ~/.emacs.d pull"
 alias uu-doom="doom --force sync; doom --force upgrade; doom --force sync; doom --force purge"
+alias uu-emacs="uu-doom"
 alias uu-nvim="nvim -c 'UU' -c 'qa!'"
-alias uu-noguix="uu-arch; uu-fish; uu-nix; uu-flatpak; uu-pip; uu-nim; uu-node; uu-doom"
+alias uu-noguix="uu-arch; uu-fish; uu-nix; uu-flatpak; uu-pip; uu-nim; uu-node; uu-emacs"
 alias uu="uu-noguix; uu-guix"
 alias uu-clean="uu; guixclean-full"
 export add_package_cmd="sudo aura -S --needed "
@@ -115,7 +121,8 @@ set NIX_PROFILE "$HOME/.nix-profile"
 if test -f "$HOME/.profile"; bass . "$HOME/.profile"; end
 
 # Atuin
-if type -q atuin; atuin init fish | source; end
+fish_vi_key_bindings
+if type -q atuin; atuin init fish | ATUIN_NOBIND=1 source; end
 
 # fnm
 #if test -f $HOME/.fnm/fnm; fnm env | source; end
@@ -134,8 +141,9 @@ function aura-check-pkgbuild -a 'a'; command aura -Ap $a | aura -P; end
 # Keybinds
 #fish_default_key_bindings
 fish_vi_key_bindings
+bind \cr _atuin_search
 #bind \ck 'command clear; commandline -f repaint-mode; commandline -f repaint'
-bind \ck 'commandline -i clear; commandline -f execute'
+#bind \ck 'commandline -i clear; commandline -f execute'
 #bind \cb 'btop'
 #bind \cn 'nvim'
 #bind \cf 'newsboat'
@@ -144,6 +152,9 @@ bind \ck 'commandline -i clear; commandline -f execute'
 #bind \co 'commandline -i \'nvim \''
 #bind \ca "commandline -i \"$add_package_cmd\""
 #bind \cu 'commandline -i uu-clean; commandline -f execute'
+if bind -M insert > /dev/null 2>&1;
+    bind -M insert \cr _atuin_search;
+end
 
 # Themes
 #base16-onedark
