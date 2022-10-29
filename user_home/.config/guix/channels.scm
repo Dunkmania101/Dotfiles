@@ -1,7 +1,7 @@
 (cons*
-  (channel
-    (name 'dunk-guixchan)
-    (url "file:///home/dunk/ProgramFiles/dunk-guixchan"))
+  ;(channel
+  ;  (name 'dunk-guixchan)
+  ;  (url "file:///home/dunk/ProgramFiles/dunk-guixchan"))
   ;(channel
   ;  (name 'flat)
   ;  (url "https://github.com/flatwhatson/guix-channel.git")

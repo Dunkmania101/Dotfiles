@@ -20,4 +20,9 @@ The wallpaper is called "Streets of Gruvbox". I found it on Reddit.
 
 ![DesktopWithEmacs1](Media/DesktopWithEmacs1.png)
 
+
+![Desktop2_CrazyTermsAndRowan](Media/Desktop2_CrazyTermsAndRowan.png)
+
+The wallpaper behind the wall of terminal emulators is something I like to call *`Shrek Astley`*, converted to the Gruvbox color scheme using [ImageGoNord](https://ign.schrodinger-hat.it/)
+
 #

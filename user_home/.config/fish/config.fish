@@ -7,7 +7,7 @@ export mcmoddev="$programming/Java/MC/MinecraftModDev/"
 export games="$superdrive/Games/"
 export gdlauncher_path="$games/GDlauncher/"
 export creepyr_path="$games/creepyr"
-export mclauncher_path="$creepyr"
+export mclauncher_path="$creepyr_path"
 export mcinstances="$mclauncher_path/instances/"
 # export TERM=xterm-kitty
 #export VISUAL="emacs -nw"
@@ -44,9 +44,10 @@ alias install-searx='docker stop searx-1; docker rm -v searx-1; PORT=8888 docker
 alias install-mycroft='docker stop mycroft-1; docker rm -v mycroft-1; docker run --name=mycroft-1 --restart=unless-stopped -d -v ~/ProgramFiles/mycroft:/root/.mycroft --device /dev/snd -e PULSE_SERVER=unix:{$XDG_RUNTIME_DIR}/pulse/native -v {$XDG_RUNTIME_DIR}/pulse/native:{$XDG_RUNTIME_DIR}/pulse/native -v ~/.config/pulse/cookie:/root/.config/pulse/cookie -p 42069:8181 mycroftai/docker-mycroft'
 alias install-pax-mc="mkdir -p ~/.local/bin; curl -L https://github.com/froehlichA/pax/releases/latest/download/pax > ~/.local/bin/pax; chmod +x ~/.local/bin/pax"
 alias install-sdkman='curl -s "https://get.sdkman.io?rcupdate=false" | bash'
+alias install-lunarvim="wget https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh -O /tmp/lviminstall.sh && chmod +x /tmp/lviminstall.sh && bass /tmp/lviminstall.sh"
 alias install-librewolf-native-host="test -e ~/.librewolf/native-messaging-hosts || ln -s ~/.mozilla/native-messaging-hosts ~/.librewolf/native-messaging-hosts; test -e /usr/lib/librewolf/native-messaging-hosts || sudo ln -s /usr/lib/mozilla/native-messaging-hosts /usr/lib/librewolf/native-messaging-hosts"
 alias install-lieer="python3 -m pip install --upgrade https://github.com/gauteh/lieer/archive/refs/heads/master.zip"
-alias install-blender-cad-sketcher="mkdir -p ~/blender_scripts/addons; git clone --depth=1 https://github.com/hlorus/CAD_Sketcher.git ~/blender_scripts/addons/CAD_Sketcher"
+alias install-blender-cad-sketcher="mkdir -p ~/ProgramFiles/blender_scripts/addons; git clone --depth=1 https://github.com/hlorus/CAD_Sketcher.git ~/ProgramFiles/blender_scripts/addons/CAD_Sketcher"
 alias install-fisher="curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher"
 alias install-brl="wget -O /tmp/brl-installer.sh https://raw.githubusercontent.com/bedrocklinux/bedrocklinux-userland/master/src/installer/installer.sh; sudo sh /tmp/brl-installer.sh --hijack"
 alias install-guix="wget -O /tmp/guix-install.sh https://git.savannah.gnu.org/cgit/guix.git/plain/etc/guix-install.sh; chmod +x /tmp/guix-install.sh; sudo bash \"/tmp/guix-install.sh\""
@@ -160,6 +161,13 @@ end
 #base16-onedark
 base16-gruvbox-dark-medium
 
+# Other Inits
+# pnpm
+set -gx PNPM_HOME "/home/dunk/.local/share/pnpm"
+set -gx PATH "$PNPM_HOME" $PATH
+# pnpm end
+
+# SDKman
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 #export SDKMAN_DIR="$HOME/.sdkman"
 #test -f "$HOME/.sdkman/bin/sdkman-init.sh" && bass source "$HOME/.sdkman/bin/sdkman-init.sh"

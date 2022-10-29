@@ -59,12 +59,14 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 
-(setq minimap-recreate-window t
-      minimap-automatically-delete-window nil)
-(minimap-mode)
+(after!
+  (setq minimap-recreate-window t
+        minimap-automatically-delete-window nil)
+  (minimap-mode))
 
 (after! centaur-tabs
-  (setq centaur-tabs-set-bar nil))
+  (setq centaur-tabs-set-bar nil
+        centaur-tabs-height 30))
 
 (setq evil-split-window-below t
       evil-vsplit-window-right t)

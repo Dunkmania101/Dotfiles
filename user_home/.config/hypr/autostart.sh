@@ -1,0 +1,3 @@
+swaybg -i ~/Wallpapers/* &
+waybar &
+

@@ -207,6 +207,7 @@ my_terminal_alt1 = "cool-retro-term"
 my_terminal_alt2 = "extraterm"
 my_terminal_alt3 = "urxvt"
 my_terminal_alt4 = f"uxterm -si -fa \"{my_font}\""
+my_terminal_light = f"uxterm -si -fs 10 -fa \"{my_term_font}\" -bg \'#212121\' -bd \'#212111\'"
 
 #my_editor = cfg_dir + "/scripts/run/run-emacs.sh"
 #my_editor = "emacs"
@@ -237,11 +238,15 @@ my_private_browser_alt = "firefox-developer-edition --private-window"
 
 my_browser_profile_menu = rofi_dir + "/nyxt_profile_menu/nyxt_profile_menu.sh"
 
-my_file_manager = "nautilus"
+my_file_manager = "nemo"
+#my_file_manager = "nautilus"
 #my_file_manager = "pcmanfm"
-my_file_manager_alt = "filezilla"
-my_file_manager_alt1 = "pcmanfm"
+my_file_manager_alt = "pcmanfm"
+my_file_manager_alt1 = "filezilla"
 #my_file_manager_alt1 = "thunar"
+
+my_passwd_manager = "keepassxc"
+my_passwd_manager_alt = "passmenu"
 
 #my_mp = "deadbeef"
 #my_mp = "kawaii-player"
@@ -267,7 +272,7 @@ my_package_manager_alt = "pamac-manager"
 my_calculator = "qalculate-gtk"
 my_calculator_alt = "qalculate-gtk"
 
-my_control_panel = my_terminal + " -e btop"
+my_control_panel = my_terminal_light + " -e btop"
 my_control_panel_alt = "system-monitoring-center"
 my_control_panel_alt1 = "stacer"
 
@@ -576,6 +581,7 @@ keys = [
 
 
     # WM Cmds
+    Key([sup, ctrl, shift, alt], "q", lazy.shutdown()),
     Key([sup, shift], "r", lazy.restart()),
     KeyChord([sup, ctrl, shift], "r", [
         Key([], "r", lazy.restart()),
@@ -706,6 +712,12 @@ keys = [
 
         # Media
         Key([], 'x', lazy.group['media'].dropdown_toggle('mp')),
+
+        # CMD
+        Key([], "p", lazy.group['cmd'].dropdown_toggle('pass')),
+        KeyChord([shift], "p", [
+            Key([], "1", lazy.group['cmd'].dropdown_toggle('pass1')),
+        ]),
     ]),
 
     # System
@@ -865,7 +877,7 @@ def get_alternating_colors_cyan() -> list[str]:
 def get_sys_stat_widgets() -> list:
     return [
         widget.Spacer(length=5),
-        widget.TextBox("cpu:", background=get_alternating_colors_red()),
+        widget.TextBox("CPU:", background=get_alternating_colors_red()),
         widget.CPUGraph(
             width=30,
             border_width=1,
@@ -875,11 +887,19 @@ def get_sys_stat_widgets() -> list:
             samples=50,
             background=get_alternating_colors_red(),
         ),
+        widget.CPU(
+            format='{freq_current}GHz {load_percent}%',
+            frequency=5,
+            background=get_alternating_colors_red(),
+        ),
         widget.Spacer(length=5),
-        widget.TextBox("gpu:", background=get_alternating_colors_green()),
-        widget.NvidiaSensors(background=get_alternating_colors_green()),
+        widget.TextBox("GPU:", background=get_alternating_colors_green()),
+        widget.NvidiaSensors(
+            format='{temp}°C {fan_speed} {perf}',
+            background=get_alternating_colors_green()
+        ),
         widget.Spacer(length=5),
-        widget.TextBox("mem:", background=get_alternating_colors_cyan()),
+        widget.TextBox("MEM:", background=get_alternating_colors_cyan()),
         widget.MemoryGraph(
             width=30,
             border_width=1,
@@ -1047,24 +1067,30 @@ def get_widgets_2(i) -> list:
 
 
 groups: list = [
-        ScratchPad(
-            "sys", [
-                DropDown("term", my_terminal, opacity=0.8),
-                DropDown("term1", my_terminal, opacity=0.8),
-                DropDown("term2", my_terminal, opacity=0.8),
-                DropDown("term3", my_terminal, opacity=0.8),
-                DropDown("panel", my_control_panel, opacity=0.8, height=0.5),
-                DropDown("files", my_file_manager, opacity=0.8, height=0.5),
-                DropDown("files1", my_file_manager, opacity=0.8, height=0.5),
-                DropDown("files2", my_file_manager, opacity=0.8, height=0.5),
-                DropDown("files3", my_file_manager, opacity=0.8, height=0.5),
-            ]
-        ),
-        ScratchPad(
-            "media", [
-                DropDown("mp", my_mp, opacity=1.0),
-            ]
-        ),
+    ScratchPad(
+        "sys", [
+            DropDown("term", my_terminal, opacity=0.8),
+            DropDown("term1", my_terminal, opacity=0.8),
+            DropDown("term2", my_terminal, opacity=0.8),
+            DropDown("term3", my_terminal, opacity=0.8),
+            DropDown("panel", my_control_panel, opacity=0.8, height=0.5),
+            DropDown("files", my_file_manager, opacity=0.8, height=0.5),
+            DropDown("files1", my_file_manager, opacity=0.8, height=0.5),
+            DropDown("files2", my_file_manager, opacity=0.8, height=0.5),
+            DropDown("files3", my_file_manager, opacity=0.8, height=0.5),
+        ]
+    ),
+    ScratchPad(
+        "media", [
+            DropDown("mp", my_mp, opacity=1.0),
+        ]
+    ),
+    ScratchPad(
+        "cmd", [
+            DropDown("pass", my_passwd_manager, opacity=1.0),
+            DropDown("pass1", my_passwd_manager_alt, opacity=1.0),
+        ]
+    ),
 ]
 
 screens: list = []
@@ -1132,10 +1158,10 @@ wmname = "LG3D"
 
 layouts: list = [
     layout.Columns(
-        border_normal=bg_line_color,
-        border_focus=[fg_line_color_alt, fg_line_color],
-        border_normal_stack=bg_line_color,
-        border_focus_stack=[fg_line_color_alt, fg_line_color],
+        border_normal=[bg_line_color, bg_color],
+        border_focus=[fg_line_color_alt, bg_color],
+        border_normal_stack=[bg_line_color_alt, bg_color],
+        border_focus_stack=[fg_line_color_alt, bg_color],
         border_on_single=True,
         border_width=my_thick_border_width,
         margin=my_thick_margin,
@@ -1154,8 +1180,8 @@ floating_layout = layout.Floating(
         Match(title='branchdialog'),  # gitk
         Match(title='pinentry'),  # GPG key password entry
     ],
-    border_normal=bg_line_color_alt,
-    border_focus=fg_line_color_alt,
+    border_normal=[bg_line_color_alt, bg_color],
+    border_focus=[fg_line_color_alt, bg_color],
     border_width=my_thick_border_width,
 )
 
