@@ -1,0 +1,153 @@
+(in-package :stumpwm)
+
+;(set-module-dir
+; (pathname-as-directory (concat (getenv "HOME")
+;                                "/quicklisp/")))
+;(load "~/quicklisp/setup.lisp")
+(push "~/quicklisp" asdf:*central-registry*)
+(push "/usr/share/stumpwm/contrib/" asdf:*central-registry*)
+
+;; Vars
+; Sizes
+(defvar dm/my-border-width 4)
+; Colors
+(defvar dm/my-bg-color "#222222")
+(defvar dm/my-fg-color "#5b4b42")
+(defvar dm/my-bg-line-color "#3c3836")
+(defvar dm/my-fg-line-color "#ff8000")
+(defvar dm/my-fg-txt-color "#ebdbb2")
+
+
+;; Commands
+(defun dm/mode-line-on (screen head)
+  "Turn the mode-line on for screen and head"
+  (enable-mode-line screen head t))
+(defun dm/mode-line-off (screen head)
+  "Turn the mode-line off for screen and head"
+  (enable-mode-line screen head nil))
+
+(defun dm/mode-line! (on)
+  "Turn the mode-line on/off"
+  (enable-mode-line (current-screen) (current-head) on))
+(defcommand dm/mode-line-on! () ()
+  "Turn the mode-line on"
+  (dm/mode-line! t))
+(defcommand dm/mode-line-off! () ()
+  "Turn the mode-line off"
+  (dm/mode-line! nil))
+
+(defun dm/mode-line-all (on)
+  "Turn the mode-line on/off (all screens)"
+  (mapc (lambda (s) (mapc (lambda (h) (enable-mode-line s h on)) (screen-heads s))) *screen-list*))
+(defcommand dm/mode-line-on-all () ()
+  "Turn the mode-line on (all screens)"
+  (dm/mode-line-all t))
+(defcommand dm/mode-line-off-all () ()
+  "Turn the mode-line off (all screens)"
+  (dm/mode-line-all nil))
+
+;; Keybinds
+
+(defvar dm/superkey "F20" "Reference to the Super Key")
+
+(set-prefix-key (kbd dm/superkey))
+
+(defun dm/map-key (map key command)
+    "Simple boilerplate-removal helper for define-key"
+    (define-key map (kbd key) command))
+
+(defun dm/map-key! (key command)
+    "Simple boilerplate-removal helper for define-key (implicit root-map)"
+    (dm/map-key *root-map* key command))
+
+(dm/map-key! "h" "move-focus left")
+(dm/map-key! "j" "move-focus down")
+(dm/map-key! "k" "move-focus up")
+(dm/map-key! "l" "move-focus right")
+(dm/map-key! "M-h" "move-window left")
+(dm/map-key! "M-j" "move-window down")
+(dm/map-key! "M-k" "move-window up")
+(dm/map-key! "M-l" "move-window right")
+
+(defvar dm/wm-map (make-sparse-keymap)
+    "Shortcuts to applications")
+(dm/map-key! dm/superkey 'dm/wm-map)
+
+(dm/map-key dm/wm-map "r" "restart-soft")
+(dm/map-key dm/wm-map "R" "restart-hard")
+
+
+(defvar dm/launch-map (make-sparse-keymap)
+    "Shortcuts to applications")
+(dm/map-key! "SPC" 'dm/launch-map)
+
+(dm/map-key dm/launch-map "SPC" "exec rofi -show drun")
+(dm/map-key dm/launch-map dm/superkey "exec rofi -show run")
+(dm/map-key dm/launch-map "RET" "exec tilix")
+(dm/map-key dm/launch-map "S-RET" "exec uxterm")
+(dm/map-key dm/launch-map "b" "exec nyxt")
+(dm/map-key dm/launch-map "B" "exec librewolf")
+(dm/map-key dm/launch-map "e" "exec nemo")
+(dm/map-key dm/launch-map "E" "exec pcmanfm")
+
+
+;; Theming
+;(set-font "-xos4-iosevka-medium-r-normal-*-30-*-*-*-*-*-*-*")
+
+(setf *window-border-style* :thick)
+
+(setf *normal-border-width* dm/my-border-width)
+(setf *mode-line-border-width* dm/my-border-width)
+
+(setf *mode-line-background-color* dm/my-bg-color)
+(setf *mode-line-foreground-color* dm/my-fg-txt-color)
+(set-focus-color dm/my-fg-line-color)
+(set-unfocus-color dm/my-bg-line-color)
+
+
+;; Modeline
+
+;(ql:quickload "stumptray")
+;(load-module "stumptray")
+;(stumptray::stumptray)
+
+(defvar dm/hdivider-txt " | ")
+(defvar dm/vdivider-txt (concat "
+" dm/hdivider-txt))
+
+(setf stumpwm:*screen-mode-line-format*
+ (append (list dm/hdivider-txt 
+               "[ Head: %h ]"
+               dm/hdivider-txt
+               "{ Group: %n }"
+               dm/hdivider-txt
+               "{ Time: "
+               '(:eval (stumpwm:run-shell-command "date | head -c-1" t))
+               " }"
+               dm/hdivider-txt)
+         (list dm/vdivider-txt
+               "%w")))
+(setf *mode-line-timeout* 1)
+
+
+;; Hooks
+(defun dm/hook/new-head (screen head)
+    (dm/mode-line-on screen head))
+(add-hook *new-head-hook* 'dm/hook/new-head)
+
+(defun dm/hook/start ()
+    (progn 
+     ;; Xmodmap Shenanigans
+     (run-shell-command "xmodmap -e 'clear mod4'" nil)
+     (run-shell-command "xmodmap -e \'keycode 133 = F20\'" nil) 
+
+     ;; Xorg Setup
+     (run-shell-command "xset r rate 280 40" nil) 
+     (run-shell-command "pgrep picom || picom --config ~/picom.conf" nil) 
+     (run-shell-command "xsetroot -cursor_name left_ptr" nil) 
+
+     (run-shell-command "feh --bg-scale ~/Wallpapers/" nil) 
+
+     (dm/mode-line-all t)))
+(add-hook *start-hook* 'dm/hook/start)
+

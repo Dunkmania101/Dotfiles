@@ -148,7 +148,7 @@ my_base_groups = "~ 1 2 3 4 5 6 7 8 9 0 - =".split(" ")
 my_systray_screen = 0
 
 # Gap and border sizes
-my_thick_border_width = 3
+my_thick_border_width = 4
 my_thin_border_width = 2
 my_thick_margin = 4
 my_thin_margin = 2
@@ -270,7 +270,7 @@ my_package_manager = "pamac-manager"
 my_package_manager_alt = "pamac-manager"
 
 my_calculator = "qalculate-gtk"
-my_calculator_alt = "qalculate-gtk"
+my_calculator_alt = "galculator"
 
 my_control_panel = my_terminal_light + " -e btop"
 my_control_panel_alt = "system-monitoring-center"
@@ -630,10 +630,10 @@ keys = [
         Key([shift], period, lazy.spawn(my_audio_mixer_alt)),
         Key([], "1", lazy.spawn(my_audio_mixer_alt1)),
     ]),
-    #Key([sup], apostrophe, lazy.function(exec_func_no_qtile, run_keysboard, [True])),
-    Key([sup], apostrophe, lazy.function(exec_func_no_qtile, run_kmonad, [True])),
-    #Key([sup, shift], apostrophe, lazy.function(exec_func_no_qtile, run_keysboard, [False])),
-    Key([sup, shift], apostrophe, lazy.function(exec_func_no_qtile, run_kmonad, [False])),
+    Key([sup], apostrophe, lazy.function(exec_func_no_qtile, run_keysboard, [True])),
+    #Key([sup], apostrophe, lazy.function(exec_func_no_qtile, run_kmonad, [True])),
+    Key([sup, shift], apostrophe, lazy.function(exec_func_no_qtile, run_keysboard, [False])),
+    #Key([sup, shift], apostrophe, lazy.function(exec_func_no_qtile, run_kmonad, [False])),
     Key([sup], ret, lazy.spawn(my_terminal)),
     Key([sup, shift], ret, lazy.spawn(my_terminal_alt)),
     KeyChord([sup, ctrl, shift], ret, [
@@ -739,6 +739,9 @@ keys = [
     Key([], 'XF86AudioPrev', lazy.spawn('playerctl position 1-')),
     Key([shift], 'XF86AudioNext', lazy.spawn('playerctl position 1+')),
     Key([shift], 'XF86AudioPrev', lazy.spawn('playerctl position 1-')),
+    Key([], 'XF86AudioStop', lazy.spawn('playerctl stop')),
+    Key([shift], 'XF86AudioStop', lazy.spawn('playerctl stop')),
+    Key([ctrl], 'XF86AudioStop', lazy.spawn('playerctl -a stop')),
     Key([], 'XF86MonBrightnessUp', lazy.spawn('brightnessctl set 1%+')),
     Key([], 'XF86MonBrightnessDown', lazy.spawn('brightnessctl set 1%-')),
 ]
@@ -794,14 +797,15 @@ widget_defaults = dict(
 
 class FileReaderWidget(widget_base.ThreadPoolText):
     def __init__(self, msg_base="", empty_msg="No Data", read_file="", **config):
+        widget_base.ThreadPoolText.__init__(self, "", **config)
         self.msg_base = msg_base
         self.empty_msg = empty_msg
         self.read_file = read_file
-        widget_base.ThreadPoolText.__init__(self, "", **config)
 
     def poll(self):
         msg = ""
         try:
+            print(self.read_file)
             if os.path.isfile(self.read_file):
                 with open(self.read_file, 'r') as f:
                     lines = f.readlines()
@@ -858,20 +862,26 @@ class ColorGmailChecker(widget.GmailChecker):
             return "UNKNOWN ERROR"
 
 
+#class BarWidget(bar.Bar, widget.base._Widget):
+#    def __init__(self, widgets, size, **config):
+#        bar.Bar.__init__(self, widgets, size, **config)
+#        widget.base._Widget.__init__(self, size, **config)
+
+
 def get_alternating_colors_dark() -> list[str]:
-    return [dark_bg_color, bg_line_color, dark_bg_color]
+    return [dark_bg_color, bg_line_color, dark_bg_color, dark_bg_color, dark_bg_color, bg_line_color, dark_bg_color]
 
 def get_alternating_colors_red() -> list[str]:
-    return [dark_bg_color, red_color, dark_bg_color]
+    return [dark_bg_color, red_color, dark_bg_color, dark_bg_color, dark_bg_color, red_color, dark_bg_color]
 
 def get_alternating_colors_green() -> list[str]:
-    return [dark_bg_color, green_color, dark_bg_color]
+    return [dark_bg_color, green_color, dark_bg_color, dark_bg_color, dark_bg_color, green_color, dark_bg_color]
 
 def get_alternating_colors_blue() -> list[str]:
-    return [dark_bg_color, blue_color, dark_bg_color]
+    return [dark_bg_color, blue_color, dark_bg_color, dark_bg_color, dark_bg_color, blue_color, dark_bg_color]
 
 def get_alternating_colors_cyan() -> list[str]:
-    return [dark_bg_color, cyan_color, dark_bg_color]
+    return [dark_bg_color, cyan_color, dark_bg_color, dark_bg_color, dark_bg_color, cyan_color, dark_bg_color]
 
 
 def get_sys_stat_widgets() -> list:
@@ -963,7 +973,11 @@ def get_widgets_1(i) -> list:
 #                ),
                 widget.Spacer(length=20),
                 widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
-                widget.Systray(icon_size=24),
+                OpenWidgetBox(
+                    widgets=[
+                        widget.Systray(icon_size=24),
+                    ],
+                ) if i == my_systray_screen else None,
                 widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
                 widget.Spacer(bar.STRETCH),
                 widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
@@ -1030,10 +1044,9 @@ def get_widgets_1(i) -> list:
                 ),
                 widget.Spacer(length=15),
             ]
-    if i != my_systray_screen:
-        for w in widgets:
-            if isinstance(w, widget.Systray):
-                widgets.remove(w)
+    for w in widgets:
+        if w is None or (isinstance(w, widget.Systray) and i != my_systray_screen):
+            widgets.remove(w)
     return widgets
 
 
@@ -1047,18 +1060,18 @@ def get_widgets_2(i) -> list:
                 ),
                 widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
                 FileReaderWidget(
-                    #file = "/tmp/tmux-bar-keysboard-pipe",
-                    #msg_base = "Keysboard: ",
-                    file = "/tmp/tmux-bar-kmonad-pipe",
-                    msg_base = "Kmonad: ",
+                    file = "/tmp/tmux-bar-keysboard-pipe",
+                    msg_base = "Keysboard: ",
+                    #file = "/tmp/tmux-bar-kmonad-pipe",
+                    #msg_base = "Kmonad: ",
                     margin_y=4,
                     padding_y=4,
                     update_interval=0.3,
                     mouse_callbacks={
-                        #'Button1': lambda: run_keysboard(True),
-                        #'Button3': lambda: run_keysboard(False),
-                        'Button1': lambda: run_kmonad(True),
-                        'Button3': lambda: run_kmonad(False),
+                        'Button1': lambda: run_keysboard(True),
+                        'Button3': lambda: run_keysboard(False),
+                        #'Button1': lambda: run_kmonad(True),
+                        #'Button3': lambda: run_kmonad(False),
                     },
                 ),
                 widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
@@ -1094,6 +1107,7 @@ groups: list = [
 ]
 
 screens: list = []
+bars: list = []
 img_fmts: tuple = (".png", ".jpeg", ".jpg", ".webp")
 if os.path.isfile(my_wallpapers) and my_wallpapers.endswith(img_fmts):
     wallpapers = [my_wallpapers]
@@ -1113,10 +1127,13 @@ for monitor in monitors:
             wallpaper = wallpaper=choice(wallpapers)
         else:
             wallpaper = None
+        top_bar=bar.Bar(get_widgets_1(i), 30, background=bg_color, border_color=bg_line_color, border_width=my_thin_border_width)
+        bottom_bar=bar.Bar(get_widgets_2(i), 30, background=bg_color, border_color=bg_line_color, border_width=my_thin_border_width)
+        bars.extend([top_bar, bottom_bar])
         screens.append(
             Screen(
-                top=bar.Bar(get_widgets_1(i), 30, background=bg_color, border_color=bg_line_color, border_width=my_thin_border_width),
-                bottom=bar.Bar(get_widgets_2(i), 30, background=bg_color, border_color=bg_line_color, border_width=my_thin_border_width),
+                top=top_bar,
+                bottom=bottom_bar,
                 wallpaper=wallpaper,
                 wallpaper_mode="stretch",
             )
@@ -1158,10 +1175,10 @@ wmname = "LG3D"
 
 layouts: list = [
     layout.Columns(
-        border_normal=[bg_line_color, bg_color],
-        border_focus=[fg_line_color_alt, bg_color],
-        border_normal_stack=[bg_line_color_alt, bg_color],
-        border_focus_stack=[fg_line_color_alt, bg_color],
+        border_normal=bg_line_color,
+        border_focus=fg_line_color_alt,
+        border_normal_stack=bg_line_color,
+        border_focus_stack=fg_line_color_alt,
         border_on_single=True,
         border_width=my_thick_border_width,
         margin=my_thick_margin,
@@ -1180,8 +1197,8 @@ floating_layout = layout.Floating(
         Match(title='branchdialog'),  # gitk
         Match(title='pinentry'),  # GPG key password entry
     ],
-    border_normal=[bg_line_color_alt, bg_color],
-    border_focus=[fg_line_color_alt, bg_color],
+    border_normal=bg_line_color_alt,
+    border_focus=fg_line_color_alt,
     border_width=my_thick_border_width,
 )
 
@@ -1204,4 +1221,6 @@ def screen_change_hook(qtile) -> None:
 @hook.subscribe.startup_complete
 def autostart_hook() -> None:
     run_cmd(cfg_dir + "/autostart.sh")
+    for b in bars:
+        b.window.window.set_property('WM_NAME', 'qtile_bar', type='STRING', format=8)
 

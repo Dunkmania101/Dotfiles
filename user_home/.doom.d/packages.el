@@ -175,6 +175,7 @@
 
 (unpin! lsp-java)
 (unpin! centaur-tabs)
+(unpin! straight)
 ;(unpin! treemacs)
 ;; (unpin! company)
 ;(unpin! t)

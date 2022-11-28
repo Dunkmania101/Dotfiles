@@ -5,5 +5,25 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
-qtile start
-#Hyprland
+export LIBVA_DRIVER_NAME=nvidia
+export GBM_BACKEND=nvidia-drm
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
+export __NV_PRIME_RENDER_OFFLOAD=1
+
+xrandr --setprovideroffloadsink 1 0
+
+#startwm="hyprland"
+#startwm="stumpwm"
+startwm="qtile"
+
+if [[ "$startwm" == "hyprland" ]]; then
+    export XDG_SESSION_TYPE=wayland;
+    export WLR_NO_HARDWARE_CURSORS=1;
+    exec Hyprland;
+elif [[ "$startwm" == "stumpwm" ]]; then
+    export SBCL_HOME=/usr/lib/sbcl/;
+    exec stumpwm;
+else
+    qtile start;
+fi
+
