@@ -1218,7 +1218,7 @@ def screen_change_hook(qtile) -> None:
     run_cmd(cfg_dir + "scripts/run/run-monitors.sh")
 
 
-@hook.subscribe.startup_complete
+@hook.subscribe.startup
 def autostart_hook() -> None:
     run_cmd(cfg_dir + "/autostart.sh")
     for b in bars:

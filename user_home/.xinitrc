@@ -5,10 +5,10 @@ if [ -d /etc/X11/xinit/xinitrc.d ] ; then
  unset f
 fi
 
-export LIBVA_DRIVER_NAME=nvidia
-export GBM_BACKEND=nvidia-drm
-export __GLX_VENDOR_LIBRARY_NAME=nvidia
-export __NV_PRIME_RENDER_OFFLOAD=1
+#export LIBVA_DRIVER_NAME=nvidia
+#export GBM_BACKEND=nvidia-drm
+#export __GLX_VENDOR_LIBRARY_NAME=nvidia
+#export __NV_PRIME_RENDER_OFFLOAD=1
 
 xrandr --setprovideroffloadsink 1 0
 
