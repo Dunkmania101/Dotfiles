@@ -36,8 +36,8 @@
 
 (load "./dunk-system-common-nvidia.scm")
 
-(define-public dunk-system-biggus
+(define-public dunk-system-biggusporteus
   (operating-system
    (inherit dunk-system-common-nvidia)
-   (host-name "bigguscomputicus")))
+   (host-name "biggusporteuscomputicus")))
 

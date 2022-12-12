@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
 
-emacs -f exwm-init
+#emacs --daemon -f exwm-init
+#exec emacsclient -c
+exec emacs -f exwm-init
 

@@ -9,7 +9,8 @@
  (guix build-system copy)
  (guix build-system python)
  (nongnu packages linux)
- (nongnu system linux-initrd))
+ (nongnu system linux-initrd)
+ (rosenthal packages linux))
 (use-package-modules
  gtk
  xorg
@@ -32,8 +33,6 @@
  pm
  virtualization
  nix)
-
-(load "../gtransform.scm")
 
 (define %xorg-libinput-config
   "Section \"InputClass\"
@@ -66,9 +65,10 @@ EndSection
 
 (define-public dunk-system-common
   (operating-system
-   (kernel (fixpkg linux))
-   (firmware (fixpkgs (list linux-firmware)))
+   (kernel linux-rosenthal)
+   (firmware (list linux-firmware))
    (initrd microcode-initrd)
+   (host-name "dummy")
    (timezone "America/Indiana/Indianapolis")
    (keyboard-layout (keyboard-layout "us"))
    (groups
@@ -90,7 +90,6 @@ EndSection
        '("lp" "kvm" "tty" "realtime" "input" "wheel" "netdev" "audio" "video")))
      %base-user-accounts))
    (packages
-    (fixpkgs
      (append
       (list
                                         ;  (package
@@ -119,13 +118,13 @@ EndSection
                                         ;    (license license:bsd-2))
        (package
         (inherit qtile)
-        (version "0.21.0")
+        (version "0.22.1")
         (source
          (origin
           (method url-fetch)
           (uri (pypi-uri "qtile" version))
           (sha256
-           (base32 "0m2jvzr5jr499krkrrxh6dhg3mz7dp8da1rn6dq5b6v6dhhziqck"))))
+           (base32 "12wg8y33xgb0x0gd9xfylxss97p97dy1cy52yln64493fi6wphr7"))))
         (arguments
          (substitute-keyword-arguments (package-arguments qtile)
                                        ((#:phases phases)
@@ -145,11 +144,11 @@ EndSection
                      Exec=~a/bin/qtile start~@
                      Type=XSession~%" out)))
                                                                        #t))))))))
+       (specification->package "fish")
+       (specification->package "bash")
        (specification->package "zsh")
        (specification->package "flatpak")
        (specification->package "chrony")
-       (specification->package "fish")
-       (specification->package "bash")
        (specification->package "ncurses")
        (specification->package "network-manager")
        (specification->package "dmenu")
@@ -159,6 +158,7 @@ EndSection
        (specification->package "tlp")
        (specification->package "stow")
        (specification->package "python")
+       (specification->package "neovim")
        (specification->package "vim")
        (specification->package "stow")
        (specification->package "pipewire")
@@ -175,7 +175,7 @@ EndSection
        (specification->package "v4l2loopback-linux-module")
        (specification->package "emacs-next-pgtk")
        (specification->package "nss-certs"))
-      %base-packages)))
+      %base-packages))
    (services (append
               (list
                ;; (simple-service 'ratbagd dbus-root-service-type (list libratbag))
@@ -226,7 +226,7 @@ EndSection
                (set-xorg-configuration
                 (xorg-configuration
                  (keyboard-layout keyboard-layout)
-                 (server (fixpkg xorg-server))
+                 (server xorg-server)
                  (modules
                   (cons*
                    %default-xorg-modules))

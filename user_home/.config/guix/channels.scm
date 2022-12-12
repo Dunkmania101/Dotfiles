@@ -11,6 +11,15 @@
   ;      (openpgp-fingerprint
   ;        "736A C00E 1254 378B A982  7AF6 9DBE 8265 81B6 4490"))))
   (channel
+   (name 'rosenthal)
+   (url "https://github.com/rakino/rosenthal")
+   (branch "trunk")
+   (introduction
+    (make-channel-introduction
+     "7677db76330121a901604dfbad19077893865f35"
+     (openpgp-fingerprint
+      "13E7 6CD6 E649 C28C 3385  4DF5 5E5A A665 6149 17F7"))))
+  (channel
     (name 'rde)
     (url "https://git.sr.ht/~abcdw/rde")
     (introduction

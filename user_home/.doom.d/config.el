@@ -39,8 +39,13 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory (concat superdrive-directory "/.private/Notes/org")
       org-roam-directory org-directory)
-
 (setq projectile-project-search-path (list (concat superdrive-directory "/Programming/")))
+
+(setq org-startup-indented t
+       org-pretty-entities t
+       org-hide-emphasis-markers t
+       org-startup-with-inline-images t
+       org-image-actual-width '(300))
 
 ;(after! org
 ;  (setq org-priority-faces '((65 :foreground "#cd0000")
@@ -132,6 +137,7 @@
 (after! exwm
   (require 'exwm-config)
   (require 'exwm-randr)
+  (require 'exwm-systemtray)
   (setq display-time-default-load-average nil)
   (display-time-mode t)
   ;(ido-mode 1)
@@ -171,11 +177,13 @@
   		     (app-launcher-run-app)))
           ([?\s-e] . (lambda ()
   		     (interactive)
-  		     (start-process "" nil "/usr/bin/pcmanfm")))
+  		     ;(start-process "" nil "/usr/bin/pcmanfm")))
+  		     (start-process "" nil "/usr/bin/nautilus")))
           ;; Apps
           ([?\s-b] . (lambda ()
   		     (interactive)
-  		     (start-process "" nil "/usr/bin/firefox-developer-edition")))
+  		     ;#(start-process "" nil "/usr/bin/firefox-developer-edition")))
+  		     (start-process "" nil "/usr/bin/librewolf")))
           ;; Desktop
           ([s-f2] . (lambda ()
   		    (interactive)

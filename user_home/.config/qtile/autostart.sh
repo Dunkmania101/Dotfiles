@@ -6,6 +6,7 @@ if [ -f ~/.profile ]; then . ~/.profile; fi
 # ~/.config/qtile/scripts/run/run-wallpapers.sh &
 ~/.config/qtile/scripts/run/run-picom.sh &
 ~/.config/qtile/scripts/run/run-redshift.sh &
+~/.config/qtile/scripts/run/run-notifications.sh &
 # ~/.config/qtile/scripts/run/run-keysboard.sh &
 #~/.config/qtile/scripts/run/run-kmonad.sh &
 ~/.config/qtile/scripts/run/run-touchegg.sh &

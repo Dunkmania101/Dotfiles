@@ -295,6 +295,9 @@ my_emoji = rofi_dir + "/emoji/emoji.sh"
 
 my_window_killer = f"{my_terminal} -e xkill"
 
+my_notification_show = "wired --show 1"
+my_notification_drop = "wired --drop latest"
+
 
 # ---------- #
 # -- Keys -- #
@@ -316,6 +319,7 @@ grave = "grave"
 semicolon = "semicolon"
 apostrophe = "apostrophe"
 period = "period"
+comma = "comma"
 minus = "minus"
 equal = "equal"
 # quote = "quoteright"
@@ -324,9 +328,6 @@ equal = "equal"
 monitors = get_cmd_output(my_get_monitors_cmd).split("\n")
 #gdkdsp = Gdk.Screen.get_default()
 #monitors = [gdkdsp.get_monitor_plug_name(i) for i in range(gdkdsp.get_n_monitors())]
-
-
-#def register_
 
 
 def take_screenshot(cmd="scrot", cwd=my_screenshots_dir):
@@ -692,6 +693,8 @@ keys = [
         Key([shift], semicolon, lazy.spawn(my_control_panel_alt)),
         Key([], "1", lazy.spawn(my_control_panel_alt1)),
     ]),
+    Key([sup], comma, lazy.spawn(my_notification_drop)),
+    Key([sup, shift], comma, lazy.spawn(my_notification_show)),
 
     # DropDown
     KeyChord([sup], "d", [
@@ -1175,10 +1178,10 @@ wmname = "LG3D"
 
 layouts: list = [
     layout.Columns(
-        border_normal=bg_line_color,
-        border_focus=fg_line_color_alt,
-        border_normal_stack=bg_line_color,
-        border_focus_stack=fg_line_color_alt,
+        border_normal=[bg_line_color, dark_bg_color],
+        border_focus=[bg_line_color, fg_line_color_alt],
+        border_normal_stack=[bg_line_color, dark_bg_color],
+        border_focus_stack=[bg_line_color, fg_line_color_alt],
         border_on_single=True,
         border_width=my_thick_border_width,
         margin=my_thick_margin,
@@ -1197,8 +1200,8 @@ floating_layout = layout.Floating(
         Match(title='branchdialog'),  # gitk
         Match(title='pinentry'),  # GPG key password entry
     ],
-    border_normal=bg_line_color_alt,
-    border_focus=fg_line_color_alt,
+    border_normal=[bg_line_color, dark_bg_color],
+    border_focus=[bg_line_color, fg_line_color_alt],
     border_width=my_thick_border_width,
 )
 
