@@ -34,6 +34,13 @@
 --     opt = true
 -- })
 
+require("mason").setup({
+    install_root_dir = vim.fn.DunkvimExternalDir() .. "/mason"
+})
+require("mason-lspconfig").setup({
+    ensure_installed = { "jdtls", "pyright" }
+})
+
 require('bufferline').setup {
   options = {
     numbers = "both",

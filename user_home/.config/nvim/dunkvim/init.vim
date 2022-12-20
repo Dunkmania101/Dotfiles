@@ -5,8 +5,19 @@
 let $amivscode = exists('g:vscode')
 let $amirealvim = !($amivscode)
 
+" Dunkvim Specific Paths
 " Set Dunkvim Path
 let $dunkvimdir = $HOME . '/.config/nvim/dunkvim'
+
+" Set External Path (for plugins, etc.)
+let $externaldir = $dunkvimdir . '/external'
+
+function! DunkvimDir()
+    return $dunkvimdir
+endfunction
+function! DunkvimExternalDir()
+    return $externaldir
+endfunction
 
 " Set Color Scheme To Load
 let $colorsname = 'gruvbox-material' " Valid are 'gruvbox-material' / 'sonokai' / 'onedark' / 'everforest'
@@ -14,9 +25,6 @@ let $colorsname = 'gruvbox-material' " Valid are 'gruvbox-material' / 'sonokai' 
 
 """"""""""
 " Run All The Things! - Where did that "All The Things!" thing come from, anyway?
-
-" Set External Path (for plugins, etc.)
-let $externaldir = $dunkvimdir . '/external'
 
 " Plugins
 source $dunkvimdir/scripts/initplugs.vim

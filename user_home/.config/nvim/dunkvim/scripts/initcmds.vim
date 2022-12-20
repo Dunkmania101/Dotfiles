@@ -32,11 +32,11 @@ command! Reload source $dunkvimdir/init.vim
 " command! InstallLspServers call InstallLspServers()
 " command! SetupLspServers lua setup_servers()
 
-function! ShowDocumentation()
-  if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
-  else
-    call feedkeys('K', 'in')
-  endif
-endfunction
+" function! ShowDocumentation()
+"   if CocAction('hasProvider', 'hover')
+"     call CocActionAsync('doHover')
+"   else
+"     call feedkeys('K', 'in')
+"   endif
+" endfunction
 

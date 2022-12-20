@@ -17,6 +17,8 @@ Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
 " Plug 'hoob3rt/lualine.nvim'
 " Plug 'lukas-reineke/indent-blankline.nvim', {'branch': 'master'}
 Plug 'Yggdroot/indentLine'
+
+" Buffer Management
 Plug 'akinsho/nvim-bufferline.lua'
 Plug 'kazhala/close-buffers.nvim'
 
@@ -50,7 +52,7 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'onsails/lspkind-nvim'
 
 " Syntax
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'dgileadi/vscode-java-decompiler'
 " Plug 'valloric/youcompleteme'
 " Plug 'autozimu/LanguageClient-neovim', {
@@ -82,6 +84,25 @@ Plug 'RRethy/vim-illuminate'
 " Plug 'kabouzeid/nvim-lspinstall'
 " Plug 'p00f/nvim-ts-rainbow'
 Plug 'https://github.com/ap/vim-css-color.git'
+" LSP-Zero
+" LSP Support
+Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+
+" Autocompletion
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'saadparwaiz1/cmp_luasnip'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-nvim-lua'
+
+"  Snippets
+Plug 'L3MON4D3/LuaSnip'
+Plug 'rafamadriz/friendly-snippets'
+
+Plug 'VonHeikemen/lsp-zero.nvim'
 
 " Telescope
 Plug 'nvim-lua/popup.nvim'
@@ -120,6 +141,7 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'mfussenegger/nvim-dap'
 Plug 'npxbr/glow.nvim', {'do': ':GlowInstall','branch':'main'}
 
+" Non-Embeddable Stuff
 if $amirealvim
   " Files
   Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':CHADdeps'}

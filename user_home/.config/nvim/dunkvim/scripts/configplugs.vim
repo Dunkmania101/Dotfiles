@@ -60,32 +60,32 @@ if has('nvim')
     " :luafile $dunkvimdir/scripts/lua/evil_lualine.lua
 endif
 
-if $amirealvim
+"if $amirealvim
 "    autocmd BufNewFile,BufRead * lua setup_servers()
 "    autocmd FileType java lua start_nvim_jdtls()
-     call coc#config(
-          \ 'explorer',
-          \  {
-          \     "icon.enableVimDevicons": v:true,
-          \     "icon.enableNerdfont": v:true
-          \  }
-          \)
-
-"          \    "jdt.ls.vmargs": "-javaagent:/usr/local/share/lombok/lombok.jar",
-    call coc#config(
-          \  'java',
-          \  {
-          \    "referencesCodeLens.enabled": v:true
-          \  }
-          \ )
-
-    call coc#config(
-          \   'codeLens',
-          \   {
-          \      'enable': v:true
-          \   }
-          \ )
-endif
+"      call coc#config(
+"           \ 'explorer',
+"           \  {
+"           \     "icon.enableVimDevicons": v:true,
+"           \     "icon.enableNerdfont": v:true
+"           \  }
+"           \)
+" 
+"           \    "jdt.ls.vmargs": "-javaagent:/usr/local/share/lombok/lombok.jar",
+"     call coc#config(
+"           \  'java',
+"           \  {
+"           \    "referencesCodeLens.enabled": v:true
+"           \  }
+"           \ )
+" 
+"     call coc#config(
+"           \   'codeLens',
+"           \   {
+"           \      'enable': v:true
+"           \   }
+"           \ )
+"endif
 
 let g:dashboard_default_executive = 'telescope'
 

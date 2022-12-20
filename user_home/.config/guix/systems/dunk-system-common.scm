@@ -8,9 +8,9 @@
  (guix download)
  (guix build-system copy)
  (guix build-system python)
+ ;(rosenthal packages linux)
  (nongnu packages linux)
- (nongnu system linux-initrd)
- (rosenthal packages linux))
+ (nongnu system linux-initrd))
 (use-package-modules
  gtk
  xorg
@@ -65,7 +65,12 @@ EndSection
 
 (define-public dunk-system-common
   (operating-system
-   (kernel linux-rosenthal)
+   ;(kernel linux-rosenthal)
+   (kernel linux)
+   (kernel-arguments
+    (append
+     (list "nomodeset")
+     %default-kernel-arguments))
    (firmware (list linux-firmware))
    (initrd microcode-initrd)
    (host-name "dummy")
@@ -226,10 +231,10 @@ EndSection
                (set-xorg-configuration
                 (xorg-configuration
                  (keyboard-layout keyboard-layout)
-                 (server xorg-server)
-                 (modules
-                  (cons*
-                   %default-xorg-modules))
+                 ;(server xorg-server)
+                 ;(modules
+                 ; (cons*
+                 ;  %default-xorg-modules))
                  (extra-config
                   (list %xorg-libinput-config))))
               (simple-service 'searx-start-job mcron-service-type (list
@@ -259,11 +264,10 @@ EndSection
                                                               (inherit config)
                                                               (vpn-plugins
                                                                (list network-manager-openvpn))))
-                                        ;(gdm-service-type config =>
-                                        ; (gdm-configuration
-                                        ;  (inherit config)
-                                        ;  ;(gdm (fixpkg gdm))
-                                        ;  (gnome-shell-assets (list materia-theme))))
+                                        (gdm-service-type config =>
+                                         (gdm-configuration
+                                          (inherit config)
+                                          (gnome-shell-assets (list materia-theme))))
                                (guix-service-type config =>
                                                   (guix-configuration
                                                    (inherit config)
@@ -285,6 +289,11 @@ EndSection
      (targets (list "/boot/efi"))
      (keyboard-layout keyboard-layout)))
    (file-systems
-    %base-file-systems))) ;; THIS SHOULD BE OVERRIDDEN IN THE MAIN SYSTEM-CONFIG.SCM FILE
+     (cons*
+       (file-system
+	 (mount-point "/")
+         (device "/dev/mapper/crypthome")
+	 (type "ext4"))
+    %base-file-systems)))) ;; THIS SHOULD BE OVERRIDDEN IN THE MAIN SYSTEM-CONFIG.SCM FILE
 ;; (name-service-switch %mdns-host-lookup-nss)
 

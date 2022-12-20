@@ -5,7 +5,7 @@
 # ================================= #
 
 
-import os, subprocess, imaplib, re #, gi
+import os, subprocess, imaplib, re #, datetime #, gi
 #gi.require_version("Gdk", "3.0")
 #from gi.repository import Gdk
 from json import loads as jloads #, dumps as jdumps
@@ -14,6 +14,7 @@ from shutil import which
 from threading import Thread
 from random import choice
 from typing import Union
+#from requests import get as get_request
 from libqtile import qtile, layout, hook, bar, widget, extension
 from libqtile.backend.x11.core import get_keys
 # from libqtile.backend.wayland.core import keyboard as wl_kbd
@@ -174,6 +175,15 @@ if is_wayland():
     my_get_monitors_cmd: str = "wlr-randr"
 else:
     my_get_monitors_cmd: str = "xrandr --query | grep \" connected\" | cut -d\" \" -f1"
+# Accounts
+my_gmail_username = env_data.get("gmail.username", "")
+my_gmail_pass = env_data.get("gmail.pass", "")
+# Locale
+my_locale = env_data.get("locale", {})
+if isinstance(my_locale, dict):
+    my_city = my_locale.get("city", "")
+else:
+    my_city = None
 
 # Input Simulation
 my_kbd_key_cmd = "xdotool key --window -- "
@@ -182,11 +192,6 @@ my_kbd_type_cmd = "xdotool type --window -- "
 my_mouse_move_cmd = "xdotool mousemove_relative -- "
 my_mouse_move_dist = "10"
 my_mouse_click_cmd = "xdotool click "
-
-# Accounts
-my_gmail_username = env_data.get("gmail.username", "")
-my_gmail_pass = env_data.get("gmail.pass", "")
-
 
 # Applications
 #my_terminal = "kitty -e tmux"
@@ -988,6 +993,19 @@ def get_widgets_1(i) -> list:
                     format='%a %b %d %Y, %I:%M:%S',
                     background=get_alternating_colors_green(),
                 ),
+                #widget.Wttr(
+                #    location = {my_city: ""},
+                #    background=get_alternating_colors_green(),
+                #),
+                OpenWidgetBox(
+                    widgets=[
+                        widget.Wttr(
+                                #location = {datetime.datetime.now().astimezone().tzname(): "W"},
+                                location = {my_city: "Wttr"},
+                                background=get_alternating_colors_green(),
+                            ),
+                        ],
+                    ),
                 widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
                 OpenWidgetBox(
                     widgets=[
