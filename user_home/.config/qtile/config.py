@@ -227,6 +227,7 @@ my_editor_alt2 = "kitty zsh -c \'source ~/.zshrc; nvim\'"
 my_browser = "nyxt -S"
 #my_browser_alt = os.path.expanduser("~/.nix-profile/bin/vivaldi")
 #my_browser_alt = "firefox-developer-edition"
+#my_browser_alt = "firefox"
 my_browser_alt = "librewolf"
 #my_browser_alt = "vivaldi"
 #my_browser_alt = "vivaldi-stable"
@@ -828,7 +829,7 @@ class FileReaderWidget(widget_base.ThreadPoolText):
             return self.msg_base + msg
 
 class OpenWidgetBox(widget.WidgetBox):
-    def __init__(self, _widgets: list[widget_base._Widget] | None = None, starts_open: bool = True, **config):
+    def __init__(self, _widgets: list[widget_base._Widget] = [], starts_open: bool = True, **config):
         super().__init__(_widgets=_widgets, **config)
         self.starts_open = starts_open
         Thread(target=self.wait_open, daemon=True).start()
@@ -894,7 +895,8 @@ def get_alternating_colors_cyan() -> list[str]:
 
 def get_sys_stat_widgets() -> list:
     return [
-        widget.Spacer(length=5),
+        widget.Spacer(length=my_thick_margin),
+        widget.Sep(linewidth=my_thin_border_width, padding=my_thick_margin),
         widget.TextBox("CPU:", background=get_alternating_colors_red()),
         widget.CPUGraph(
             width=30,
@@ -910,13 +912,13 @@ def get_sys_stat_widgets() -> list:
             frequency=5,
             background=get_alternating_colors_red(),
         ),
-        widget.Spacer(length=5),
+        widget.Sep(linewidth=my_thin_border_width, padding=my_thick_margin),
         widget.TextBox("GPU:", background=get_alternating_colors_green()),
         widget.NvidiaSensors(
             format='{temp}°C {fan_speed} {perf}',
             background=get_alternating_colors_green()
         ),
-        widget.Spacer(length=5),
+        widget.Sep(linewidth=my_thin_border_width, padding=my_thick_margin),
         widget.TextBox("MEM:", background=get_alternating_colors_cyan()),
         widget.MemoryGraph(
             width=30,
@@ -932,13 +934,15 @@ def get_sys_stat_widgets() -> list:
             frequency=5,
             background=get_alternating_colors_cyan(),
         ),
-        widget.Spacer(length=5),
+        widget.Sep(linewidth=my_thin_border_width, padding=my_thick_margin),
         widget.TextBox("net:", background=get_alternating_colors_blue()),
         widget.Net(
             format = '{down} ↓↑ {up}',
             padding = 0,
             background=get_alternating_colors_blue(),
         ),
+        widget.Sep(linewidth=my_thin_border_width, padding=my_thick_margin),
+        widget.Spacer(length=my_thick_margin),
     ]
 
 def get_widgets_1(i) -> list:
@@ -997,15 +1001,16 @@ def get_widgets_1(i) -> list:
                 #    location = {my_city: ""},
                 #    background=get_alternating_colors_green(),
                 #),
-                OpenWidgetBox(
-                    widgets=[
-                        widget.Wttr(
-                                #location = {datetime.datetime.now().astimezone().tzname(): "W"},
-                                location = {my_city: "Wttr"},
-                                background=get_alternating_colors_green(),
-                            ),
-                        ],
-                    ),
+                #widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
+                #OpenWidgetBox(
+                #    widgets=[
+                #        widget.Wttr(
+                #                #location = {datetime.datetime.now().astimezone().tzname(): "W"},
+                #                location = {my_city: "Wttr"},
+                #                background=get_alternating_colors_green(),
+                #            ),
+                #        ],
+                #    ),
                 widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
                 OpenWidgetBox(
                     widgets=[

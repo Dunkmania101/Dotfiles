@@ -1,6 +1,6 @@
 # Variables
 set fish_greeting
-export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.fnm:$HOME/.fnm/aliases/default/bin:$HOME/.guix-profile/bin:$HOME/.nix-profile/bin:/usr/local/bin:$HOME/.nimble/bin:$HOME/Launchers:$HOME/.emacs.d/bin/:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$HOME/go/bin:$HOME/.fnm:$HOME/.fnm/aliases/default/bin:$HOME/.guix-profile/bin:$HOME/.nix-profile/bin:/usr/local/bin:$HOME/.nimble/bin:$HOME/Launchers:$HOME/.emacs.d/bin/:$PATH"
 export superdrive="$HOME/superdrive-ln/"
 export programming="$superdrive/Programming/"
 export mcmoddev="$programming/Java/MC/MinecraftModDev/"
@@ -37,21 +37,27 @@ alias ff="fd . / --type f | fzf"
 alias fh="fd . --type f | fzf"
 alias ffv='$EDITOR (ff)'
 alias fhv='$EDITOR (fh)'
+alias mpvv="mpv --script=$HOME/.guix-profile/lib/mpris.so --force-window --no-keepaspect-window --loop "
 alias pass1="PASSWORD_STORE_ENABLE_EXTENSIONS=true PASSWORD_STORE_DIR=$superdrive/Key/pass/1/ pass "
 alias sl="sl -e"
 alias ferium-cfg1="ferium --config-file=$games/Ferium/Configs/1/config.json"
 alias vfzf="ytfzf -tcY,P,O"
-alias install-searx='docker stop searx-1; docker rm -v searx-1; PORT=8888 docker run --name=searx-1 --restart=unless-stopped -d -v ~/ProgramFiles/searx:/etc/searx -p $PORT:8080 --expose 9050 -e BASE_URL=http://localhost:$PORT/ searx/searx'
+alias zellij-mc-1="zellij a mc-1 || zellij -s mc-1"
+alias install-capitaine-cursors-sainnhe="wget https://github.com/sainnhe/capitaine-cursors/releases/latest/download/Linux.zip -O /tmp/Linux.zip && mkdir -p ~/.local/share/icons && unzip -o /tmp/Linux.zip -d ~/.local/share/icons/"
+alias install-capitaine-cursors-sainnhe-root="wget https://github.com/sainnhe/capitaine-cursors/releases/latest/download/Linux.zip -O /tmp/Linux.zip && sudo mkdir -p /usr/share/icons && sudo unzip -o /tmp/Linux.zip -d /usr/share/icons/"
+alias install-searx='docker stop searx-1; docker rm -v searx-1; PORT=8888 docker run --name=searx-1 --restart=unless-stopped -d -v ~/ProgramFiles/searx:/etc/searx -p $PORT:8080 --expose 9050 -e BASE_URL=http://localhost:$PORT/ searx/searx:latest'
 alias install-retroshare-voip='mkdir -p ~/ProgramFiles/RetroShare/src/; mkdir -p ~/.retroshare/extensions6/; git clone --depth=1 https://github.com/RetroShare/RetroShare.git ~/ProgramFiles/RetroShare/src; cd ~/ProgramFiles/RetroShare/src/; git submodule update --depth=1 --init --remote --recursive --force; cd ~/ProgramFiles/RetroShare/src/plugins/VOIP; qmake && make clean && make; cp lib*.so ~/.retroshare/extensions6/'
 alias install-quicklisp="mkdir -p ~/ProgramFiles/quicklisp/; curl https://beta.quicklisp.org/quicklisp.lisp -o ~/ProgramFiles/quicklisp/quicklisp.lisp; sbcl --load ~/ProgramFiles/quicklisp/quicklisp.lisp --eval '(progn (quicklisp-quickstart:install)(exit))'"
 function install-quicklisp-module -a 'm'; test -e ~/quicklisp/ || install-quicklisp; sbcl --load ~/quicklisp/setup.lisp --eval "(progn (ql:system-apropos \"$m\") (ql:quickload \"$m\") (exit))"; end
 alias install-mycroft='docker stop mycroft-1; docker rm -v mycroft-1; docker run --name=mycroft-1 --restart=unless-stopped -d -v ~/ProgramFiles/mycroft:/root/.mycroft --device /dev/snd -e PULSE_SERVER=unix:{$XDG_RUNTIME_DIR}/pulse/native -v {$XDG_RUNTIME_DIR}/pulse/native:{$XDG_RUNTIME_DIR}/pulse/native -v ~/.config/pulse/cookie:/root/.config/pulse/cookie -p 42069:8181 mycroftai/docker-mycroft'
 alias install-pax-mc="mkdir -p ~/.local/bin; curl -L https://github.com/froehlichA/pax/releases/latest/download/pax > ~/.local/bin/pax; chmod +x ~/.local/bin/pax"
+alias install-packwiz-mc="go install github.com/packwiz/packwiz@latest"
 alias install-sdkman='curl -s "https://get.sdkman.io?rcupdate=false" | bash'
 alias install-lunarvim="wget https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh -O /tmp/lviminstall.sh && chmod +x /tmp/lviminstall.sh && bass /tmp/lviminstall.sh"
 alias install-librewolf-native-host="test -e ~/.mozilla/native-messaging-hosts || mkdir -p ~/.mozilla/native-messaging-hosts; test -e ~/.librewolf/native-messaging-hosts || ln -s ~/.mozilla/native-messaging-hosts ~/.librewolf/native-messaging-hosts; test -e /usr/lib/librewolf/native-messaging-hosts || sudo ln -s /usr/lib/mozilla/native-messaging-hosts /usr/lib/librewolf/native-messaging-hosts"
 alias install-lieer="python3 -m pip install --upgrade https://github.com/gauteh/lieer/archive/refs/heads/master.zip"
-alias install-blender-cad-sketcher="mkdir -p ~/ProgramFiles/blender_scripts/addons; git clone --depth=1 https://github.com/hlorus/CAD_Sketcher.git ~/ProgramFiles/blender_scripts/addons/CAD_Sketcher"
+alias install-blender-cad-sketcher="mkdir -p ~/ProgramFiles/blender_scripts/addons; git clone --depth=1 https://github.com/hlorus/CAD_Sketcher.git ~/ProgramFiles/blender_scripts/addons/CAD_Sketcher || git -C ~/ProgramFiles/blender_scripts/addons/CAD_Sketcher pull"
+alias install-blender-gruvbox="mkdir -p ~/ProgramFiles/blender_scripts/addons; git clone --depth=1 https://github.com/SylEleuth/blender-gruvbox.git ~/ProgramFiles/blender_scripts/addons/blender-gruvbox || git -C ~/ProgramFiles/blender_scripts/addons/blender-gruvbox pull"
 alias install-fisher="curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher"
 alias install-brl="wget -O /tmp/brl-installer.sh https://raw.githubusercontent.com/bedrocklinux/bedrocklinux-userland/master/src/installer/installer.sh; sudo sh /tmp/brl-installer.sh --hijack"
 alias install-guix="wget -O /tmp/guix-install.sh https://git.savannah.gnu.org/cgit/guix.git/plain/etc/guix-install.sh; chmod +x /tmp/guix-install.sh; sudo bash \"/tmp/guix-install.sh\""
@@ -74,7 +80,7 @@ alias uu-flatpak="flatpak update --assumeyes; flatpak uninstall --unused"
 alias guixclean="guix gc; guix gc --optimize"
 alias guixclean-full="guix gc --delete-generations; guixclean"
 alias guixfix="sudo guix gc --verify=contents,repair"
-alias guixconf="sudo -E guix system reconfigure ~/.config/guix/system-config.scm"
+alias guixconf="sudo -E guix system --cores=$(nproc) reconfigure ~/.config/guix/system-config.scm"
 alias guixmanifest="guix package --manifest=$HOME/.config/guix/base/manifest-main.scm"
 alias uu-guix="guix pull; guix package --upgrade; guixclean"
 alias guix-nvdaify="guix package --manifest=$HOME/.config/guix/manifests/nvidiaify-packages.scm"
@@ -167,7 +173,8 @@ end
 
 # Themes
 #base16-onedark
-base16-gruvbox-dark-medium
+#base16-gruvbox-dark-hard
+theme_gruvbox dark hard
 
 # Other Inits
 # pnpm

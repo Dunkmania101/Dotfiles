@@ -2,14 +2,71 @@
 # Style #
 #########
 
-include /usr/share/doc/newsboat/contrib/colorschemes/gruvbox
-color listfocus default default bold
-color listfocus_unread default default reverse
+#include /usr/share/doc/newsboat/contrib/colorschemes/gruvbox
+
+#color background default default
+#color listnormal default default
+#color listfocus default default bold
+#color listnormal_unread default default
+#color listfocus_unread default default bold
+#color info default default bold
+#color article default default
+
+color background          color223   color0
+color listnormal          color223   color0
+color listnormal_unread   color2     color0
+color listfocus           color223   color237
+color listfocus_unread    color223   color237
+color info                color8     color0
+color article             color223   color0
+
+# highlights
+highlight article "^(Feed|Link):.*$" color11 default bold
+highlight article "^(Title|Date|Author):.*$" color11 default bold
+highlight article "https?://[^ ]+" color2 default underline
+highlight article "\\[[0-9]+\\]" color2 default bold
+highlight article "\\[image\\ [0-9]+\\]" color2 default bold
+highlight feedlist "^─.*$" color6 color6 bold
+
+#color background          color223   color0
+#color listnormal          color223   color0
+#color listnormal_unread   color2     color0
+#color listfocus           color223   color237
+#color listfocus_unread    color223   color237
+#color info                color8     color0
+#color article             color223   color0
+#
+## highlights
+#highlight article "^(Feed|Link):.*$" color11 default bold
+#highlight article "^(Title|Date|Author):.*$" color11 default bold
+#highlight article "https?://[^ ]+" color2 default underline
+#highlight article "\\[[0-9]+\\]" color2 default bold
+#highlight article "\\[image\\ [0-9]+\\]" color2 default bold
+#highlight feedlist "^─.*$" color6 color6 bold
+
+
+#color listfocus default default bold
+#color listfocus_unread default default reverse
+
+#feed-sort-order firsttag
+#highlight all "---.*---" default
+#highlight feedlist ".*(0/0))" black
+#highlight article "(^Feed:.*|^Title:.*|^Author:.*)" cyan default bold
+#highlight article "(^Link:.*|^Date:.*)" default default
+#highlight article "https?://[^ ]+" green default
+#highlight article "^(Title):.*$" blue default
+#highlight article "\\[[0-9][0-9]*\\]" yellow default bold
+#highlight article "\\[image\\ [0-9]+\\]" green default bold
+#highlight article "\\[embedded flash: [0-9][0-9]*\\]" green default bold
+#highlight article ":.*\\(link\\)$" cyan default
+#highlight article ":.*\\(image\\)$" blue default
+#highlight article ":.*\\(embedded flash\\)$" magenta default
 
 ############
 # Defaults #
 ############
 
+max-items 0 # Means infinite
 browser "nohup xdg-open %u"
 
 ############
@@ -17,14 +74,21 @@ browser "nohup xdg-open %u"
 ############
 
 # Movement
-bind-key j down feedlist
-bind-key k up feedlist
-bind-key j next articlelist
-bind-key k prev articlelist
-bind-key J next-feed articlelist
-bind-key K prev-feed articlelist
-bind-key j down article
-bind-key k up article
+bind-key j down
+bind-key k up
+bind-key j next
+bind-key k prev
+bind-key J next-feed
+bind-key K prev-feed
+bind-key j down
+bind-key k up
+bind-key h quit
+bind-key l open
+bind-key { prev-dialog
+bind-key } next-dialog
+bind-key L toggle-show-read-feeds
+bind-key g home
+bind-key G end
 
 # Actions
 bind-key SPACE macro-prefix

@@ -20,6 +20,7 @@
  mtools
  gnome
  gnome-xyz
+ emacs-xyz
  wm)
 (use-service-modules
  linux
@@ -30,6 +31,7 @@
  file-sharing
  ssh
  xorg
+ lightdm
  pm
  virtualization
  nix)
@@ -40,9 +42,9 @@
   Driver \"libinput\"
   MatchDevicePath \"/dev/input/event*\"
   MatchIsTouchpad \"on\"
-  Option \"Tapping\" \"on\"
-  Option \"TappingDrag\" \"on\"
-  Option \"DisableWhileTyping\" \"on\"
+  Option \"Tapping\" \"off\"
+  Option \"TappingDrag\" \"off\"
+  Option \"DisableWhileTyping\" \"off\"
   Option \"MiddleEmulation\" \"on\"
   Option \"ScrollMethod\" \"twofinger\"
 EndSection
@@ -67,10 +69,10 @@ EndSection
   (operating-system
    ;(kernel linux-rosenthal)
    (kernel linux)
-   (kernel-arguments
-    (append
-     (list "nomodeset")
-     %default-kernel-arguments))
+   ;(kernel-arguments
+   ; (append
+   ;  (list "nomodeset")
+   ;  %default-kernel-arguments))
    (firmware (list linux-firmware))
    (initrd microcode-initrd)
    (host-name "dummy")
@@ -149,13 +151,14 @@ EndSection
                      Exec=~a/bin/qtile start~@
                      Type=XSession~%" out)))
                                                                        #t))))))))
+       (specification->package "stumpwm")
        (specification->package "fish")
        (specification->package "bash")
        (specification->package "zsh")
        (specification->package "flatpak")
        (specification->package "chrony")
        (specification->package "ncurses")
-       (specification->package "network-manager")
+       ;(specification->package "network-manager")
        (specification->package "dmenu")
        (specification->package "nix")
        (specification->package "st")
@@ -166,19 +169,28 @@ EndSection
        (specification->package "neovim")
        (specification->package "vim")
        (specification->package "stow")
-       (specification->package "pipewire")
+       (specification->package "xinit")
+       (specification->package "xset")
        (specification->package "xdotool")
        (specification->package "xcb-util-cursor")
        (specification->package "xf86-input-libinput")
+       (specification->package "libinput")
+       (specification->package "pipewire")
+       (specification->package "sof-firmware")
+       (specification->package "alsa-ucm-conf")
+       (specification->package "alsa-utils")
+       (specification->package "alsa-plugins")
        (specification->package "bluez-alsa")
        (specification->package "bluez")
+       (specification->package "v4l2loopback-linux-module")
+       (specification->package "libglvnd")
        (specification->package "gvfs")
        (specification->package "fuse")
        (specification->package "git")
        (specification->package "searx")
        (specification->package "acpi")
-       (specification->package "v4l2loopback-linux-module")
        (specification->package "emacs-next-pgtk")
+       (specification->package "emacs-exwm")
        (specification->package "nss-certs"))
       %base-packages))
    (services (append
@@ -228,6 +240,20 @@ EndSection
                          ;; (alt-speed-time-end
                           ;; (+ (* 60 (+ 12 5)) 30))))  ; 5:30 pm
                           ;; ))
+			  (service lightdm-service-type
+				   (lightdm-configuration
+				     (seats
+				       (list
+					 (lightdm-seat-configuration
+					   (name "Qtile")
+					   (user-session "qtile"))
+					 (lightdm-seat-configuration
+					   (name "EXWM")
+					   (user-session "exwm"))
+					 (lightdm-seat-configuration
+					   (name "StumpWM")
+					   (user-session "stumpwm"))
+				     ))))
                (set-xorg-configuration
                 (xorg-configuration
                  (keyboard-layout keyboard-layout)
@@ -236,7 +262,9 @@ EndSection
                  ; (cons*
                  ;  %default-xorg-modules))
                  (extra-config
-                  (list %xorg-libinput-config))))
+                  (list %xorg-libinput-config)))
+		lightdm-service-type
+		)
               (simple-service 'searx-start-job mcron-service-type (list
                               #~(job '(next-minute (range 0 60 1)) (string-append "pgrep searx || " #$(file-append searx "/bin/searx-run & disown")))))
               (extra-special-file "/etc/searx/settings.yml"
@@ -252,7 +280,8 @@ EndSection
                                (elogind-service-type config =>
                                                      (elogind-configuration
                                                       (inherit config)
-                                                      (handle-lid-switch-external-power 'suspend)))
+                                                      ;(handle-lid-switch-external-power 'suspend)
+						      ))
                                (udev-service-type config =>
                                                   (udev-configuration
                                                    (inherit config)
@@ -264,10 +293,11 @@ EndSection
                                                               (inherit config)
                                                               (vpn-plugins
                                                                (list network-manager-openvpn))))
-                                        (gdm-service-type config =>
-                                         (gdm-configuration
-                                          (inherit config)
-                                          (gnome-shell-assets (list materia-theme))))
+			       (delete gdm-service-type)
+                                        ;(gdm-service-type config =>
+                                        ; (gdm-configuration
+                                        ;  (inherit config)
+                                        ;  (gnome-shell-assets (list materia-theme))))
                                (guix-service-type config =>
                                                   (guix-configuration
                                                    (inherit config)

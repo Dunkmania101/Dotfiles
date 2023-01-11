@@ -42,8 +42,10 @@ Plug 'voldikss/vim-floaterm'
 " Files
 " Plug 'kevinhwang91/rnvimr'
 " Plug 'rafaqz/ranger.vim'
-Plug 'kyazdani42/nvim-web-devicons' " for file icons
+" Plug 'kyazdani42/nvim-web-devicons' " for file icons
 " Plug 'kyazdani42/nvim-tree.lua'
+Plug 'nvim-tree/nvim-web-devicons' " optional, for file icons
+Plug 'nvim-tree/nvim-tree.lua'
 " Plug 'scrooloose/nerdtree'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
 
@@ -53,7 +55,7 @@ Plug 'onsails/lspkind-nvim'
 
 " Syntax
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'dgileadi/vscode-java-decompiler'
+" Plug 'dgileadi/vscode-java-decompiler'
 " Plug 'valloric/youcompleteme'
 " Plug 'autozimu/LanguageClient-neovim', {
 "     \ 'branch': 'next',
@@ -71,7 +73,7 @@ Plug 'dgileadi/vscode-java-decompiler'
 " Plug 'glepnir/lspsaga.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'RRethy/vim-illuminate'
-"Plug 'mfussenegger/nvim-jdtls'
+Plug 'mfussenegger/nvim-jdtls'
 " Plug 'alvan/vim-closetag'
 " Plug 'tpope/vim-surround'
 " Plug 'machakann/vim-sandwich'
@@ -98,7 +100,7 @@ Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lua'
 
-"  Snippets
+" Snippets
 Plug 'L3MON4D3/LuaSnip'
 Plug 'rafamadriz/friendly-snippets'
 
@@ -109,12 +111,13 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-symbols.nvim'
-Plug 'fhill2/telescope-ultisnips.nvim'
-Plug 'rafamadriz/friendly-snippets'
+Plug 'nvim-telescope/telescope-ui-select.nvim'
+"Plug 'fhill2/telescope-ultisnips.nvim'
+"Plug 'rafamadriz/friendly-snippets'
 
 " Snippets
 Plug 'sirver/ultisnips'
-Plug 'honza/vim-snippets'
+"Plug 'honza/vim-snippets'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 
@@ -144,6 +147,6 @@ Plug 'npxbr/glow.nvim', {'do': ':GlowInstall','branch':'main'}
 " Non-Embeddable Stuff
 if $amirealvim
   " Files
-  Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':CHADdeps'}
+  "Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':CHADdeps'}
 endif
 

@@ -34,12 +34,35 @@
 --     opt = true
 -- })
 
+
 require("mason").setup({
     install_root_dir = vim.fn.DunkvimExternalDir() .. "/mason"
 })
 require("mason-lspconfig").setup({
     ensure_installed = { "jdtls", "pyright" }
 })
+
+
+
+local lspzero = require('lsp-zero')
+
+lspzero.preset('recommended')
+lspzero.setup()
+
+vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
+
+local cmp = require('cmp')
+
+local cmp_config = lspzero.defaults.cmp_config({
+    mapping = cmp.mapping.preset.insert({
+        ['<C-Space>'] = cmp.mapping.complete(),
+    }),
+    window = {
+        completion = cmp.config.window.bordered()
+    },
+})
+
+cmp.setup(cmp_config)
 
 require('bufferline').setup {
   options = {
@@ -348,6 +371,18 @@ gls.short_line_right[1] = {
 --   auto_select = false  -- auto select first item
 -- })
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+require("nvim-tree").setup({
+    view = {
+        mappings = {
+            list = {
+                {key = { "<CR>", "o", "l", "<2-LeftMouse>" }, action = "edit" },
+            },
+        },
+    },
+})
+
 -- require'nvim-tree'.setup {
 --     disable_netrw = true,
 --     hijack_netrw = true,
@@ -396,20 +431,48 @@ require("nvim-treesitter.configs").setup {
 }
 
 
--- function start_nvim_jdtls()
---     local servers = require'nvim-lsp-installer.servers'
---     if servers.is_server_installed('jdtls') then
---         require('jdtls').start_or_attach({
---           -- The command that starts the language server
---           cmd = {
---               vim.fn.stdpath("data") .. "/lspinstall/java/jdtls.sh",
---               vim.fn.getcwd()
---           },
---     
---           -- This is the default if not provided, you can remove it. Or adjust as needed.
---           -- One dedicated LSP server & client will be started per unique root_dir
---           root_dir = require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'})
---         })
---     end
--- end
+require("telescope").setup {
+--  extensions = {
+--    ["ui-select"] = {
+--      require("telescope.themes").get_dropdown {
+--        -- even more opts
+--      }
+--
+--      -- pseudo code / specification for writing custom displays, like the one
+--      -- for "codeactions"
+--      -- specific_opts = {
+--      --   [kind] = {
+--      --     make_indexed = function(items) -> indexed_items, width,
+--      --     make_displayer = function(widths) -> displayer
+--      --     make_display = function(displayer) -> function(e)
+--      --     make_ordinal = function(e) -> string
+--      --   },
+--      --   -- for example to disable the custom builtin "codeactions" display
+--      --      do the following
+--      --   codeactions = false,
+--      -- }
+--    }
+--  }
+}
+-- To get ui-select loaded and working with telescope, you need to call
+-- load_extension, somewhere after setup function:
+--require("telescope").load_extension("ui-select")
+
+
+function start_nvim_jdtls()
+    --local servers = require'nvim-lsp-installer.servers'
+    --if servers.is_server_installed('jdtls') then
+        require('jdtls').start_or_attach({
+          -- The command that starts the language server
+          cmd = {
+              vim.fn.DunkvimExternalDir() .. "/mason/bin/jdtls",
+              vim.fn.getcwd()
+          },
+
+          -- This is the default if not provided, you can remove it. Or adjust as needed.
+          -- One dedicated LSP server & client will be started per unique root_dir
+          root_dir = require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'})
+        })
+    --end
+end
 

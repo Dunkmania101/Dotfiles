@@ -8,6 +8,8 @@ let g:mapleader="\<space>"
 
 nmap U <C-r>
 
+nnoremap <silent> <esc> :noh<cr><esc>
+
 nnoremap <C-j> :m .+1<CR>==
 nnoremap <C-k> :m .-2<CR>==
 inoremap <C-j> <Esc>:m .+1<CR>==gi
@@ -40,7 +42,8 @@ if $amirealvim
   nnoremap <leader>pam :CtrlPBookmarkDirAdd<CR>
   nnoremap <leader>pp :CtrlP<CR>
   nmap <leader>mg :Glow<CR>
-  nmap <silent> g\ :Telescope ultisnips ultisnips<CR>
+  nmap <leader><leader> :Telescope<CR>
+  "nmap <silent> g\ :Telescope ultisnips ultisnips<CR>
 
   " inoremap <silent><expr> <C-Space> compe#complete()
   " inoremap <silent><expr> <CR>      compe#confirm('<CR>')
@@ -54,16 +57,17 @@ if $amirealvim
   "nmap <silent> gr <Plug>(coc-references)
   " nmap <leader>cf :CocCommand editor.action.formatDocument<CR>
   " nmap <leader>co :CocCommand editor.action.organizeImport<CR>
-  "nmap <leader>cr <Plug>(coc-rename)
-  nmap gi :lua vim.lsp.buf.implementation()<CR>
-  nmap gs :lua vim.lsp.buf.signature_help()<CR>
-  nmap gca :lua vim.lsp.bufncode_action()<CR>
+  " nmap <leader>cr <Plug>(coc-rename)
+  " nmap gi :lua vim.lsp.buf.implementation()<CR>
+  " nmap gs :lua vim.lsp.buf.signature_help()<CR>
+  " nmap gca :lua vim.lsp.bufncode_action()<CR>
 
-  nnoremap <silent> K :call ShowDocumentation()<CR>
+  "  nnoremap <silent> K :call ShowDocumentation()<CR>
   nmap gd :lua vim.lsp.buf.definition()<CR>
   nmap gD :lua vim.lsp.buf.declaration()<CR>
   nmap gr :lua vim.lsp.buf.references()<CR>
-  nmap gR :lua vim.lsp.buf.rename()<CR>
+  nmap <leader>cr :lua vim.lsp.buf.rename()<CR>
+  nmap <leader>co <Cmd>lua require'jdtls'.organize_imports()<CR>
   nmap gt :lua vim.lsp.buf.type_definition()<CR>
   nmap gf :lua vim.lsp.buf.formatting()<CR>
   nmap gi :lua vim.lsp.buf.implementation()<CR>
@@ -82,8 +86,8 @@ if $amirealvim
   " nnoremap <silent> gs :Lspsaga signature_help<CR>
   " nnoremap <silent>grn :Lspsaga rename<CR>
 
-  nmap got :FloatermToggle<CR>
-  nmap gou :MundoToggle<CR>
+  nmap <leader>ot :FloatermToggle<CR>
+  nmap <leader>ou :MundoToggle<CR>
 
   nmap <leader>qq :q<CR>
   nmap <leader>qwq :wq<CR>
@@ -102,7 +106,8 @@ if $amirealvim
 
   nnoremap <leader>oft :RnvimrToggle<CR>
   nnoremap <leader>ofv :RangerVSplit<CR>
-  nnoremap f :CHADopen<CR>
+  "nnoremap f :CHADopen<CR>
+  nnoremap f :NvimTreeOpen<CR>
 
   nnoremap <silent> <leader>bg :BufferLinePick<CR>
   nnoremap <silent> <leader>bb :CtrlPBuffer<CR>

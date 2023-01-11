@@ -134,93 +134,132 @@
 (setq
    lsp-java-jdt-download-url "https://download.eclipse.org/jdtls/snapshots/jdt-language-server-latest.tar.gz")
 
+
+(defvar poweroff-cmd "poweroff"
+  "Command to power the hardware system off.")
+(defvar reboot-cmd "reboot"
+  "Command to reboot the hardware system.")
+(defvar monitors-off-cmd "sleep 0.5; xset dpms force standby"
+  "Command to turn the hardware system's monitors off.")
+(defvar lock-session-cmd "loginctl lock-session"
+  "Command to lock the user session.")
+
+
 (after! exwm
-  (require 'exwm-config)
-  (require 'exwm-randr)
-  (require 'exwm-systemtray)
-  (setq display-time-default-load-average nil)
-  (display-time-mode t)
-  ;(ido-mode 1)
-  ;(exwm-config-ido)
-  (setq exwm-workspace-number 4)
-  (add-hook 'exwm-update-class-hook
-            (lambda ()
-              (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+  (progn
+    (require 'exwm-config)
+    (require 'exwm-randr)
+    (require 'exwm-systemtray)
+    (setq display-time-default-load-average nil)
+    (display-time-mode t)
+    ;(ido-mode 1)
+    ;(exwm-config-ido)
+    (setq exwm-workspace-number 4)
+    (add-hook 'exwm-update-class-hook
+              (lambda ()
+                (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+                            (string= "gimp" exwm-instance-name))
+                  (exwm-workspace-rename-buffer exwm-class-name))))
+    (add-hook 'exwm-update-title-hook
+              (lambda ()
+                (when (or (not exwm-instance-name)
+                          (string-prefix-p "sun-awt-X11-" exwm-instance-name)
                           (string= "gimp" exwm-instance-name))
-                (exwm-workspace-rename-buffer exwm-class-name))))
-  (add-hook 'exwm-update-title-hook
-            (lambda ()
-              (when (or (not exwm-instance-name)
-                        (string-prefix-p "sun-awt-X11-" exwm-instance-name)
-                        (string= "gimp" exwm-instance-name))
-                (exwm-workspace-rename-buffer exwm-title))))
-  (setq exwm-input-global-keys
-        `(
-          ;; Bind "s-r" to exit char-mode and fullscreen mode.
-          ([?\s-r] . exwm-reset)
-          ;; Bind "s-w" to switch workspace interactively.
-          ([?\s-w] . exwm-workspace-switch)
-          ;; Bind "s-0" to "s-9" to switch to a workspace by its index.
-          ,@(mapcar (lambda (i)
-                      `(,(kbd (format "s-%d" i)) .
-                        (lambda ()
-                          (interactive)
-                          (exwm-workspace-switch-create ,i))))
-                    (number-sequence 0 9))
-          ;; Bind "s-&" to launch applications ('M-&' also works if the output
-          ;; buffer does not bother you).
-          ;([?\s-C- ] . (lambda (command)
-  	  ;           (interactive (list (read-shell-command "$ ")))
-  	  ;           (start-process-shell-command command nil command)))
-          ([?\s- ] . (lambda ()
-  		     (interactive)
-  		     (app-launcher-run-app)))
-          ([?\s-e] . (lambda ()
-  		     (interactive)
-  		     ;(start-process "" nil "/usr/bin/pcmanfm")))
-  		     (start-process "" nil "/usr/bin/nautilus")))
-          ;; Apps
-          ([?\s-b] . (lambda ()
-  		     (interactive)
-  		     ;#(start-process "" nil "/usr/bin/firefox-developer-edition")))
-  		     (start-process "" nil "/usr/bin/librewolf")))
-          ;; Desktop
-          ([s-f2] . (lambda ()
-  		    (interactive)
-  		    (start-process "" nil "/usr/bin/slock")))))
-  (define-key exwm-mode-map [?\C-q] #'exwm-input-send-next-key)
-  (setq exwm-input-simulation-keys
-        '(
-          ;; movement
-          ([?\C-b] . [left])
-          ([?\M-b] . [C-left])
-          ([?\C-f] . [right])
-          ([?\M-f] . [C-right])
-          ([?\C-p] . [up])
-          ([?\C-n] . [down])
-          ([?\C-a] . [home])
-          ([?\C-e] . [end])
-          ([?\M-v] . [prior])
-          ([?\C-v] . [next])
-          ([?\C-d] . [delete])
-          ([?\C-k] . [S-end delete])
-          ([?\C-g] . [C-d])
-          ;; cut/paste.
-          ([?\C-w] . [?\C-x])
-          ([?\M-w] . [?\C-c])
-          ([?\C-y] . [?\C-v])
-          ;; search
-          ([?\C-s] . [?\C-f])))
-  ;;(setq exwm-randr-workspace-output-plist '(0 "DP-0" 1 "DVI-D-0"))
-  ;;(setq exwm-randr-workspace-output-plist '(0 "eDP1"))
-  (setq exwm-randr-workspace-output-plist '(0 "DP-0"))
-  (add-hook 'exwm-randr-screen-change-hook
-            (lambda ()
-              (start-process-shell-command
-               ;;"xrandr" nil "xrandr --output DVI-D-0 --left-of DP-0 --auto")))
-               ;;"xrandr" nil "xrandr --output eDP1 --auto")))
-               "xrandr" nil "xrandr --output DP-0 --auto")))
-  (exwm-randr-enable))
+                  (exwm-workspace-rename-buffer exwm-title))))
+    (setq exwm-input-global-keys
+          `(
+            ;; Bind "s-r" to exit char-mode and fullscreen mode.
+            ([?\s-r] . exwm-reset)
+            ;; Bind "s-r" to exit char-mode and fullscreen mode.
+            ([?\s-R] . exwm-restart)
+            ;; Bind "s-w" to switch workspace interactively.
+            ([?\s-w] . exwm-workspace-switch)
+            ;; Bind "s-0" to "s-9" to switch to a workspace by its index.
+            ,@(mapcar (lambda (i)
+                        `(,(kbd (format "s-%d" i)) .
+                          (lambda ()
+                            (interactive)
+                            (exwm-workspace-switch-create ,i))))
+                      (number-sequence 0 9))
+            ;; Bind "s-&" to launch applications ('M-&' also works if the output
+            ;; buffer does not bother you).
+                                        ;([?\s-C- ] . (lambda (command)
+                                        ;           (interactive (list (read-shell-command "$ ")))
+                                        ;           (start-process-shell-command command nil command)))
+                                        ;
+            ([?\s-c] . exwm-input-toggle-keyboard)
+            ([?\s- ] . (lambda ()
+                         (interactive)
+                         (app-launcher-run-app)))
+            ([?\s-e] . (lambda ()
+                         (interactive)
+                                        ;(start-process "" nil "/usr/bin/pcmanfm")))
+                         (start-process-shell-command "" nil "nautilus")))
+            ;; Apps
+            ([?\s-b] . (lambda ()
+                         (interactive)
+                                        ;(start-process "" nil "/usr/bin/firefox-developer-edition")))
+                         (start-process-shell-command "" nil "librewolf")))
+            ;; System
+            ([?\s-q] . (lambda ()
+                       ;(interactive)
+                       (let ((options '(("Lock + Monitor Off" . (lambda () (progn (start-process-shell-command "monitorsoff" nil monitors-off-cmd) (start-process-shell-command "lock" nil lock-session-cmd)))) ("Lock" . (lambda () (start-process-shell-command "lock" nil lock-session-cmd))) ("Monitors Off" . (lambda () (start-process-shell-command "monitorsoff" nil monitors-off-cmd))) ("Reboot" . (lambda () (start-process-shell-command "reboot" nil reboot-cmd))) ("Poweoff" . (lambda () (start-process-shell-command "poweroff" nil poweroff-cmd))))))
+                         (funcall (alist-get (completing-read "Power/Session Menu: " options) options (lambda () (print "Selection Aborted!")))))))
+            ([s-f2] . (lambda ()
+                        (interactive)
+                        (start-process "" nil "loginctl lock-session")))))
+    (define-key exwm-mode-map [?\C-q] #'exwm-input-send-next-key)
+    (setq exwm-input-simulation-keys
+          '(
+            ;; movement
+            ([?\C-b] . [left])
+            ([?\M-b] . [C-left])
+            ([?\C-f] . [right])
+            ([?\M-f] . [C-right])
+            ([?\C-p] . [up])
+            ([?\C-n] . [down])
+            ([?\C-a] . [home])
+            ([?\C-e] . [end])
+            ([?\M-v] . [prior])
+            ([?\C-v] . [next])
+            ([?\C-d] . [delete])
+            ([?\C-k] . [S-end delete])
+            ([?\C-g] . [C-d])
+            ;; cut/paste.
+            ([?\C-w] . [?\C-x])
+            ([?\M-w] . [?\C-c])
+            ([?\C-y] . [?\C-v])
+            ;; search
+            ([?\C-s] . [?\C-f])))
+    ;;(setq exwm-randr-workspace-output-plist '(0 "DP-0" 1 "DVI-D-0"))
+    ;;(setq exwm-randr-workspace-output-plist '(0 "eDP1"))
+    (setq exwm-randr-workspace-monitor-plist '(0 "HDMI1" 1 "eDP1"))
+    (add-hook 'exwm-randr-screen-change-hook
+              (lambda ()
+                (progn
+                  (mapc (lambda (cmd)
+                          (start-process-shell-command cmd nil cmd))
+                        ;;"xrandr" nil "xrandr --output DVI-D-0 --left-of DP-0 --auto")))
+                        ;;"xrandr" nil "xrandr --output eDP1 --auto")))
+                        ;;"xrandr" nil "xrandr --output DP-0 --auto")))
+                        '("xrandr --output HDMI1 --right-of eDP1  --primary --auto"))
+                  ;(exwm-systemtray--refresh-all)
+                  )))
+    (add-hook 'exwm-init-hook
+              (lambda ()
+                (progn
+                  (mapc (lambda (cmd)
+                          (start-process-shell-command cmd nil cmd))
+                        '("xsetroot -cursor_name left_ptr"
+                          "xset b off"
+                          "xset r rate 280 40"
+                                        ;"xset 1800"
+                          "xss-lock -l -- i3lock --ignore-empty-password --color=2c2826 --bar-indicator --bar-color=3c3836 &"
+                          "picom --config ~/.config/picom/picom.conf &")))))
+    (add-hook 'exwm-exit-hook
+              (lambda ()))
+    (exwm-systemtray-enable)
+    (exwm-randr-enable)))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;

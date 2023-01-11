@@ -44,7 +44,7 @@ let g:compe.source.vsnip = v:true
 let g:compe.source.ultisnips = v:true
 let g:compe.source.luasnip = v:true
 let g:compe.source.emoji = v:false
-let g:compe.source.treesitter = v:false
+let g:compe.source.treesitter = v:true
 
 " let g:LanguageClient_autoStart = 1
 " let g:LanguageClient_diagnosticsList = "Location"
@@ -60,9 +60,9 @@ if has('nvim')
     " :luafile $dunkvimdir/scripts/lua/evil_lualine.lua
 endif
 
-"if $amirealvim
+if $amirealvim
 "    autocmd BufNewFile,BufRead * lua setup_servers()
-"    autocmd FileType java lua start_nvim_jdtls()
+    autocmd FileType java lua start_nvim_jdtls()
 "      call coc#config(
 "           \ 'explorer',
 "           \  {
@@ -85,7 +85,7 @@ endif
 "           \      'enable': v:true
 "           \   }
 "           \ )
-"endif
+endif
 
 let g:dashboard_default_executive = 'telescope'
 
