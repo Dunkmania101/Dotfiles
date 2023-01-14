@@ -37,29 +37,28 @@
   nix)
 
 
-(load "./dunk-system-common.scm")
 (load "../nvtransform.scm")
 
-(define-public dunk-system-common-nvidia
+(define-public nvidiaify-system (base-system)
                (operating-system
-                 (inherit dunk-system-common)
-                 ;(kernel (nvtransform (operating-system-kernel dunk-system-common)))
-                 ;(firmware (nvtransforms (operating-system-firmware dunk-system-common)))
+                 (base-system)
+                 ;(kernel (nvtransform (operating-system-kernel base-system)))
+                 ;(firmware (nvtransforms (operating-system-firmware base-system)))
                  ;(firmware (nvtransforms (append (list
                  ;				      nvidia-firmware)
                  ;				      ;)
-                 ;				    (operating-system-firmware dunk-system-common))))
+                 ;				    (operating-system-firmware base-system))))
                  ; nvidia-module-open 
-                 ;    (kernel-loadable-modules (nvtransforms (append (list nvidia-driver) (operating-system-kernel-loadable-modules dunk-system-common))))
-                 ;(kernel-loadable-modules (append (list nvidia-module) (operating-system-kernel-loadable-modules dunk-system-common)))
+                 ;    (kernel-loadable-modules (nvtransforms (append (list nvidia-driver) (operating-system-kernel-loadable-modules base-system))))
+                 ;(kernel-loadable-modules (append (list nvidia-module) (operating-system-kernel-loadable-modules base-system)))
 
-                 ;(kernel-arguments (append 
-                 ;                    ;(append 
-                 ;                    '(
-                 ;                      ;"nvidia-drm.modeset=1"
-                 ;                      "modprobe.blacklist=nouveau") ;,nvidia_uvm")
-                 ;                    ;(operating-system-user-kernel-arguments dunk-system-common))
-                 ;                    %default-kernel-arguments))
+                 (kernel-arguments (append 
+                                     (append 
+                                     '(
+                                       ;"nvidia-drm.modeset=1"
+                                       "modprobe.blacklist=nouveau") ;,nvidia_uvm")
+                                     (operating-system-user-kernel-arguments base-system))
+                                     %default-kernel-arguments))
                  (packages 
                    (nvtransforms
                      (append
@@ -70,7 +69,7 @@
                              ;(specification->package "nvidia-settings")
                              ;(specification->package "mesa")
                              )
-                       (operating-system-packages dunk-system-common)))
+                       (operating-system-packages base-system)))
                    )
                  (services
                    (append (list ;(service kernel-module-loader-service-type
@@ -103,8 +102,8 @@
                            ;									   ;nvidia-module-open
                            ;									   nvidia-driver))))
 			   )
-                           ;(operating-system-user-services dunk-system-common)))))
-			   (modify-services (operating-system-user-services dunk-system-common)
+                           ;(operating-system-user-services base-system)))))
+			   (modify-services (operating-system-user-services base-system)
 					    ;)))))
 ;(udev-service-type config =>
 ;                   (udev-configuration
@@ -136,4 +135,24 @@
                         ;nvidia-module-open
                         nvidia-driver)
                       (modules (xorg-configuration config))))))))))));)
+
+(define %xorg-config-nvidia-gtx1650
+  "Section \"Device\"
+      Identifier     \"Device0\"
+      Driver         \"nvidia\"
+      VendorName     \"NVIDIA Corporation\"
+      BoardName      \"GeForce GTX 1650\"
+  EndSection")
+
+(define-public nvidiaify-system-gtx1650 (base-system)
+  (operating-system
+   (inherit (nvidiaify-system base-system))
+   (services
+	   (modify-services (operating-system-user-services (nvidiaify-system base-system))
+			    (set-xorg-configuration config =>
+						    (set-xorg-configuration
+					        	  (inherit config)
+	        				        (xorg-configuration
+					        	  (inherit (xorg-configuration config))
+							  (extra-config (list %xorg-config-nvidia-gtx1650)))))))))
 

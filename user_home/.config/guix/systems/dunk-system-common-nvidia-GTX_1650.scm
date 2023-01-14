@@ -34,7 +34,8 @@
  nix)
 
 
-(load "./dunk-system-common-nvidia.scm")
+(load "./system-mutations.scm")
+(load "./dunk-system-common.scm")
 
 (define %xorg-config
   "Section \"Device\"
@@ -46,7 +47,7 @@
 
 (define-public dunk-system-common-nvidia-GTX_1650
   (operating-system
-   (inherit dunk-system-common-nvidia)
+   (inherit (nvidiaify-system dunk-system-common))
    (services
 	   (modify-services (operating-system-user-services dunk-system-common-nvidia)
 			    (set-xorg-configuration config =>

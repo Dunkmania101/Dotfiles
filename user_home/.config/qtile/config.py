@@ -28,24 +28,27 @@ from libqtile.lazy import lazy
 # --------------------- #
 
 
-def shcmd_exists(cmd):
+def expand_full_path(path: str = "~") -> str:
+    return os.path.expandvars(os.path.expanduser(path))
+
+def shcmd_exists(cmd: str) -> bool:
     return which(cmd) is not None
 
-def sub_run_cmd(cmd, cwd):
+def sub_run_cmd(cmd: str, cwd: str | None = None) -> None:
     try:
         subprocess.run(cmd, cwd=cwd, shell=True)
     except Exception as e:
-        print(str(e))
         qtile.logger.warning(e)
+        print(str(e))
         pass
 
-def run_cmd(cmd, cwd=None, thread=True):
+def run_cmd(cmd: str, cwd: str | None = None, thread: bool = True) -> None:
    if thread:
         Thread(target=sub_run_cmd, args=(cmd, cwd,)).start()
    else:
        sub_run_cmd(cmd, cwd)
 
-def get_cmd_output(cmd, cwd=None):
+def get_cmd_output(cmd: str, cwd: str | None = None) -> str:
     output = ""
     try:
         output = str(subprocess.run(cmd, cwd=cwd, shell=True, stdout=subprocess.PIPE).stdout.decode('utf-8'))
@@ -56,14 +59,14 @@ def get_cmd_output(cmd, cwd=None):
 
 def exec_func_no_qtile(_, func, args):
     if callable(func):
-        func(*args)
+        return func(*args)
 
 
-def is_wayland():
+def is_wayland() -> bool:
     return qtile.core.name == "wayland"
 
 
-def gen_jgmenu_cmd(fmt="uxterm"):
+def gen_jgmenu_cmd(fmt: str = "uxterm") -> str:
     return f"echo \'{fmt}\' | jgmenu --simple"
 
 
@@ -72,10 +75,10 @@ def gen_jgmenu_cmd(fmt="uxterm"):
 # -------------------- #
 
 
-cfg_dir = os.path.expanduser("~/.config/qtile")
+cfg_dir = expand_full_path("~/.config/qtile")
 #run_cmd(cfg_dir + "/autostart.sh")
 rofi_dir = cfg_dir + "/rofi"
-env_file = os.path.expanduser("~/.private/data/env.json")
+env_file = expand_full_path("~/.private/data/env.json")
 env_data = {}
 if os.path.isfile(env_file):
     with open(env_file, "r") as f:
@@ -157,8 +160,8 @@ my_thick_font_size = 14
 my_thin_font_size = 11
 
 # Directories
-my_wallpapers: str = os.path.expanduser("~/Wallpapers") # Can point to a directory or a single image file.
-my_screenshots_dir: str = os.path.expanduser("~/Pictures/Screenshots")
+my_wallpapers: str = expand_full_path("~/Wallpapers") # Can point to a directory or a single image file.
+my_screenshots_dir: str = expand_full_path("~/Pictures/Screenshots")
 
 # Details
 my_distro: str = "Arch"
@@ -225,7 +228,7 @@ my_editor_alt1 = "emacs"
 my_editor_alt2 = "kitty zsh -c \'source ~/.zshrc; nvim\'"
 
 my_browser = "nyxt -S"
-#my_browser_alt = os.path.expanduser("~/.nix-profile/bin/vivaldi")
+#my_browser_alt = expand_full_path("~/.nix-profile/bin/vivaldi")
 #my_browser_alt = "firefox-developer-edition"
 #my_browser_alt = "firefox"
 my_browser_alt = "librewolf"
@@ -336,37 +339,38 @@ monitors = get_cmd_output(my_get_monitors_cmd).split("\n")
 #monitors = [gdkdsp.get_monitor_plug_name(i) for i in range(gdkdsp.get_n_monitors())]
 
 
-def take_screenshot(cmd="scrot", cwd=my_screenshots_dir):
-    if not os.path.isdir(cwd):
-        os.makedirs(cwd)
-    run_cmd(cmd, cwd)
+def take_screenshot(cmd: str = "scrot", cwd: str = my_screenshots_dir) -> None:
+    _cwd = expand_full_path(cwd)
+    if not os.path.isdir(_cwd):
+        os.makedirs(_cwd)
+    run_cmd(cmd, _cwd)
 
 
-def get_screen_bars(screen):
+def get_screen_bars(screen: Screen) -> list[bar.Bar]:
     return [g for g in screen.gaps if isinstance(g, bar.Bar)]
 
 
-def reload_only_bars(qtile):
+def reload_only_bars(qtile) -> None:
     for s in qtile.screens:
         for b in get_screen_bars(s):
             b.show(); b.show()
 
 
-def run_keysboard(start=True):
+def run_keysboard(start: bool = True) -> None:
     if start:
         run_cmd(cfg_dir + "/scripts/run/run-keysboard.sh")
     else:
         run_cmd('tmux kill-session -t keysboard-bar; rm -f /tmp/tmux-bar-keysboard-pipe')
 
 
-def run_kmonad(start=True):
+def run_kmonad(start: bool = True) -> None:
     if start:
         run_cmd(cfg_dir + "/scripts/run/run-kmonad.sh")
     else:
         run_cmd('tmux kill-session -t kmonad-bar; rm -f /tmp/tmux-bar-kmonad-pipe')
 
 
-#def run_plank(start=True):
+#def run_plank(start: bool = True) -> None:
 #    if start:
 #        for _ in monitors:
 #            run_cmd(f"plank")
@@ -379,94 +383,94 @@ def run_kmonad(start=True):
 # ------------------------------ #
 
 
-def get_full_group_name(screen_name, base_name):
+def get_full_group_name(screen_name, base_name) -> str:
     return f"{screen_name}:{base_name}"
 
-def get_full_group_names_for_screen(i):
+def get_full_group_names_for_screen(i: int) -> list[str]:
     return [get_full_group_name(i, g) for g in my_base_groups]
 
-def get_current_screen_index(qtile):
+def get_current_screen_index(qtile) -> int:
     return qtile.screens.index(qtile.current_screen)
 
-def get_screen_by_offset(qtile, offset=1):
+def get_screen_index_by_offset(qtile, offset: int = 1) -> int:
     return (get_current_screen_index(qtile) + offset) % len(qtile.screens)
 
-def get_current_group_index(qtile):
+def get_current_group_index(qtile) -> int:
     return qtile.groups.index(qtile.current_group)
 
-def get_group_obj_by_name(qtile, g):
-    return qtile.groups_map.get(g)
+def get_group_by_name(qtile, group: str) -> Group:
+    return qtile.groups_map.get(group)
 
-def get_current_group_index_on_current_screen(qtile):
+def get_current_group_index_on_current_screen(qtile) -> int:
     return get_current_group_index(qtile) - ((len(qtile.screens) * len(my_base_groups)))
 
-def get_group_on_current_screen(qtile, g):
-    return get_full_group_name(get_current_screen_index(qtile), g)
+def get_group_name_on_current_screen(qtile, group: Group) -> str:
+    return get_full_group_name(get_current_screen_index(qtile), group)
 
-def get_group_index_on_current_screen_by_offset(qtile, offset=1):
+def get_group_index_on_current_screen_by_offset(qtile, offset: int = 1) -> int:
     return ((get_current_group_index_on_current_screen(qtile) + offset) % len(my_base_groups)) + (len(my_base_groups) * get_current_screen_index(qtile))
 
-def get_group_on_current_screen_by_offset(qtile, offset=1):
+def get_group_on_current_screen_by_offset(qtile, offset: int = 1) -> Group:
     return qtile.groups[get_group_index_on_current_screen_by_offset(qtile, offset)]
 
 
-def set_screen(qtile, screen, move_focus=True, move_window=True):
+def set_screen(qtile, screen: int, move_focus: bool = True, move_window: bool = True) -> None:
     if move_window:
         qtile.current_window.cmd_toscreen(screen)
     if move_focus:
         qtile.cmd_to_screen(screen)
 
-def cycle_screen(qtile, offset=1, move_focus=True, move_window=True):
-    set_screen(qtile, get_screen_by_offset(qtile, offset), move_focus, move_window)
+def cycle_screen(qtile, offset: int = 1, move_focus: bool = True, move_window: bool = True) -> None:
+    set_screen(qtile, get_screen_index_by_offset(qtile, offset), move_focus, move_window)
 
 
-def set_current_screen_group(qtile, g, toggle=True):
+def set_current_screen_group(qtile, group: str, toggle:bool = True) -> None:
     if toggle:
-        qtile.current_screen.cmd_toggle_group(g)
+        qtile.current_screen.cmd_toggle_group(group)
     else:
-        qtile.current_screen.set_group(get_group_obj_by_name(qtile, g))
+        qtile.current_screen.set_group(get_group_by_name(qtile, group))
 
-def set_current_screen_group_on_current_screen(qtile, g, toggle=True):
-    set_current_screen_group(qtile, get_group_on_current_screen(qtile, g), toggle)
+def set_current_screen_group_on_current_screen(qtile, group: Group, toggle: bool = True) -> None:
+    set_current_screen_group(qtile, get_group_name_on_current_screen(qtile, group), toggle)
 
-def set_current_screen_group_on_current_screen_no_toggle(qtile, g):
-    set_current_screen_group_on_current_screen(qtile, g, toggle=False)
+def set_current_screen_group_on_current_screen_no_toggle(qtile, group: Group) -> None:
+    set_current_screen_group_on_current_screen(qtile, group, toggle=False)
 
-def set_current_screen_group_by_offset(qtile, offset=1):
+def set_current_screen_group_by_offset(qtile, offset: int = 1) -> None:
     set_current_screen_group(qtile, get_group_on_current_screen_by_offset(qtile, offset).name)
 
 
-def send_current_win_to_group(qtile, g, switch_group=True):
-    qtile.current_window.togroup(g, switch_group=switch_group)
+def send_current_win_to_group(qtile, group: str, switch_group: bool = True) -> None:
+    qtile.current_window.togroup(group, switch_group=switch_group)
 
-def send_current_win_to_group_on_current_screen_switch(qtile, g):
-    send_current_win_to_group(qtile, get_group_on_current_screen(qtile, g))
+def send_current_win_to_group_on_current_screen_switch(qtile, group: Group) -> None:
+    send_current_win_to_group(qtile, get_group_name_on_current_screen(qtile, group))
 
-def send_current_win_to_group_on_current_screen_noswitch(qtile, g):
-    send_current_win_to_group(qtile, get_group_on_current_screen(qtile, g), False)
+def send_current_win_to_group_on_current_screen_noswitch(qtile, group: Group) -> None:
+    send_current_win_to_group(qtile, get_group_name_on_current_screen(qtile, group), False)
 
 
-def win_cycle_group_next_switch(qtile):
+def win_cycle_group_next_switch(qtile) -> None:
     send_current_win_to_group(qtile, get_group_on_current_screen_by_offset(qtile).name, switch_group=True)
 
-def win_cycle_group_prev_switch(qtile):
+def win_cycle_group_prev_switch(qtile) -> None:
     send_current_win_to_group(qtile, get_group_on_current_screen_by_offset(qtile, -1).name, switch_group=True)
 
-def win_cycle_group_next_noswitch(qtile):
+def win_cycle_group_next_noswitch(qtile) -> None:
     send_current_win_to_group(qtile, get_group_on_current_screen_by_offset(qtile).name, switch_group=False)
 
-def win_cycle_group_prev_noswitch(qtile):
+def win_cycle_group_prev_noswitch(qtile) -> None:
     send_current_win_to_group(qtile, get_group_on_current_screen_by_offset(qtile, -1).name, switch_group=False)
 
 
-def cycle_screen_next(qtile):
+def cycle_screen_next(qtile) -> None:
     cycle_screen(qtile, 1, True, False)
 
-def cycle_screen_prev(qtile):
+def cycle_screen_prev(qtile) -> None:
     cycle_screen(qtile, -1, True, False)
 
 
-def swap_current_screen(qtile, offset=1):
+def swap_current_screen(qtile, offset: int = 1) -> None:
     i = get_current_screen_index(qtile)
     o = i+offset
     if o >= len(qtile.screens):
@@ -474,33 +478,33 @@ def swap_current_screen(qtile, offset=1):
     qtile.screens[i], qtile.screens[o] = qtile.screens[o], qtile.screens[i]
     qtile.cmd_reconfigure_screens()
 
-def swap_current_screen_next(qtile):
+def swap_current_screen_next(qtile) -> None:
     swap_current_screen(qtile)
 
-def swap_current_screen_prev(qtile):
+def swap_current_screen_prev(qtile) -> None:
     swap_current_screen(qtile, -1)
 
 
-def cycle_group_next(qtile):
+def cycle_group_next(qtile) -> None:
     set_current_screen_group_by_offset(qtile)
 
-def cycle_group_prev(qtile):
+def cycle_group_prev(qtile) -> None:
     set_current_screen_group_by_offset(qtile, -1)
 
 
-def win_cycle_screen_next_switch(qtile):
+def win_cycle_screen_next_switch(qtile) -> None:
     cycle_screen(qtile, 1, True, True)
 
-def win_cycle_screen_prev_switch(qtile):
+def win_cycle_screen_prev_switch(qtile) -> None:
     cycle_screen(qtile, -1, True, True)
 
-def win_cycle_screen_next_noswitch(qtile):
+def win_cycle_screen_next_noswitch(qtile) -> None:
     cycle_screen(qtile, 1, False, True)
 
-def win_cycle_screen_prev_noswitch(qtile):
+def win_cycle_screen_prev_noswitch(qtile) -> None:
     cycle_screen(qtile, -1, False, True)
 
-def win_toggle_minimize(qtile):
+def win_toggle_minimize(qtile) -> None:
     qtile.current_window.cmd_toggle_minimize()
 
 
@@ -805,11 +809,11 @@ widget_defaults = dict(
 
 
 class FileReaderWidget(widget_base.ThreadPoolText):
-    def __init__(self, msg_base="", empty_msg="No Data", read_file="", **config):
+    def __init__(self, msg_base: str | None = "", msg_empty: str | None = "No Data", read_file: str = "", **config):
         widget_base.ThreadPoolText.__init__(self, "", **config)
-        self.msg_base = msg_base
-        self.empty_msg = empty_msg
-        self.read_file = read_file
+        self.msg_base: str = msg_base if msg_base is not None else ""
+        self.msg_empty: str = msg_empty if msg_empty is not None else ""
+        self.read_file: str = read_file
 
     def poll(self):
         msg = ""
@@ -825,27 +829,28 @@ class FileReaderWidget(widget_base.ThreadPoolText):
             msg = f"Error: {e}"
         finally:
             if msg == "":
-                msg = self.empty_msg
+                msg = self.msg_empty
             return self.msg_base + msg
 
 class OpenWidgetBox(widget.WidgetBox):
     def __init__(self, _widgets: list[widget_base._Widget] = [], starts_open: bool = True, **config):
         super().__init__(_widgets=_widgets, **config)
-        self.starts_open = starts_open
+        self.starts_open: bool = starts_open
         Thread(target=self.wait_open, daemon=True).start()
 
     def wait_open(self):
         if self.box_is_open != self.starts_open:
             while not self.configured:
                 sleep(0.1)
-            self.cmd_toggle()
+            if self.box_is_open != self.starts_open:
+                self.cmd_toggle()
 
 
 class ColorGmailChecker(widget.GmailChecker):
-    def __init__(self, clear_foreground=green_color, unseen_foreground=red_color, **config):
+    def __init__(self, clear_foreground: str = green_color, unseen_foreground: str = red_color, **config):
         super().__init__(**config)
-        self.clear_foreground=clear_foreground
-        self.unseen_foreground=unseen_foreground
+        self.clear_foreground: str = clear_foreground
+        self.unseen_foreground: str = unseen_foreground
 
     def poll(self):
         self.gmail = imaplib.IMAP4_SSL("imap.gmail.com")

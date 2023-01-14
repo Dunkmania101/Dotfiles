@@ -188,26 +188,49 @@
                                         ;           (start-process-shell-command command nil command)))
                                         ;
             ([?\s-c] . exwm-input-toggle-keyboard)
+            ;; Apps
             ([?\s- ] . (lambda ()
                          (interactive)
                          (app-launcher-run-app)))
             ([?\s-e] . (lambda ()
                          (interactive)
+                         (split-window)
                                         ;(start-process "" nil "/usr/bin/pcmanfm")))
                          (start-process-shell-command "" nil "nautilus")))
-            ;; Apps
+            ([s-return] . (lambda ()
+                         (interactive)
+                         (split-window)
+                         (+vterm/here t)))
+                         ;;(with-temp-buffer-window "vterm" nil nil
+                         ;;  (progn
+                         ;;    (split)
+                         ;;    (+vterm/here t)))))
             ([?\s-b] . (lambda ()
                          (interactive)
-                                        ;(start-process "" nil "/usr/bin/firefox-developer-edition")))
+                         (split-window)
+                         ;;(start-process "" nil "/usr/bin/firefox-developer-edition")))
                          (start-process-shell-command "" nil "librewolf")))
+            ;; Navigation
+            ([?\s-h] . (lambda ()
+                         (interactive)
+                         (evil-window-left 1)))
+            ([?\s-j] . (lambda ()
+                         (interactive)
+                         (evil-window-down 1)))
+            ([?\s-k] . (lambda ()
+                         (interactive)
+                         (evil-window-up 1)))
+            ([?\s-l] . (lambda ()
+                         (interactive)
+                         (evil-window-right 1)))
             ;; System
             ([?\s-q] . (lambda ()
-                       ;(interactive)
-                       (let ((options '(("Lock + Monitor Off" . (lambda () (progn (start-process-shell-command "monitorsoff" nil monitors-off-cmd) (start-process-shell-command "lock" nil lock-session-cmd)))) ("Lock" . (lambda () (start-process-shell-command "lock" nil lock-session-cmd))) ("Monitors Off" . (lambda () (start-process-shell-command "monitorsoff" nil monitors-off-cmd))) ("Reboot" . (lambda () (start-process-shell-command "reboot" nil reboot-cmd))) ("Poweoff" . (lambda () (start-process-shell-command "poweroff" nil poweroff-cmd))))))
+                       (interactive)
+                       (let ((options '(("Lock + Monitor Off" . (lambda () (start-process-shell-command "monitorsoff" nil monitors-off-cmd) (start-process-shell-command "lock" nil lock-session-cmd))) ("Lock" . (lambda () (start-process-shell-command "lock" nil lock-session-cmd))) ("Monitors Off" . (lambda () (start-process-shell-command "monitorsoff" nil monitors-off-cmd))) ("Reboot" . (lambda () (start-process-shell-command "reboot" nil reboot-cmd))) ("Poweoff" . (lambda () (start-process-shell-command "poweroff" nil poweroff-cmd))))))
                          (funcall (alist-get (completing-read "Power/Session Menu: " options) options (lambda () (print "Selection Aborted!")))))))
-            ([s-f2] . (lambda ()
+            ([s-backspace] . (lambda ()
                         (interactive)
-                        (start-process "" nil "loginctl lock-session")))))
+                        (start-process "" nil "loginctl" "lock-session")))))
     (define-key exwm-mode-map [?\C-q] #'exwm-input-send-next-key)
     (setq exwm-input-simulation-keys
           '(
@@ -247,17 +270,15 @@
                   )))
     (add-hook 'exwm-init-hook
               (lambda ()
-                (progn
-                  (mapc (lambda (cmd)
-                          (start-process-shell-command cmd nil cmd))
-                        '("xsetroot -cursor_name left_ptr"
-                          "xset b off"
-                          "xset r rate 280 40"
-                                        ;"xset 1800"
-                          "xss-lock -l -- i3lock --ignore-empty-password --color=2c2826 --bar-indicator --bar-color=3c3836 &"
-                          "picom --config ~/.config/picom/picom.conf &")))))
-    (add-hook 'exwm-exit-hook
-              (lambda ()))
+                (mapc (lambda (cmd) (start-process-shell-command cmd nil cmd))
+                      '("xsetroot -cursor_name left_ptr"
+                        "xset b off"
+                        "xset r rate 280 40"
+                        ;;"xset 1800"
+                        "xss-lock -l -- i3lock --ignore-empty-password --color=2c2826 --bar-indicator --bar-color=3c3836 &"
+                        "picom --config ~/.config/picom/picom.conf &"))))
+    ;;(add-hook 'exwm-exit-hook
+    ;;          (lambda ()))
     (exwm-systemtray-enable)
     (exwm-randr-enable)))
 

@@ -97,7 +97,8 @@ bind-key SPACE macro-prefix
 # Macros #
 ##########
 
-macro m set browser "nohup mpv --script=$HOME/.guix-profile/lib/mpris.so --force-window --no-keepaspect-window --loop %u"; open-in-browser; set browser "nohup xdg-open %u"; redraw
+macro m set browser "nohup mpv --script=$HOME/.guix-profile/lib/mpris.so --force-window --no-keepaspect-window --loop --ytdl=yes --script-opts=ytdl_hook-ytdl_path='yt-dlp',ytdl_hook-try_ytdl_first='yes' --ytdl-raw-options=sponsorblock-mark='all',sponsorblock-api='https://sponsor.ajay.app,embed-chapters=' '%u'"; open-in-browser; set browser "nohup xdg-open %u"; redraw
+#macro M set browser "nohup mpv --script=$HOME/.guix-profile/lib/mpris.so --force-window --no-keepaspect-window --loop --ytdl=yes --script-opts=ytdl_hook-ytdl_path='yt-dlp',ytdl_hook-try_ytdl_first='yes' --ytdl-raw-options=sponsorblock-remove='sponsor' '%u'"; open-in-browser; set browser "nohup xdg-open %u"; redraw
 macro n set browser "nohup nyxt %u"; open-in-browser; set browser "nohup xdg-open %u"; redraw
 macro f set browser "nohup librewolf %u"; open-in-browser; set browser "nohup xdg-open %u"; redraw
 

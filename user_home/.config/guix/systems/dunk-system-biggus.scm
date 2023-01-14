@@ -34,12 +34,15 @@
  nix)
 
 
-(load "./dunk-system-common-nvidia-GTX_1650.scm")
+;(load "./dunk-system-common-nvidia-GTX_1650.scm")
 ;(load "./dunk-system-common-nvidia.scm")
+(load "./system-mutations.scm")
+(load "./dunk-system-common.scm")
 
 (define-public dunk-system-biggus
   (operating-system
-   (inherit dunk-system-common-nvidia-GTX_1650)
+   (inherit (nvidiaify-system-gtx1650 dunk-system-common))
+   ;(inherit dunk-system-common-nvidia-GTX_1650)
    ;(inherit dunk-system-common-nvidia)
    (host-name "bigguscomputicus")))
 
