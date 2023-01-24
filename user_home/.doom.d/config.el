@@ -110,6 +110,8 @@
       (:prefix ("c")
        :desc "Comment line(s)" ";" #'comment-line))
 
+(map! "M-&" #'with-editor-async-shell-command)
+
 ;(after! eaf
 ;  ((require 'eaf-evil)
 ;
@@ -189,9 +191,11 @@
                                         ;
             ([?\s-c] . exwm-input-toggle-keyboard)
             ;; Apps
-            ([?\s- ] . (lambda ()
-                         (interactive)
-                         (app-launcher-run-app)))
+            ([?\s- ] . (lambda (command)
+                         (interactive (list (read-shell-command "$ ")))
+                         (start-process-shell-command command nil command)))
+                         ;(interactive)
+                         ;(app-launcher-run-app)))
             ([?\s-e] . (lambda ()
                          (interactive)
                          (split-window)

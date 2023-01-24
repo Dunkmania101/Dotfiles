@@ -93,8 +93,14 @@ if os.path.isfile(env_file):
 my_font = "Iosevka"
 my_term_font = "Iosevka Term"
 
+char_left_bend = "\ue0b6"
+char_right_bend = "\ue0b4"
+
+segment_bars = False
+
 my_color_theme = "gruvbox_dark" # "one_dark" or "gruvbox_dark" or "everforest_dark"
 
+invisible_color = ["#00000000", "#00000000", "#00000000"]
 if my_color_theme == "one_dark":
     # One Dark
     bg_color = "#282c34"
@@ -126,8 +132,8 @@ elif my_color_theme == "everforest_dark":
     cyan_color = "#83c092"
     red_color = "#e67e80"
 else:
-    # Gruvbox Dark
-    bg_color = "#29221B"
+    # Gruvbox-ish Dark
+    bg_color = "#24221B"
     fg_color = "#4f443a"
     dark_bg_color = "#222222"
     bg_line_color = "#3c3836"
@@ -152,12 +158,13 @@ my_base_groups = "~ 1 2 3 4 5 6 7 8 9 0 - =".split(" ")
 my_systray_screen = 0
 
 # Gap and border sizes
-my_thick_border_width = 4
+bar_height = 30
+my_thick_border_width = 3
 my_thin_border_width = 2
 my_thick_margin = 4
 my_thin_margin = 2
 my_thick_font_size = 14
-my_thin_font_size = 11
+my_thin_font_size = 12
 
 # Directories
 my_wallpapers: str = expand_full_path("~/Wallpapers") # Can point to a directory or a single image file.
@@ -204,7 +211,7 @@ my_terminal = "tilix"
 #my_terminal = "contour"
 #my_terminal = f"uxterm -si -fs 10 -fa \"{my_term_font}\" -bg \'#212121\' -bd \'#212111\'"
 #my_terminal_alt = "kitty"
-my_terminal_alt = f"uxterm -si -fs 10 -fa \"{my_term_font}\" -bg \'#212121\' -bd \'#212111\'"
+my_terminal_alt = f"uxterm -si -fs 11 -fa \"{my_term_font}\" -bg \'#212121\' -bd \'#212111\'"
 #my_terminal_alt = "st"
 #my_terminal_alt = "cool-retro-term"
 #my_terminal_alt = "darktile"
@@ -797,14 +804,17 @@ mouse = [
 
 widget_defaults = dict(
     font=my_font,
-    fontsize=my_thick_font_size,
+    fontsize=my_thin_font_size,
     padding=my_thin_border_width,
     margin=my_thin_margin,
+    border_width=my_thin_border_width,
+    border_color=[fg_txt_color, fg_txt_color],
     background=[dark_bg_color, dark_bg_color],
     foreground=[fg_txt_color, fg_txt_color],
     graph_color=[fg_txt_color, fg_txt_color],
     fill_color=[bg_txt_color, bg_txt_color],
 )
+extension_defaults = widget_defaults.copy()
 
 
 
@@ -898,9 +908,18 @@ def get_alternating_colors_cyan() -> list[str]:
     return [dark_bg_color, cyan_color, dark_bg_color, dark_bg_color, dark_bg_color, cyan_color, dark_bg_color]
 
 
+def get_bend_widget(left=False) -> widget_base._Widget:
+    return widget.TextBox(text=char_left_bend if left else char_right_bend, padding=0, fontsize=bar_height, foreground=dark_bg_color, background=invisible_color if segment_bars else dark_bg_color, font="PowerlineSymbols")
+
+def get_sep_widget(mid_bar=False, stretch_right=False) -> widget_base._Widget:
+    if mid_bar and segment_bars:
+        #return widget.Sep(linewidth=my_thick_margin, foreground=invisible_color, background=invisible_color)
+        return widget.Spacer(bar.STRETCH if stretch_right else my_thick_margin, background=invisible_color)
+    return widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin)
+
+
 def get_sys_stat_widgets() -> list:
     return [
-        widget.Spacer(length=my_thick_margin),
         widget.Sep(linewidth=my_thin_border_width, padding=my_thick_margin),
         widget.TextBox("CPU:", background=get_alternating_colors_red()),
         widget.CPUGraph(
@@ -947,39 +966,40 @@ def get_sys_stat_widgets() -> list:
             background=get_alternating_colors_blue(),
         ),
         widget.Sep(linewidth=my_thin_border_width, padding=my_thick_margin),
-        widget.Spacer(length=my_thick_margin),
     ]
 
 def get_widgets_1(i) -> list:
     widgets = [
-                widget.Spacer(length=15),
+                get_sep_widget(True),
+                get_bend_widget(True),
                 widget.TextBox(
                     fontsize=16,
                     foreground=green_color,
                     fmt='::',
                     mouse_callbacks={'Button1': lambda: qtile.cmd_spawn(my_launcher)},
                 ),
-                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
+                get_sep_widget(),
                 OpenWidgetBox(
                     widgets=[
                         widget.GroupBox(
                             border_width=my_thin_border_width,
                             disable_drag=True,
                             rounded=True,
-                            active=[fg_txt_color, fg_txt_color],
-                            inactive=[bg_txt_color, bg_txt_color],
+                            active=[fg_txt_color, fg_color],
+                            inactive=[bg_txt_color, fg_color],
                             highlight_method="line",
+                            #highlight_method="box",
                             this_current_screen_border=fg_line_color_alt,
-                            this_screen_border=bg_line_color_alt,
-                            highlight_color=[fg_color, fg_color],
+                            this_screen_border=bg_line_color,
+                            highlight_color=[bg_color, fg_color],
                             visible_groups=get_full_group_names_for_screen(i),
                             spacing=0,
                         ),
                     ],
                 ),
-                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
+                get_sep_widget(),
                 widget.CurrentScreen(active_color=green_color, inactive_color=red_color),
-                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
+                get_sep_widget(),
 #                widget.TextBox(
 #                    fontsize=16,
 #                    fmt='',
@@ -988,25 +1008,26 @@ def get_widgets_1(i) -> list:
 #                        'Button3': lambda: qtile.cmd_spawn(my_window_killer),
 #                    },
 #                ),
-                widget.Spacer(length=20),
-                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
+                get_bend_widget(False),
+                #widget.Spacer(50, background=invisible_color),
+                get_sep_widget(True),
+                get_bend_widget(True) if i == my_systray_screen else get_sep_widget(True),
+                #get_sep_widget(),
                 OpenWidgetBox(
                     widgets=[
-                        widget.Systray(icon_size=24),
+                        widget.Systray(icon_size=24, foreground=dark_bg_color, background=dark_bg_color),
                     ],
                 ) if i == my_systray_screen else None,
-                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
-                widget.Spacer(bar.STRETCH),
-                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
-                widget.Clock(
-                    format='%a %b %d %Y, %I:%M:%S',
-                    background=get_alternating_colors_green(),
-                ),
+                #get_sep_widget(),
+                get_bend_widget(False) if i == my_systray_screen else get_sep_widget(True),
+                get_sep_widget(True),
+                widget.Spacer(bar.STRETCH, background=invisible_color if segment_bars else dark_bg_color),
+                get_bend_widget(True),
                 #widget.Wttr(
                 #    location = {my_city: ""},
                 #    background=get_alternating_colors_green(),
                 #),
-                #widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
+                #get_sep_widget(),
                 #OpenWidgetBox(
                 #    widgets=[
                 #        widget.Wttr(
@@ -1016,7 +1037,6 @@ def get_widgets_1(i) -> list:
                 #            ),
                 #        ],
                 #    ),
-                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
                 OpenWidgetBox(
                     widgets=[
                         widget.CheckUpdates(
@@ -1035,15 +1055,22 @@ def get_widgets_1(i) -> list:
                         ),
                     ]
                 ),
-                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
+                get_sep_widget(),
+                widget.Clock(
+                    format='%a %b %d %Y, %I:%M:%S',
+                    background=get_alternating_colors_green(),
+                ),
+                get_sep_widget(),
                 widget.CapsNumLockIndicator(
                     frequency=0.1,
                     background=get_alternating_colors_cyan(),
                 ),
-                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
+                get_sep_widget(),
                 OpenWidgetBox(widgets=get_sys_stat_widgets()),
                 #widget.WidgetBox(widgets=get_sys_stat_widgets()),
-                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
+                get_bend_widget(False),
+                get_sep_widget(True),
+                get_bend_widget(True),
                 widget.TextBox(
                     fmt='[-',
                     mouse_callbacks={'Button1': lambda: qtile.cmd_spawn('playerctl position 2-')},
@@ -1065,31 +1092,35 @@ def get_widgets_1(i) -> list:
                 widget.Spacer(length=7),
                 widget.TextBox("vol:"),
                 widget.Volume(update_interval=0.1, step=1),
+                #get_sep_widget(),
                 # widget.CurrentLayoutIcon(scale=0.70),
-                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
+                get_sep_widget(),
                 widget.TextBox(
                     fontsize=16,
                     foreground=red_color,
                     fmt='Q',
                     mouse_callbacks={'Button1': lambda: qtile.cmd_spawn(my_powermenu)},
                 ),
-                widget.Spacer(length=15),
+                get_bend_widget(False),
+                get_sep_widget(True),
             ]
-    for w in widgets:
+    for iw, w in enumerate(widgets):
         if w is None or (isinstance(w, widget.Systray) and i != my_systray_screen):
-            widgets.remove(w)
+            widgets.pop(iw)
     return widgets
 
 
 def get_widgets_2(i) -> list:
     widgets = [
-                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
+                get_bend_widget(True),
                 widget.TaskList(
                     border=fg_line_color,
                     unfocused_border=bg_line_color,
                     rounded=True,
                 ),
-                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
+                get_bend_widget(False),
+                get_sep_widget(True),
+                get_bend_widget(True),
                 FileReaderWidget(
                     file = "/tmp/tmux-bar-keysboard-pipe",
                     msg_base = "Keysboard: ",
@@ -1105,7 +1136,7 @@ def get_widgets_2(i) -> list:
                         #'Button3': lambda: run_kmonad(False),
                     },
                 ),
-                widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin),
+                get_bend_widget(False),
     ]
     return widgets
 
@@ -1158,8 +1189,8 @@ for monitor in monitors:
             wallpaper = wallpaper=choice(wallpapers)
         else:
             wallpaper = None
-        top_bar=bar.Bar(get_widgets_1(i), 30, background=bg_color, border_color=bg_line_color, border_width=my_thin_border_width)
-        bottom_bar=bar.Bar(get_widgets_2(i), 30, background=bg_color, border_color=bg_line_color, border_width=my_thin_border_width)
+        top_bar=bar.Bar(get_widgets_1(i), bar_height, margin=my_thin_margin, foreground=invisible_color if segment_bars else fg_color, background=invisible_color if segment_bars else dark_bg_color, border_color=invisible_color if segment_bars else bg_line_color, border_width=0 if segment_bars else my_thin_border_width)
+        bottom_bar=bar.Bar(get_widgets_2(i), bar_height, margin=my_thin_margin, foreground=invisible_color if segment_bars else fg_color, background=invisible_color if segment_bars else dark_bg_color, border_color=invisible_color if segment_bars else bg_line_color, border_width=0 if segment_bars else my_thin_border_width)
         bars.extend([top_bar, bottom_bar])
         screens.append(
             Screen(

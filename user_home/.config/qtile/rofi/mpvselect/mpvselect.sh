@@ -11,5 +11,5 @@ fi
 if [[ ! "$media_file" == "" ]]
 then
     echo $media_file
-    mpv --script=$HOME/.guix-profile/lib/mpris.so --force-window --no-keepaspect-window --loop "$media_file"
+    mpv --script=$HOME/.guix-profile/lib/mpris.so --force-window --no-keepaspect-window --loop --ytdl=yes --script-opts=ytdl_hook-ytdl_path='yt-dlp',ytdl_hook-try_ytdl_first='yes' --ytdl-raw-options=sponsorblock-mark='all',embed-chapters= "$media_file"
 fi

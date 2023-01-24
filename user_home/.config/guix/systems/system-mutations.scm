@@ -39,9 +39,10 @@
 
 (load "../nvtransform.scm")
 
-(define-public nvidiaify-system (base-system)
+(define-public (nvidiaify-system base-system)
                (operating-system
-                 (base-system)
+                 (inherit base-system)
+                 ;(kernel linux-lts)
                  ;(kernel (nvtransform (operating-system-kernel base-system)))
                  ;(firmware (nvtransforms (operating-system-firmware base-system)))
                  ;(firmware (nvtransforms (append (list
@@ -49,20 +50,25 @@
                  ;				      ;)
                  ;				    (operating-system-firmware base-system))))
                  ; nvidia-module-open 
-                 ;    (kernel-loadable-modules (nvtransforms (append (list nvidia-driver) (operating-system-kernel-loadable-modules base-system))))
-                 ;(kernel-loadable-modules (append (list nvidia-module) (operating-system-kernel-loadable-modules base-system)))
-
-                 (kernel-arguments (append 
-                                     (append 
+                 ;    (kernel-loadable-modules (nvtransforms (append (list nvidia-module nvidia-module-open) (operating-system-kernel-loadable-modules base-system))))
+                 ;(kernel-loadable-modules (nvtransforms (append (list nvidia-module nvidia-module-open) (operating-system-kernel-loadable-modules base-system))))
+                 ;(kernel-loadable-modules (append (list nvidia-module nvidia-module-open) (operating-system-kernel-loadable-modules base-system)))
+                 (kernel-loadable-modules (list nvidia-module-open nvidia-module))
+                 ;(kernel-loadable-modules (list nvidia-module))
+                 ;(kernel-loadable-modules (list nvidia-module-open))
+                 (kernel-arguments ;(append 
+                                     ;(append 
                                      '(
                                        ;"nvidia-drm.modeset=1"
                                        "modprobe.blacklist=nouveau") ;,nvidia_uvm")
-                                     (operating-system-user-kernel-arguments base-system))
-                                     %default-kernel-arguments))
+                                     ;(operating-system-user-kernel-arguments base-system))
+                                     ;%default-kernel-arguments)
+                                     )
                  (packages 
-                   (nvtransforms
+                   ;(nvtransforms
                      (append
                        (list ;(specification->package "nvidia-module-open")
+                             ;(specification->package "nvidia-module")
                              ;(specification->package "nvidia-driver")
                              ;(specification->package "nvidia-firmware")
                              (specification->package "nvidia-exec")
@@ -70,7 +76,7 @@
                              ;(specification->package "mesa")
                              )
                        (operating-system-packages base-system)))
-                   )
+                   ;)
                  (services
                    (append (list ;(service kernel-module-loader-service-type
                              ;     				'("nvidia"
@@ -78,10 +84,13 @@
                              ;       				  "nvidia_uvm"
                              ;       				  "nvidia_modeset"
                              ;			        	  "ipmi_devintf"))
-                             (service nvidia-service-type
+                             (service nvidia-service-type;)
                                       (nvidia-configuration
-                                        (modules (list "nvidia" "nvidia-uvm" "nvidia-drm" "nvidia-modeset" "ipmi-devintf"))
+                                        ;(modules (list "nvidia" "nvidia-uvm" "nvidia-drm" "nvidia-modeset" "ipmi-devintf"))
+                                        ;(modules (list))
                                         (nvidia-module (list nvidia-module nvidia-module-open))
+                                        ;(nvidia-module (list nvidia-module-open))
+                                        ;(nvidia-module (list nvidia-module))
 					))
                              ;(set-xorg-configuration
                              ;  (xorg-configuration
@@ -125,8 +134,8 @@
             (set-xorg-configuration
 			    (inherit config)
 			    (xorg-configuration
-			      (inherit (xorg-configuration config))
-			      (server (nvtransform xorg-server))
+			      (inherit (xorg-config config))
+			      ;(server (nvtransform xorg-server))
 			      (drivers '("nvidia"))
 			      (modules
                     ;(nvtransforms
@@ -134,17 +143,59 @@
                       (list
                         ;nvidia-module-open
                         nvidia-driver)
-                      (modules (xorg-configuration config))))))))))));)
+                      (modules (xorg-config config))))))))))));)
 
-(define %xorg-config-nvidia-gtx1650
+;(define %xorg-config-nvidia-gtx1650
+;  "Section \"Device\"
+;      Identifier     \"Device0\"
+;      Driver         \"nvidia\"
+;      VendorName     \"NVIDIA Corporation\"
+;      BoardName      \"GeForce GTX 1650\"
+;  EndSection")
+(define %xorg-config-nvidia
   "Section \"Device\"
-      Identifier     \"Device0\"
+      Identifier     \"Device-nvidia\"
       Driver         \"nvidia\"
       VendorName     \"NVIDIA Corporation\"
-      BoardName      \"GeForce GTX 1650\"
-  EndSection")
+      Option \"RegistryDwords\" \"EnableBrightnessControl=1\"
+   EndSection
+   Section \"Screen\"
+       Identifier \"nvidia\"
+       Device \"nvidia\"
+       Option \"AllowEmptyInitialConfiguration\"
+   EndSection")
 
-(define-public nvidiaify-system-gtx1650 (base-system)
+(define %xorg-config-nvidia-replace-intel
+    "Section \"ServerLayout\"
+        Identifier \"layout\"
+        Screen 0 \"nvidia\"
+        Inactive \"intel\"
+    EndSection
+    
+    Section \"Device\"
+        Identifier \"nvidia\"
+        Driver \"nvidia\"
+        BusID \"01:00:0\"
+        Option \"RegistryDwords\" \"EnableBrightnessControl=1\"
+    EndSection
+    
+    Section \"Screen\"
+        Identifier \"nvidia\"
+        Device \"nvidia\"
+        Option \"AllowEmptyInitialConfiguration\"
+    EndSection
+    
+    Section \"Device\"
+        Identifier \"intel\"
+        Driver \"modesetting\"
+    EndSection
+    
+    Section \"Screen\"
+        Identifier \"intel\"
+        Device \"intel\"
+    EndSection")
+
+(define-public (nvidiaify-system-gtx1650 base-system)
   (operating-system
    (inherit (nvidiaify-system base-system))
    (services
@@ -153,6 +204,6 @@
 						    (set-xorg-configuration
 					        	  (inherit config)
 	        				        (xorg-configuration
-					        	  (inherit (xorg-configuration config))
+					        	  (inherit (xorg-config config))
 							  (extra-config (list %xorg-config-nvidia-gtx1650)))))))))
 

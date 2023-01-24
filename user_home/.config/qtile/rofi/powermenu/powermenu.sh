@@ -9,9 +9,9 @@ rofi_command="rofi -theme ~/.config/qtile/rofi/gruvbox-dark.rasi"
 # Options
 shutdown="⏻ - Poweroff"
 reboot="累 - Reboot"
+monitor=" - Lock & Monitor Off"
 lock=" - Lock"
 suspend=" - Suspend"
-monitor=" - Monitor Off"
 logout=" - Logout"
 
 
@@ -37,7 +37,7 @@ confirm_exit() {
 }
 
 # Variable passed to rofi
-options="$shutdown\n$reboot\n$lock\n$suspend\n$monitor\n$logout"
+options="$shutdown\n$reboot\n$monitor\n$lock\n$suspend\n$logout"
 
 chosen="$(echo -e "$options" | $rofi_command -p "Uptime: $uptime" -dmenu -selected-row 2)"
 case $chosen in

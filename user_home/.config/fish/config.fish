@@ -33,6 +33,7 @@ end
 # Aliases
 alias sudo="sudo "
 function audio-burst-loop -a 'f'; while true; mpv $f --length=0.3; set grimmdelay (random 3 120); echo sleeping for $grimmdelay; sleep $grimmdelay; end; end
+function uu-graal; for j in /usr/lib/jvm/java-*-graalvm/bin/gu; sudo $j rebuild libpolyglot ; end; end
 alias ff="fd . / --type f | fzf"
 alias fh="fd . --type f | fzf"
 alias ffv='$EDITOR (ff)'
@@ -43,10 +44,11 @@ alias sl="sl -e"
 alias ferium-cfg1="ferium --config-file=$games/Ferium/Configs/1/config.json"
 alias vfzf="ytfzf -tcY,P,O"
 alias zellij-mc-1="zellij a mc-1 || zellij -s mc-1"
+alias install-minegrub="sudo git -C /boot/grub/themes/ clone https://github.com/Lxtharia/minegrub-theme.git; sudo sed -i'.bak' 's@#GRUB_THEME=\"/path/to/gfxtheme\"@GRUB_THEME=/boot/grub/themes/minegrub-theme/theme.txt@g' /etc/default/grub; sudo update-grub"
 alias install-capitaine-cursors-sainnhe="wget https://github.com/sainnhe/capitaine-cursors/releases/latest/download/Linux.zip -O /tmp/Linux.zip && mkdir -p ~/.local/share/icons && unzip -o /tmp/Linux.zip -d ~/.local/share/icons/"
 alias install-capitaine-cursors-sainnhe-root="wget https://github.com/sainnhe/capitaine-cursors/releases/latest/download/Linux.zip -O /tmp/Linux.zip && sudo mkdir -p /usr/share/icons && sudo unzip -o /tmp/Linux.zip -d /usr/share/icons/"
 alias install-mpv-sponsorblock="git -C /tmp clone --depth=1 https://github.com/po5/mpv_sponsorblock.git; mkdir -p ~/.config/mpv/scripts/; cp /tmp/mpv_sponsorblock/sponsorblock.lua ~/.config/mpv/scripts/; cp -r /tmp/mpv_sponsorblock/sponsorblock_shared ~/.config/mpv/scripts/"
-alias install-searx='docker stop searx-1; docker rm -v searx-1; PORT=8888 docker run --name=searx-1 --restart=unless-stopped -d -v ~/ProgramFiles/searx:/etc/searx -p $PORT:8080 --expose 9050 -e BASE_URL=http://localhost:$PORT/ searx/searx:latest'
+alias install-searx='docker stop searx-1; docker rm -v searx-1; PORT=8888 docker run --name=searx-1 --restart=unless-stopped -d -v ~/ProgramFiles/searx:/etc/searx -p $PORT:8080 --expose 9050 --dns 127.0.0.1 -e BASE_URL=http://localhost:$PORT/ searx/searx:latest'
 alias install-retroshare-voip='mkdir -p ~/ProgramFiles/RetroShare/src/; mkdir -p ~/.retroshare/extensions6/; git clone --depth=1 https://github.com/RetroShare/RetroShare.git ~/ProgramFiles/RetroShare/src; cd ~/ProgramFiles/RetroShare/src/; git submodule update --depth=1 --init --remote --recursive --force; cd ~/ProgramFiles/RetroShare/src/plugins/VOIP; qmake && make clean && make; cp lib*.so ~/.retroshare/extensions6/'
 alias install-quicklisp="mkdir -p ~/ProgramFiles/quicklisp/; curl https://beta.quicklisp.org/quicklisp.lisp -o ~/ProgramFiles/quicklisp/quicklisp.lisp; sbcl --load ~/ProgramFiles/quicklisp/quicklisp.lisp --eval '(progn (quicklisp-quickstart:install)(exit))'"
 function install-quicklisp-module -a 'm'; test -e ~/quicklisp/ || install-quicklisp; sbcl --load ~/quicklisp/setup.lisp --eval "(progn (ql:system-apropos \"$m\") (ql:quickload \"$m\") (exit))"; end
@@ -92,7 +94,7 @@ alias uu-stack="stack upgrade; stack update"
 function lsoutdated-pip; eval "$P list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1"; end
 function uu-pip; for P in "python -m pip" "sudo python -m pip" "pypy3 -m pip" "sudo pypy3 -m pip"; eval "$P install --upgrade pip (P=\"$P\" lsoutdated-pip)"; end; end
 #alias uu-nim="choosenim update self; choosenim update devel; nimble refresh || rm -rf $HOME/.nimble && nimble refresh; for nim_package in (nimble list --installed | cut -d' ' -f1); nimble --accept install $nim_package"
-alias uu-fish="fisher update"
+alias uu-fish="fisher update; fish_update_completions"
 alias uu-node="install-fnm; npm install -g npm; npm -g update"
 alias uu-brl="sudo brl apply; sudo brl update"
 alias uu-apt="sudo apt update; sudo apt -y full-upgrade; sudo apt -y autoremove"
@@ -143,7 +145,7 @@ if type -q atuin; atuin init fish | ATUIN_NOBIND=1 source; end
 if type -q ferium; ferium complete fish | source; end
 
 # Packwiz
-if type -q pacwiz; packwiz completion fish | source; end
+if type -q packwiz; packwiz completion fish | source; end
 
 # Zoxide
 zoxide init fish | source
@@ -175,7 +177,8 @@ end
 # Themes
 #base16-onedark
 #base16-gruvbox-dark-hard
-theme_gruvbox dark hard
+base16-gruvbox-dark-medium
+#theme_gruvbox dark hard
 
 # Other Inits
 # pnpm

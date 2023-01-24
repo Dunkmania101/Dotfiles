@@ -135,7 +135,8 @@
        ;;fstar             ; (dependent) types and (monadic) effects and Z3
        ;;(gdscript +lsp)          ; the language you waited for
        (go +lsp)         ; the hipster dialect
-       (haskell +dante +lsp)  ; a language that's lazier than I am
+       ;(haskell +dante +lsp)  ; a language that's lazier than I am
+       (haskell +lsp)  ; a language that's lazier than I am
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ; a language you can depend on
        (json +lsp)              ; At least it ain't XML
@@ -151,7 +152,7 @@
        (nim +lsp)               ; python + lisp at the speed of c
        ;;(nix +lsp)               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
-       (org +pretty +brain +jupyter +noter +pandoc +journal +dragndrop +present +roam2 +lsp)               ; organize your plain life in plain text
+       (org +pretty +brain +jupyter +noter +pandoc +journal +dragndrop +present +gnuplot +hugo +roam2 +contacts +passwords +pomodoro +lsp)               ; organize your plain life in plain text
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
@@ -165,7 +166,7 @@
        (rust +lsp)              ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala             ; java, but good
        (scheme +guile +lsp)   ; a fully conniving family of lisps
-       (sh +fish +powershell +lsp)                ; she sells {ba,z,fi}sh shells on the C xor
+       (sh +fish +powershell +tree-sitter +lsp)                ; she sells {ba,z,fi}sh shells on the C xor
        ;;sml
        ;;(solidity +lsp)          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?

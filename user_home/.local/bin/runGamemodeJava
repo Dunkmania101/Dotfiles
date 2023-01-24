@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
 
-gamemoderun ~/.sdkman/candidates/java/current/bin/java $@
+#LIBVA_DRIVER_NAME=nvidia GBM_BACKEND=nvidia-drm __GLX_VENDOR_LIBRARY_NAME=nvidia prime-run gamemoderun /usr/lib/jvm/java-17-graalvm/bin/java $@
+#prime-run gamemoderun ~/.sdkman/candidates/java/current/bin/java $@
+prime-run gamemoderun /usr/lib/jvm/java-17-graalvm/bin/java $@
+#prime-run gamemoderun /usr/lib/jvm/java-19-graalvm/bin/java $@
+#prime-run gamemoderun drip $@
+#prime-run drip $@
+#prime-run gamemoderun /usr/lib/jvm/java-17-openjdk/bin/java $@
+#gamemoderun /usr/lib/jvm/java-17-graalvm/bin/java $@
 
