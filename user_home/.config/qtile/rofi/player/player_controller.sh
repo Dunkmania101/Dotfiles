@@ -11,12 +11,12 @@ voldown="VOL-1%"
 options="$back\n$playpause\n$ahead\n$prev\n$begin\n$volup\n$voldown"
 
 players="$(playerctl --list-all)"
-chosen="$(echo -e "$players" | rofi -theme ~/.config/qtile/rofi/gruvbox-dark.rasi -dmenu -p 'Choose player to control')"
+chosen="$(echo -e "$players" | rofi -theme ~/.config/qtile/rofi/theme.rasi -dmenu -p 'Choose player to control')"
 
 if [ "$chosen" != "" ]; then
     action="a"
     while [ "$action" != "" ]; do
-        action="$(echo -e "$options" | rofi -theme ~/.config/qtile/rofi/gruvbox-dark.rasi -dmenu -p "Player: $chosen")"
+        action="$(echo -e "$options" | rofi -theme ~/.config/qtile/rofi/theme.rasi -dmenu -p "Player: $chosen")"
 
         cmd="playerctl -p $chosen"
         case $action in

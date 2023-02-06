@@ -3,20 +3,23 @@
 #########
 
 #include /usr/share/doc/newsboat/contrib/colorschemes/gruvbox
+#include /usr/share/doc/newsboat/contrib/colorschemes/universal-color
 
-#color background default default
-#color listnormal default default
-#color listfocus default default bold
-#color listnormal_unread default default
-#color listfocus_unread default default bold
-#color info default default bold
-#color article default default
+color background default default
+color listnormal default default
+color listfocus default default bold
+color listnormal_unread default default
+color listfocus_unread default default bold
+color title default default reverse
+color info default default bold
+color article default default
 
 color background          color223   color0
 color listnormal          color223   color0
 color listnormal_unread   color2     color0
 color listfocus           color223   color237
-color listfocus_unread    color223   color237
+color listfocus_unread    color2   color237
+color title               default    default reverse
 color info                color8     color0
 color article             color223   color0
 

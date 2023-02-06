@@ -6,7 +6,7 @@ minecraft=" - Minecraft"
 decorative=" - Decorative"
 
 options="$monitor\n$minecraft\n$development\n$decorative"
-chosen="$(echo -e "$options" | rofi -theme ~/.config/qtile/rofi/gruvbox-dark.rasi -dmenu -p 'Choose workspace to activate')"
+chosen="$(echo -e "$options" | rofi -theme ~/.config/qtile/rofi/theme.rasi -dmenu -p 'Choose workspace to activate')"
 
 case $chosen in
     $development)

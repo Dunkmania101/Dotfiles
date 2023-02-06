@@ -27,7 +27,7 @@ rofi_filter_mode="regex"
 if [[ "$prompt" == "" ]]; then prompt="${0##*/}"; fi
 
 # rofi command to run for each selection.
-rofi="rofi -theme ~/.config/qtile/rofi/gruvbox-dark.rasi -dmenu -p "$prompt" -lines 15 -matching $rofi_filter_mode -i"
+rofi="rofi -theme ~/.config/qtile/rofi/theme.rasi -dmenu -p "$prompt" -lines 15 -matching $rofi_filter_mode -i"
 
 if [[ -z $1 || ! "$save_file" == "" ]]
 then

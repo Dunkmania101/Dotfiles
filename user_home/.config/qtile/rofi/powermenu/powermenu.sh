@@ -4,7 +4,7 @@ dir="$HOME/.config/qtile/rofi/powermenu"
 
 uptime=$(uptime -p | sed -e 's/up //g')
 
-rofi_command="rofi -theme ~/.config/qtile/rofi/gruvbox-dark.rasi"
+rofi_command="rofi -theme ~/.config/qtile/rofi/theme.rasi"
 
 # Options
 shutdown="⏻ - Poweroff"
@@ -17,7 +17,7 @@ logout=" - Logout"
 
 # Message
 bad_ans_msg() {
-	rofi -theme "~/.config/qtile/rofi/gruvbox-dark.rasi" -e "Available Options  -  yes / y / no / n"
+	rofi -theme "~/.config/qtile/rofi/theme.rasi" -e "Available Options  -  yes / y / no / n"
 }
 
 # Confirmation
@@ -26,7 +26,7 @@ confirm_exit() {
 		-i\
 		-no-fixed-num-lines\
 		-p "Are You Sure? : "\
-		-theme "$HOME/.config/qtile/rofi/gruvbox-dark.rasi")
+		-theme "$HOME/.config/qtile/rofi/theme.rasi")
 	if [[ $ans == "yes" || $ans == "YES" || $ans == "y" || $ans == "Y" ]]; then
 		echo "y"
 	elif [[ $ans == "no" || $ans == "NO" || $ans == "n" || $ans == "N" ]]; then

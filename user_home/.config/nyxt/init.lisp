@@ -19,6 +19,7 @@
 (defvar *my-search-engines*
   (list
     '("qw" "https://www.qwant.com?theme=1&hc=0&vt=1&s=0&b=0&q=~a" "https://www.qwant.com?theme=1&hc=0&vt=1&s=0&b=0")
+    '("cfm" "https://www.curseforge.com/minecraft/mc-mods/search?search=~a")
     '("ddg" "https://duckduckgo.com/?q=~a" "https://duckduckgo.com")
     '("gh" "https://github.com/search?q=~a" "https://github.com")
     '("srx" "http://localhost:8888/?q=~a" "http://localhost:8888/")))

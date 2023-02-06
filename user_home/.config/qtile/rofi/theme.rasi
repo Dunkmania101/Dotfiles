@@ -1,4 +1,6 @@
-@import "../theme.rasi"
+//@import "./gruvbox-dark.rasi"
+@import "/usr/share/rofi/themes/gruvbox-dark.rasi"
+//@import "/usr/share/rofi/themes/Arc-Dark.rasi"
 
 configuration {
     kb-remove-word-back: "Control+BackSpace,Alt+d,Alt+BackSpace";

@@ -33,7 +33,9 @@
 
 (package! denote)
 
-(package! w3m)
+(package! w3
+    :recipe (:files (:defaults "etc")))
+;(package! w3m)
 
 ;(package! meow)
 (after! meow
@@ -129,6 +131,10 @@
 (package! screenshot)
 
 (package! guix)
+
+(package! carp-mode
+ :recipe (:host github :repo "carp-lang/carp-emacs"))
+
 
 ;;(use-package! zig-mode
 ;;  :hook ((zig-mode . lsp-deferred))

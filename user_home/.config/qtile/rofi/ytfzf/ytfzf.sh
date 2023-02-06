@@ -9,7 +9,7 @@ then
     fi
 fi
 
-query="$(printf "$ytfzf_history" | rofi -dmenu -i -no-fixed-num-lines -p "Enter query for ytfzf: " -theme $HOME/.config/qtile/rofi/gruvbox-dark.rasi)"
+query="$(printf "$ytfzf_history" | rofi -dmenu -i -no-fixed-num-lines -p "Enter query for ytfzf: " -theme $HOME/.config/qtile/rofi/theme.rasi)"
 
 if [[ ! "$query" == "" ]]
 then

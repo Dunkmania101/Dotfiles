@@ -11,6 +11,8 @@
    Modified: Mon Feb 12 2018 04:08:43 PST -0800
    ========================================================================== */
 
+@import "gruvbox-common.rasi"
+
 configuration {
     kb-remove-word-back: "Control+BackSpace,Alt+d,Alt+BackSpace";
     kb-accept-entry: "Control+m,Return,KP_Enter,Alt+m";
@@ -69,6 +71,4 @@ configuration {
     selected-urgent-background:  @gruvbox-dark-red-light;
     selected-urgent-foreground:  @urgent-foreground;
 }
-
-@import "gruvbox-common.rasi"
 

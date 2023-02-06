@@ -28,6 +28,7 @@
   mcron
   cups
   desktop
+  lightdm
   networking
   file-sharing
   ssh
@@ -53,12 +54,12 @@
                  ;    (kernel-loadable-modules (nvtransforms (append (list nvidia-module nvidia-module-open) (operating-system-kernel-loadable-modules base-system))))
                  ;(kernel-loadable-modules (nvtransforms (append (list nvidia-module nvidia-module-open) (operating-system-kernel-loadable-modules base-system))))
                  ;(kernel-loadable-modules (append (list nvidia-module nvidia-module-open) (operating-system-kernel-loadable-modules base-system)))
-                 (kernel-loadable-modules (list nvidia-module-open nvidia-module))
-                 ;(kernel-loadable-modules (list nvidia-module))
+                 ;(kernel-loadable-modules (list nvidia-module-open nvidia-module))
+                 (kernel-loadable-modules (list nvidia-module))
                  ;(kernel-loadable-modules (list nvidia-module-open))
                  (kernel-arguments ;(append 
                                      ;(append 
-                                     '(
+                                     (list
                                        ;"nvidia-drm.modeset=1"
                                        "modprobe.blacklist=nouveau") ;,nvidia_uvm")
                                      ;(operating-system-user-kernel-arguments base-system))
@@ -68,11 +69,11 @@
                    ;(nvtransforms
                      (append
                        (list ;(specification->package "nvidia-module-open")
-                             ;(specification->package "nvidia-module")
-                             ;(specification->package "nvidia-driver")
+                             (specification->package "nvidia-module")
+                             (specification->package "nvidia-driver")
                              ;(specification->package "nvidia-firmware")
                              (specification->package "nvidia-exec")
-                             ;(specification->package "nvidia-settings")
+                             (specification->package "nvidia-settings")
                              ;(specification->package "mesa")
                              )
                        (operating-system-packages base-system)))
@@ -85,22 +86,23 @@
                              ;       				  "nvidia_modeset"
                              ;			        	  "ipmi_devintf"))
                              (service nvidia-service-type;)
-                                      (nvidia-configuration
+                                      ;(nvidia-configuration
                                         ;(modules (list "nvidia" "nvidia-uvm" "nvidia-drm" "nvidia-modeset" "ipmi-devintf"))
                                         ;(modules (list))
-                                        (nvidia-module (list nvidia-module nvidia-module-open))
+                                        ;(nvidia-module (list nvidia-module nvidia-module-open))
                                         ;(nvidia-module (list nvidia-module-open))
                                         ;(nvidia-module (list nvidia-module))
-					))
-                             ;(set-xorg-configuration
-                             ;  (xorg-configuration
-                             ;    (server (nvtransform xorg-server))
-                             ;    (drivers '("nvidia"))
-                             ;    (modules
-                             ;      (cons*
-                             ;        ;nvidia-module-open
-                             ;        nvidia-driver
-                             ;        %default-xorg-modules))))
+                                        ;)
+                                      )
+                             (set-xorg-configuration
+                               (xorg-configuration
+                                 (server (nvtransform xorg-server))
+                                 (drivers '("nvidia"))
+                                 (modules
+                                   (cons*
+                                     nvidia-driver
+                                     %default-xorg-modules)))
+			       lightdm-service-type)
                            ;   (service slim-service-type
                            ;	    (slim-configuration
                            ;	     (xorg-configuration (xorg-configuration
@@ -111,8 +113,8 @@
                            ;									   ;nvidia-module-open
                            ;									   nvidia-driver))))
 			   )
-                           ;(operating-system-user-services base-system)))))
-			   (modify-services (operating-system-user-services base-system)
+                           (operating-system-user-services base-system)))))
+			   ;(modify-services (operating-system-user-services base-system)
 					    ;)))))
 ;(udev-service-type config =>
 ;                   (udev-configuration
@@ -130,20 +132,21 @@
 ;												 nvidia-driver %default-xorg-modules))
 ;										      (server (nvtransform xorg-server))
 ;										      (drivers '("nvidia")))))))))))
-    (set-xorg-configuration config =>
-            (set-xorg-configuration
-			    (inherit config)
-			    (xorg-configuration
-			      (inherit (xorg-config config))
-			      ;(server (nvtransform xorg-server))
-			      (drivers '("nvidia"))
-			      (modules
-                    ;(nvtransforms
-                    (append
-                      (list
-                        ;nvidia-module-open
-                        nvidia-driver)
-                      (modules (xorg-config config))))))))))));)
+    ;(set-xorg-configuration config =>
+    ;        (set-xorg-configuration
+	;		    (inherit config)
+	;		    (xorg-configuration
+	;		      (inherit (xorg-config config))
+	;		      ;(server (nvtransform xorg-server))
+	;		      (drivers '("nvidia"))
+	;		      (modules
+    ;                ;(nvtransforms
+    ;                (append
+    ;                  (list
+    ;                    ;nvidia-module-open
+    ;                    nvidia-driver)
+    ;                  (modules (xorg-config config))))))))))));)
+    )))))
 
 ;(define %xorg-config-nvidia-gtx1650
 ;  "Section \"Device\"
@@ -198,12 +201,13 @@
 (define-public (nvidiaify-system-gtx1650 base-system)
   (operating-system
    (inherit (nvidiaify-system base-system))
-   (services
-	   (modify-services (operating-system-user-services (nvidiaify-system base-system))
-			    (set-xorg-configuration config =>
-						    (set-xorg-configuration
-					        	  (inherit config)
-	        				        (xorg-configuration
-					        	  (inherit (xorg-config config))
-							  (extra-config (list %xorg-config-nvidia-gtx1650)))))))))
+   ;(services
+   ;    (modify-services (operating-system-user-services (nvidiaify-system base-system))
+   ; 		    (set-xorg-configuration config =>
+   ; 					    (set-xorg-configuration
+   ; 				        	  (inherit config)
+   ;         				        (xorg-configuration
+   ; 				        	  (inherit (xorg-config config))
+   ; 						  (extra-config (list %xorg-config-nvidia-gtx1650)))))))
+   ))
 

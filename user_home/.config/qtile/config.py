@@ -96,6 +96,7 @@ my_term_font = "Iosevka Term"
 char_left_bend = "\ue0b6"
 char_right_bend = "\ue0b4"
 
+#segment_bars = True
 segment_bars = False
 
 my_color_theme = "gruvbox_dark" # "one_dark" or "gruvbox_dark" or "everforest_dark"
@@ -106,10 +107,10 @@ if my_color_theme == "one_dark":
     bg_color = "#282c34"
     fg_color = "#5c6370"
     dark_bg_color = "#222222"
-    bg_line_color = "#425370"
-    fg_line_color = "#618fef"
+    bg_line_color = "#4b4263"
+    fg_line_color = "#425370"
     bg_line_color_alt = "#504d6d"
-    fg_line_color_alt = "#4b4263"
+    fg_line_color_alt = "#618fef"
     bg_txt_color = "#414f4f"
     fg_txt_color = "#abb2bf"
     green_color = "#504945"
@@ -137,7 +138,7 @@ else:
     fg_color = "#4f443a"
     dark_bg_color = "#222222"
     bg_line_color = "#3c3836"
-    fg_line_color = "#4f4347"
+    fg_line_color = "#4f443a"
     bg_line_color_alt = "#aa5000"
     fg_line_color_alt = "#ff8000"
     bg_txt_color = "#3c3836"
@@ -165,6 +166,7 @@ my_thick_margin = 4
 my_thin_margin = 2
 my_thick_font_size = 14
 my_thin_font_size = 12
+my_tiny_font_size = 9
 
 # Directories
 my_wallpapers: str = expand_full_path("~/Wallpapers") # Can point to a directory or a single image file.
@@ -912,16 +914,16 @@ def get_bend_widget(left=False) -> widget_base._Widget:
     return widget.TextBox(text=char_left_bend if left else char_right_bend, padding=0, fontsize=bar_height, foreground=dark_bg_color, background=invisible_color if segment_bars else dark_bg_color, font="PowerlineSymbols")
 
 def get_sep_widget(mid_bar=False, stretch_right=False) -> widget_base._Widget:
-    if mid_bar and segment_bars:
+    if mid_bar:
         #return widget.Sep(linewidth=my_thick_margin, foreground=invisible_color, background=invisible_color)
-        return widget.Spacer(bar.STRETCH if stretch_right else my_thick_margin, background=invisible_color)
+        return widget.Spacer(bar.STRETCH if stretch_right else my_thick_margin, background=invisible_color if segment_bars else dark_bg_color)
     return widget.Sep(linewidth=my_thick_border_width, padding=my_thick_margin)
 
 
 def get_sys_stat_widgets() -> list:
     return [
         widget.Sep(linewidth=my_thin_border_width, padding=my_thick_margin),
-        widget.TextBox("CPU:", background=get_alternating_colors_red()),
+        widget.TextBox("CPU:", background=get_alternating_colors_red(), fontsize=my_tiny_font_size),
         widget.CPUGraph(
             width=30,
             border_width=1,
@@ -930,20 +932,23 @@ def get_sys_stat_widgets() -> list:
             line_width=1,
             samples=50,
             background=get_alternating_colors_red(),
+            fontsize=my_tiny_font_size,
         ),
         widget.CPU(
             format='{freq_current}GHz {load_percent}%',
             frequency=5,
             background=get_alternating_colors_red(),
+            fontsize=my_tiny_font_size,
         ),
-        widget.Sep(linewidth=my_thin_border_width, padding=my_thick_margin),
-        widget.TextBox("GPU:", background=get_alternating_colors_green()),
+        widget.Sep(linewidth=my_thin_border_width, padding=my_thick_margin, fontsize=my_tiny_font_size),
+        widget.TextBox("GPU:", background=get_alternating_colors_green(), fontsize=my_tiny_font_size),
         widget.NvidiaSensors(
             format='{temp}°C {fan_speed} {perf}',
-            background=get_alternating_colors_green()
+            background=get_alternating_colors_green(),
+            fontsize=my_tiny_font_size,
         ),
-        widget.Sep(linewidth=my_thin_border_width, padding=my_thick_margin),
-        widget.TextBox("MEM:", background=get_alternating_colors_cyan()),
+        widget.Sep(linewidth=my_thin_border_width, padding=my_thick_margin, fontsize=my_tiny_font_size),
+        widget.TextBox("MEM:", background=get_alternating_colors_cyan(), fontsize=my_tiny_font_size),
         widget.MemoryGraph(
             width=30,
             border_width=1,
@@ -951,19 +956,22 @@ def get_sys_stat_widgets() -> list:
             line_width=1,
             frequency=5,
             background=get_alternating_colors_cyan(),
+            fontsize=my_tiny_font_size,
         ),
         widget.Memory(
             measure_mem = "G",
             measure_swap = "G",
             frequency=5,
             background=get_alternating_colors_cyan(),
+            fontsize=my_tiny_font_size,
         ),
-        widget.Sep(linewidth=my_thin_border_width, padding=my_thick_margin),
-        widget.TextBox("net:", background=get_alternating_colors_blue()),
+        widget.Sep(linewidth=my_thin_border_width, padding=my_thick_margin, fontsize=my_tiny_font_size),
+        widget.TextBox("net:", background=get_alternating_colors_blue(), fontsize=my_tiny_font_size),
         widget.Net(
             format = '{down} ↓↑ {up}',
             padding = 0,
             background=get_alternating_colors_blue(),
+            fontsize=my_tiny_font_size,
         ),
         widget.Sep(linewidth=my_thin_border_width, padding=my_thick_margin),
     ]
@@ -1065,6 +1073,10 @@ def get_widgets_1(i) -> list:
                     frequency=0.1,
                     background=get_alternating_colors_cyan(),
                 ),
+                widget.TextBox("light:", background=get_alternating_colors_cyan()),
+                widget.Backlight(backlight_name=(os.listdir("/sys/class/backlight")+[None])[0], background=get_alternating_colors_cyan()),
+                widget.TextBox("bat:", background=get_alternating_colors_cyan()),
+                widget.Battery(background=get_alternating_colors_cyan()),
                 get_sep_widget(),
                 OpenWidgetBox(widgets=get_sys_stat_widgets()),
                 #widget.WidgetBox(widgets=get_sys_stat_widgets()),
@@ -1189,8 +1201,8 @@ for monitor in monitors:
             wallpaper = wallpaper=choice(wallpapers)
         else:
             wallpaper = None
-        top_bar=bar.Bar(get_widgets_1(i), bar_height, margin=my_thin_margin, foreground=invisible_color if segment_bars else fg_color, background=invisible_color if segment_bars else dark_bg_color, border_color=invisible_color if segment_bars else bg_line_color, border_width=0 if segment_bars else my_thin_border_width)
-        bottom_bar=bar.Bar(get_widgets_2(i), bar_height, margin=my_thin_margin, foreground=invisible_color if segment_bars else fg_color, background=invisible_color if segment_bars else dark_bg_color, border_color=invisible_color if segment_bars else bg_line_color, border_width=0 if segment_bars else my_thin_border_width)
+        top_bar=bar.Bar(get_widgets_1(i), bar_height, margin=my_thin_margin, foreground=invisible_color if segment_bars else fg_color, background=invisible_color if segment_bars else dark_bg_color, border_color=invisible_color if segment_bars else fg_line_color, border_width=0 if segment_bars else my_thick_border_width)
+        bottom_bar=bar.Bar(get_widgets_2(i), bar_height, margin=my_thin_margin, foreground=invisible_color if segment_bars else fg_color, background=invisible_color if segment_bars else dark_bg_color, border_color=invisible_color if segment_bars else fg_line_color, border_width=0 if segment_bars else my_thick_border_width)
         bars.extend([top_bar, bottom_bar])
         screens.append(
             Screen(
@@ -1238,9 +1250,9 @@ wmname = "LG3D"
 layouts: list = [
     layout.Columns(
         border_normal=[bg_line_color, dark_bg_color],
-        border_focus=[bg_line_color, fg_line_color_alt],
+        border_focus=[fg_line_color, fg_line_color_alt],
         border_normal_stack=[bg_line_color, dark_bg_color],
-        border_focus_stack=[bg_line_color, fg_line_color_alt],
+        border_focus_stack=[fg_line_color, fg_line_color_alt],
         border_on_single=True,
         border_width=my_thick_border_width,
         margin=my_thick_margin,
@@ -1260,7 +1272,7 @@ floating_layout = layout.Floating(
         Match(title='pinentry'),  # GPG key password entry
     ],
     border_normal=[bg_line_color, dark_bg_color],
-    border_focus=[bg_line_color, fg_line_color_alt],
+    border_focus=[fg_line_color, fg_line_color_alt],
     border_width=my_thick_border_width,
 )
 
@@ -1284,5 +1296,5 @@ def screen_change_hook(qtile) -> None:
 def autostart_hook() -> None:
     run_cmd(cfg_dir + "/autostart.sh")
     for b in bars:
-        b.window.window.set_property('WM_NAME', 'qtile_bar', type='STRING', format=8)
+        b.window.window.set_property('WM_NAME', 'qtile_bar_segmented' if segment_bars else 'qtile_bar', type='STRING', format=8)
 

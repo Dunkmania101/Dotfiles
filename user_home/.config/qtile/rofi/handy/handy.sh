@@ -7,7 +7,7 @@ gen_passwd=""
 clip_menu=""
 
 options="$rofi_player\n$open_nvim\n$open_stacer\n$gen_passwd\n$clip_menu"
-chosen="$(echo -e "$options" | rofi -theme ~/.config/qtile/rofi/gruvbox-dark.rasi -dmenu -p 'Handy tools')"
+chosen="$(echo -e "$options" | rofi -theme ~/.config/qtile/rofi/theme.rasi -dmenu -p 'Handy tools')"
 
 case $chosen in
     $rofi_player)

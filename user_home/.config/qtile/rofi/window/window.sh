@@ -2,4 +2,4 @@
 
 rofi -no-lazy-grab -show window \
 -modi run drun \
--theme "$HOME/.config/qtile/rofi/gruvbox-dark.rasi"
+-theme "$HOME/.config/qtile/rofi/theme.rasi"

@@ -56,6 +56,7 @@ Plug 'onsails/lspkind-nvim'
 " Syntax
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'dgileadi/vscode-java-decompiler'
+Plug 'Stevertus/mcscript'
 " Plug 'valloric/youcompleteme'
 " Plug 'autozimu/LanguageClient-neovim', {
 "     \ 'branch': 'next',

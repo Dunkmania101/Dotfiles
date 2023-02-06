@@ -8,7 +8,7 @@ options="$control_player\n$pctld_shift\n$pctld_unshift"
 
 action="a"
 while [ "$action" != "" ]; do
-    action="$(echo -e "$options" | rofi -theme ~/.config/qtile/rofi/gruvbox-dark.rasi -dmenu -p "Playerctl")"
+    action="$(echo -e "$options" | rofi -theme ~/.config/qtile/rofi/theme.rasi -dmenu -p "Playerctl")"
 
     case $action in
         $control_player)
