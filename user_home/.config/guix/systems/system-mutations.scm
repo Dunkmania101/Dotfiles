@@ -40,6 +40,16 @@
 
 (load "../nvtransform.scm")
 
+(define-public (nvidiaify-xorg-config xcfg)
+ (xorg-configuration
+   (inherit xcfg)
+   (server (nvtransform (server xcfg)))
+   (drivers '("nvidia"))
+   (modules
+     (cons*
+       nvidia-driver
+       (modules xcfg)))))
+
 (define-public (nvidiaify-system base-system)
                (operating-system
                  (inherit base-system)
@@ -95,13 +105,7 @@
                                         ;)
                                       )
                              (set-xorg-configuration
-                               (xorg-configuration
-                                 (server (nvtransform xorg-server))
-                                 (drivers '("nvidia"))
-                                 (modules
-                                   (cons*
-                                     nvidia-driver
-                                     %default-xorg-modules)))
+                               (nvidiaify-xorg-config (xorg-configuration))
 			       lightdm-service-type)
                            ;   (service slim-service-type
                            ;	    (slim-configuration

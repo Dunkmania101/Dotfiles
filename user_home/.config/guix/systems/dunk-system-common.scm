@@ -65,7 +65,7 @@ EndSection
                   "ACTION==\"add\", SUBSYSTEM==\"backlight\", "
                   "RUN+=\"/run/current-system/profile/bin/chmod g+w /sys/class/backlight/%k/brightness\"")))
 
-(define-public dunk-system-common
+(define-public (get-dunk-system-common xcfg startwm-early-cmds)
   (operating-system
    ;(kernel linux-rosenthal)
    (kernel linux)
@@ -240,31 +240,51 @@ EndSection
                          ;; (alt-speed-time-end
                           ;; (+ (* 60 (+ 12 5)) 30))))  ; 5:30 pm
                           ;; ))
-			  (service lightdm-service-type
-				   (lightdm-configuration
-				     (seats
-				       (list
-					 (lightdm-seat-configuration
-					   (name "Qtile")
-					   (user-session "qtile"))
-					 (lightdm-seat-configuration
-					   (name "EXWM")
-					   (user-session "exwm"))
-					 (lightdm-seat-configuration
-					   (name "StumpWM")
-					   (user-session "stumpwm"))
-				     ))))
-               (set-xorg-configuration
-                (xorg-configuration
-                 (keyboard-layout keyboard-layout)
-                 ;(server xorg-server)
-                 ;(modules
-                 ; (cons*
-                 ;  %default-xorg-modules))
-                 (extra-config
-                  (list %xorg-libinput-config)))
-		lightdm-service-type
-		)
+;			  (service lightdm-service-type
+;				   (lightdm-configuration
+;				     (seats
+;				       (list
+;					 (lightdm-seat-configuration
+;					   (name "Qtile")
+;					   (user-session "qtile"))
+;					 (lightdm-seat-configuration
+;					   (name "EXWM")
+;					   (user-session "exwm"))
+;					 (lightdm-seat-configuration
+;					   (name "StumpWM")
+;					   (user-session "stumpwm"))
+;				     ))))
+;               (set-xorg-configuration
+;                (xorg-configuration
+;                 (keyboard-layout keyboard-layout)
+;                 ;(server xorg-server)
+;                 ;(modules
+;                 ; (cons*
+;                 ;  %default-xorg-modules))
+;                 (extra-config
+;                  (list %xorg-libinput-config)))
+;		lightdm-service-type
+;		)
+            (extra-special-file
+              "/usr/bin/startwm"
+              (xorg-start-command
+                       (config (xorg-configuration
+                                 (inherit xconfig)
+                                 (keyboard-layout keyboard-layout)
+                                 (extra-config
+                                   (list %xorg-libinput-config)))))
+              (string-append "#!/usr/bin/env bash
+" startwm-early-cmds
+"
+WM=\"$1\"
+if [[ \"$WM\" == \"\" ]]; then WM=\"qtile\"; fi
+
+if [[ \"$WM\" == \"qtile\" ]]; then
+    qtile start;
+elif [[ \"$WM\" == \"stumpwm\" ]]; then
+    exec stumpwm;
+fi
+"))
               (simple-service 'searx-start-job mcron-service-type (list
                               #~(job '(next-minute (range 0 60 1)) (string-append "pgrep searx || " #$(file-append searx "/bin/searx-run & disown")))))
               (extra-special-file "/etc/searx/settings.yml"
@@ -326,4 +346,7 @@ EndSection
 	 (type "ext4"))
     %base-file-systems)))) ;; THIS SHOULD BE OVERRIDDEN IN THE MAIN SYSTEM-CONFIG.SCM FILE
 ;; (name-service-switch %mdns-host-lookup-nss)
+
+(define-public dunk-system-common
+               (get-dunk-system-common (xorg-configuration "")))
 

@@ -14,9 +14,9 @@ players="$(playerctl --list-all)"
 chosen="$(echo -e "$players" | rofi -theme ~/.config/qtile/rofi/theme.rasi -dmenu -p 'Choose player to control')"
 
 if [ "$chosen" != "" ]; then
-    action="a"
+    action="$playpause"
     while [ "$action" != "" ]; do
-        action="$(echo -e "$options" | rofi -theme ~/.config/qtile/rofi/theme.rasi -dmenu -p "Player: $chosen")"
+        action="$(echo -e "$action\n$options" | rofi -theme ~/.config/qtile/rofi/theme.rasi -dmenu -p "Player: $chosen")"
 
         cmd="playerctl -p $chosen"
         case $action in

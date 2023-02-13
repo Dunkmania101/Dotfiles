@@ -153,7 +153,7 @@ else:
 
 
 # Base Groups (copied to each monitor)
-my_base_groups = "~ 1 2 3 4 5 6 7 8 9 0 - =".split(" ")
+my_base_groups = "1 2 3 4 5 6 7 8 9 0".split(" ")
 
 # Screen to put the systray widget on
 my_systray_screen = 0
@@ -173,6 +173,9 @@ my_wallpapers: str = expand_full_path("~/Wallpapers") # Can point to a directory
 my_screenshots_dir: str = expand_full_path("~/Pictures/Screenshots")
 
 # Details
+draw_wallpaper: bool = True
+draw_wallpaper_img: bool = True # False for my_solid_wallpaper_cmd
+my_solid_wallpaper_cmd: str = f"xsetroot -solid '{bg_color}'"
 my_distro: str = "Arch"
 #my_check_updates_cmd: Union[str, None] = None
 my_check_updates_cmd: Union[str, None] = ""
@@ -1197,10 +1200,14 @@ else:
 i = 0
 for monitor in monitors:
     if len(monitor) > 0 and monitor != "\n":
-        if len(wallpapers) > 0:
-            wallpaper = wallpaper=choice(wallpapers)
-        else:
-            wallpaper = None
+        do_solid_wall = False
+        wallpaper = None
+        if draw_wallpaper:
+            if draw_wallpaper_img:
+                if len(wallpapers) > 0:
+                    wallpaper = choice(wallpapers)
+            else:
+                do_solid_wall = True
         top_bar=bar.Bar(get_widgets_1(i), bar_height, margin=my_thin_margin, foreground=invisible_color if segment_bars else fg_color, background=invisible_color if segment_bars else dark_bg_color, border_color=invisible_color if segment_bars else fg_line_color, border_width=0 if segment_bars else my_thick_border_width)
         bottom_bar=bar.Bar(get_widgets_2(i), bar_height, margin=my_thin_margin, foreground=invisible_color if segment_bars else fg_color, background=invisible_color if segment_bars else dark_bg_color, border_color=invisible_color if segment_bars else fg_line_color, border_width=0 if segment_bars else my_thick_border_width)
         bars.extend([top_bar, bottom_bar])
@@ -1208,8 +1215,8 @@ for monitor in monitors:
             Screen(
                 top=top_bar,
                 bottom=bottom_bar,
-                wallpaper=wallpaper,
-                wallpaper_mode="stretch",
+                wallpaper=wallpaper if not do_solid_wall else None,
+                wallpaper_mode="stretch" if wallpaper is not None and not do_solid_wall else None,
             )
         )
         for g in get_full_group_names_for_screen(i):
@@ -1222,6 +1229,8 @@ for monitor in monitors:
                         Key([sup, ctrl, alt], m_key, lazy.function(set_screen, i, True, True)),
                     ]
                     )
+        if do_solid_wall:
+            run_cmd(my_solid_wallpaper_cmd)
         i += 1
 
 

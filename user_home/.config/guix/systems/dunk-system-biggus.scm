@@ -41,7 +41,7 @@
 
 (define-public dunk-system-biggus
   (operating-system
-   (inherit (nvidiaify-system-gtx1650 dunk-system-common))
+   (inherit (nvidiaify-system-gtx1650 (get-dunk-system-common (nvidiaify-xorg-conf (xorg-configuration)) "xrandr --setprovideroffloadsink 1 0")))
    ;(inherit dunk-system-common-nvidia-GTX_1650)
    ;(inherit dunk-system-common-nvidia)
    (host-name "bigguscomputicus")))
