@@ -74,19 +74,20 @@ alias install-fnm="curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip
 alias install-nvm="wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/latest/install.sh | bash; nvm install node"
 alias install-choosenim="curl https://nim-lang.org/choosenim/init.sh -sSf | sh"
 alias install-nyxt-git-guix="guix install --with-branch=nyxt=master nyxt"
+alias install-nyxt-latest-flatpak="wget -O /tmp/nyxt.flatpak https://github.com/atlas-engineer/nyxt/releases/latest/download/nyxt.flatpak && sudo flatpak install --assumeyes /tmp/nyxt.flatpak"
 alias install-blender-oldgl='guix install blender --with-source="https://download.blender.org/release/Blender2.79/blender-2.79b-linux-glibc219-x86_64.tar.bz2"'
 alias dockerclean="docker system prune --all"
 alias with-ld-path="LD_LIBRARY_PATH=$HOME/.guix-profile/lib "
 function uu-pax-ensureloop; while true; pax upgrade -y && break; end; end # Because CurseForge is unreliable
 alias uu-fontcache="fc-cache -rv"
-alias uu-arch='sudo aura -Syyu --noconfirm; sudo aura -Ayyu --noconfirm; sudo aura -R (aura -O); sudo paccache -rk 1; sudo paccache -ruk0'
+alias uu-arch='sudo aura -Syyu --noconfirm --needed; sudo aura -Ayyu --noconfirm --needed; sudo aura -R (aura -O); sudo paccache -rk 1; sudo paccache -ruk0'
 alias uu-flatpak="flatpak update --assumeyes; flatpak uninstall --unused"
 alias guixclean="guix gc; guix gc --optimize"
 alias guixclean-full="guix gc --delete-generations; guixclean"
 alias guixfix="sudo guix gc --verify=contents,repair"
 alias guixconf="sudo -E guix system --cores=$(nproc) reconfigure ~/.config/guix/system-config.scm"
 alias guixmanifest="guix package --manifest=$HOME/.config/guix/base/manifest-main.scm"
-alias uu-guix="guix pull; guix package --upgrade; guixclean"
+alias uu-guix="guix pull; guix package --upgrade"
 alias guix-nvdaify="guix package --manifest=$HOME/.config/guix/manifests/nvidiaify-packages.scm"
 alias nixclean="nix-collect-garbage"
 alias nixclean-full="nix-collect-garbage --delete-old"
@@ -104,7 +105,7 @@ alias uu-chemacs="git -C ~/.emacs.d fetch; git -C ~/.emacs.d pull"
 alias uu-doom="doom --force sync; doom --force upgrade; doom --force sync; doom --force purge"
 alias uu-emacs="uu-doom"
 alias uu-nvim="nvim -c 'UU' -c 'qa!'"
-alias uu-noguix="uu-arch; uu-fish; uu-nix; uu-flatpak; uu-pip; uu-nim; uu-node; uu-emacs"
+alias uu-noguix="uu-arch; uu-fish; uu-nix; uu-flatpak; uu-pip; uu-nim; uu-node; uu-emacs; uu-graal; install-blender-gruvbox; install-blender-dracula; install-blender-cad-sketcher; install-searx; install-pax-mc; install-packwiz-mc; install-capitaine-cursors-sainnhe; install-capitaine-cursors-sainnhe-root"
 alias uu="uu-noguix; uu-guix"
 alias uu-clean="uu; guixclean-full"
 export add_package_cmd="sudo aura -S --needed "
@@ -137,7 +138,7 @@ if test -f "$HOME/.profile"; bass . "$HOME/.profile"; end
 
 # Atuin
 fish_vi_key_bindings
-if type -q atuin; atuin init fish | ATUIN_NOBIND=1 source; end
+#if type -q atuin; atuin init fish | ATUIN_NOBIND=1 source; end
 
 # fnm
 #if test -f $HOME/.fnm/fnm; fnm env | source; end
@@ -160,7 +161,7 @@ function srx -a 'SEARCH'; newsboat -u (echo "http://localhost:8888/search?q=$SEA
 # Keybinds
 #fish_default_key_bindings
 fish_vi_key_bindings
-bind \cr _atuin_search
+#bind \cr _atuin_search
 #bind \ck 'command clear; commandline -f repaint-mode; commandline -f repaint'
 #bind \ck 'commandline -i clear; commandline -f execute'
 #bind \cb 'btop'
@@ -171,9 +172,9 @@ bind \cr _atuin_search
 #bind \co 'commandline -i \'nvim \''
 #bind \ca "commandline -i \"$add_package_cmd\""
 #bind \cu 'commandline -i uu-clean; commandline -f execute'
-if bind -M insert > /dev/null 2>&1;
-    bind -M insert \cr _atuin_search;
-end
+#if bind -M insert > /dev/null 2>&1;
+#    bind -M insert \cr _atuin_search;
+#end
 
 # Themes
 #base16-onedark

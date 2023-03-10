@@ -67,16 +67,16 @@
                  ;(kernel-loadable-modules (list nvidia-module-open nvidia-module))
                  (kernel-loadable-modules (list nvidia-module))
                  ;(kernel-loadable-modules (list nvidia-module-open))
-                 (kernel-arguments ;(append 
-                                     ;(append 
+                 (kernel-arguments (append 
+                                     (append 
                                      (list
                                        ;"nvidia-drm.modeset=1"
                                        "modprobe.blacklist=nouveau") ;,nvidia_uvm")
-                                     ;(operating-system-user-kernel-arguments base-system))
-                                     ;%default-kernel-arguments)
+                                     (operating-system-user-kernel-arguments base-system))
+                                     %default-kernel-arguments)
                                      )
                  (packages 
-                   ;(nvtransforms
+                   (nvtransforms
                      (append
                        (list ;(specification->package "nvidia-module-open")
                              (specification->package "nvidia-module")
@@ -85,9 +85,10 @@
                              (specification->package "nvidia-exec")
                              (specification->package "nvidia-settings")
                              ;(specification->package "mesa")
+                             (specification->package "mesa-utils")
                              )
                        (operating-system-packages base-system)))
-                   ;)
+                   )
                  (services
                    (append (list ;(service kernel-module-loader-service-type
                              ;     				'("nvidia"
@@ -117,9 +118,13 @@
                            ;									   ;nvidia-module-open
                            ;									   nvidia-driver))))
 			   )
-                           (operating-system-user-services base-system)))))
-			   ;(modify-services (operating-system-user-services base-system)
+                           ;(operating-system-user-services base-system)))))
+			   (modify-services (operating-system-user-services base-system)
 					    ;)))))
+                        (lightdm-service-type config =>
+                                              (lightdm-configuration
+                                                (inherit config)
+                                                (lightdm (nvtransform (lightdm config)))))
 ;(udev-service-type config =>
 ;                   (udev-configuration
 ;                    (inherit config)

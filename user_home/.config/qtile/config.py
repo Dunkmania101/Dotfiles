@@ -158,6 +158,10 @@ my_base_groups = "1 2 3 4 5 6 7 8 9 0".split(" ")
 # Screen to put the systray widget on
 my_systray_screen = 0
 
+# Speeds
+my_fast_update_interval = 0.1
+my_slow_update_interval = 0.3
+
 # Gap and border sizes
 bar_height = 30
 my_thick_border_width = 3
@@ -969,7 +973,7 @@ def get_sys_stat_widgets() -> list:
             fontsize=my_tiny_font_size,
         ),
         widget.Sep(linewidth=my_thin_border_width, padding=my_thick_margin, fontsize=my_tiny_font_size),
-        widget.TextBox("net:", background=get_alternating_colors_blue(), fontsize=my_tiny_font_size),
+        widget.TextBox("NET:", background=get_alternating_colors_blue(), fontsize=my_tiny_font_size),
         widget.Net(
             format = '{down} ↓↑ {up}',
             padding = 0,
@@ -1076,10 +1080,10 @@ def get_widgets_1(i) -> list:
                     frequency=0.1,
                     background=get_alternating_colors_cyan(),
                 ),
-                widget.TextBox("light:", background=get_alternating_colors_cyan()),
+                widget.TextBox("Light:", background=get_alternating_colors_cyan()),
                 widget.Backlight(backlight_name=(os.listdir("/sys/class/backlight")+[None])[0], background=get_alternating_colors_cyan()),
-                widget.TextBox("bat:", background=get_alternating_colors_cyan()),
-                widget.Battery(background=get_alternating_colors_cyan()),
+                widget.TextBox("Bat:", background=get_alternating_colors_cyan()),
+                widget.Battery(update_interval=my_slow_update_interval, background=get_alternating_colors_cyan()),
                 get_sep_widget(),
                 OpenWidgetBox(widgets=get_sys_stat_widgets()),
                 #widget.WidgetBox(widgets=get_sys_stat_widgets()),
@@ -1106,7 +1110,7 @@ def get_widgets_1(i) -> list:
                 ),
                 widget.Spacer(length=7),
                 widget.TextBox("vol:"),
-                widget.Volume(update_interval=0.1, step=1),
+                widget.Volume(update_interval=my_fast_update_interval, step=1),
                 #get_sep_widget(),
                 # widget.CurrentLayoutIcon(scale=0.70),
                 get_sep_widget(),
@@ -1143,7 +1147,7 @@ def get_widgets_2(i) -> list:
                     #msg_base = "Kmonad: ",
                     margin_y=4,
                     padding_y=4,
-                    update_interval=0.3,
+                    update_interval=my_slow_update_interval,
                     mouse_callbacks={
                         'Button1': lambda: run_keysboard(True),
                         'Button3': lambda: run_keysboard(False),
@@ -1298,12 +1302,13 @@ def floating_dialogs_hook(window) -> None:
 
 @hook.subscribe.screen_change
 def screen_change_hook(qtile) -> None:
-    run_cmd(cfg_dir + "scripts/run/run-monitors.sh")
+    run_cmd(os.path.join(cfg_dir, "scripts", "run", "run-monitors.sh"))
 
 
 @hook.subscribe.startup
 def autostart_hook() -> None:
-    run_cmd(cfg_dir + "/autostart.sh")
+    run_cmd(os.path.join(cfg_dir, "autostart.sh"))
     for b in bars:
-        b.window.window.set_property('WM_NAME', 'qtile_bar_segmented' if segment_bars else 'qtile_bar', type='STRING', format=8)
+        if b.window is not None:
+            b.window.window.set_property('WM_NAME', 'qtile_bar_segmented' if segment_bars else 'qtile_bar', type='STRING', format=8)
 

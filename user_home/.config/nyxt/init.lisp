@@ -22,7 +22,7 @@
     '("cfm" "https://www.curseforge.com/minecraft/mc-mods/search?search=~a")
     '("ddg" "https://duckduckgo.com/?q=~a" "https://duckduckgo.com")
     '("gh" "https://github.com/search?q=~a" "https://github.com")
-    '("srx" "http://localhost:8888/?q=~a" "http://localhost:8888/")))
+    '("srx" "http://localhost:8888/search?q=~a" "http://localhost:8888/")))
 
 ;; Color Codes
 ;(defmethod main-bg-color () (str "#212121"))
