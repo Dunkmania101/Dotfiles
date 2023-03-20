@@ -34,7 +34,7 @@ def expand_full_path(path: str = "~") -> str:
 def shcmd_exists(cmd: str) -> bool:
     return which(cmd) is not None
 
-def sub_run_cmd(cmd: str, cwd: str | None = None) -> None:
+def _sub_run_cmd(cmd: str, cwd: str | None = None) -> None:
     try:
         subprocess.run(cmd, cwd=cwd, shell=True)
     except Exception as e:
@@ -44,9 +44,9 @@ def sub_run_cmd(cmd: str, cwd: str | None = None) -> None:
 
 def run_cmd(cmd: str, cwd: str | None = None, thread: bool = True) -> None:
    if thread:
-        Thread(target=sub_run_cmd, args=(cmd, cwd,)).start()
+        Thread(target=_sub_run_cmd, args=(cmd, cwd,)).start()
    else:
-       sub_run_cmd(cmd, cwd)
+       _sub_run_cmd(cmd, cwd)
 
 def get_cmd_output(cmd: str, cwd: str | None = None) -> str:
     output = ""
@@ -169,7 +169,7 @@ my_thin_border_width = 2
 my_thick_margin = 4
 my_thin_margin = 2
 my_thick_font_size = 14
-my_thin_font_size = 12
+my_normal_font_size = 11
 my_tiny_font_size = 9
 
 # Directories
@@ -220,7 +220,7 @@ my_terminal = "tilix"
 #my_terminal = "contour"
 #my_terminal = f"uxterm -si -fs 10 -fa \"{my_term_font}\" -bg \'#212121\' -bd \'#212111\'"
 #my_terminal_alt = "kitty"
-my_terminal_alt = f"uxterm -si -fs 11 -fa \"{my_term_font}\" -bg \'#212121\' -bd \'#212111\'"
+my_terminal_alt = f"uxterm -si -fs {my_normal_font_size} -fa \'{my_term_font}\' -bg \'#212121\' -bd \'#212111\'"
 #my_terminal_alt = "st"
 #my_terminal_alt = "cool-retro-term"
 #my_terminal_alt = "darktile"
@@ -228,10 +228,12 @@ my_terminal_alt = f"uxterm -si -fs 11 -fa \"{my_term_font}\" -bg \'#212121\' -bd
 #my_terminal_alt1 = "kitty -e tmux"
 #my_terminal_alt1 = "kitty"
 my_terminal_alt1 = "cool-retro-term"
-my_terminal_alt2 = "extraterm"
+#my_terminal_alt2 = "extraterm"
+my_terminal_alt2 = "wezterm"
 my_terminal_alt3 = "urxvt"
 my_terminal_alt4 = f"uxterm -si -fa \"{my_font}\""
-my_terminal_light = f"uxterm -si -fs 10 -fa \"{my_term_font}\" -bg \'#212121\' -bd \'#212111\'"
+my_terminal_light = f"uxterm -si -fs {my_tiny_font_size} -fa \'{my_term_font}\' -bg \'#212121\' -bd \'#212111\'"
+my_terminal_popup = my_terminal_light
 
 #my_editor = cfg_dir + "/scripts/run/run-emacs.sh"
 #my_editor = "emacs"
@@ -297,7 +299,7 @@ my_package_manager_alt = "pamac-manager"
 my_calculator = "qalculate-gtk"
 my_calculator_alt = "galculator"
 
-my_control_panel = my_terminal_light + " -e btop"
+my_control_panel = my_terminal_popup + " -e btop"
 my_control_panel_alt = "system-monitoring-center"
 my_control_panel_alt1 = "stacer"
 
@@ -530,16 +532,47 @@ def win_toggle_minimize(qtile) -> None:
 keys = [
     # Menus
     Key([sup], space, lazy.spawn(my_launcher)),
-    Key([sup, shift], space, lazy.spawn(my_launcher_alt)),
-    Key([sup], tab, lazy.spawn(my_window_pager)),
-    Key([sup, shift], tab, lazy.run_extension(
-        extension.WindowList (
+    Key([sup, shift], space, lazy.run_extension(
+        extension.DmenuRun(
             foreground=fg_color,
             background=bg_color,
             selected_foreground=fg_txt_color,
-            selected_background=bg_txt_color
+            selected_background=bg_txt_color,
+            font=my_font,
+            fontsize=my_thick_font_size,
+            dmenu_ignorecase=True,
+            dmenu_lines=None,
         )
     )),
+    #Key([sup, alt], space, lazy.spawn(my_launcher_alt)),
+    Key([sup], tab, lazy.spawn(my_window_pager)),
+    #Key([sup], tab, lazy.run_extension(
+    #    extension.WindowList(
+    #        foreground=fg_color,
+    #        background=bg_color,
+    #        selected_foreground=fg_txt_color,
+    #        selected_background=bg_txt_color,
+    #        font=my_font,
+    #        fontsize=my_thick_font_size,
+    #        dmenu_ignorecase=True,
+    #        dmenu_lines=None,
+    #    )
+    #)),
+    Key([sup, shift], tab, lazy.run_extension(
+        extension.WindowList(
+            all_groups=False,
+            foreground=fg_color,
+            background=bg_color,
+            selected_foreground=fg_txt_color,
+            selected_background=bg_txt_color,
+            font=my_font,
+            fontsize=my_thick_font_size,
+            dmenu_ignorecase=True,
+            dmenu_lines=None,
+        )
+    )),
+    #Key([sup, alt], tab, lazy.spawn(my_window_pager)),
+    #Key([sup, shift], tab, lazy.spawn(my_window_pager)),
     Key([sup], "v", lazy.spawn(my_clipmenu)),
     Key([sup, shift], "v", lazy.spawn(my_clipmenu_alt)),
     Key([sup], "q", lazy.spawn(my_powermenu)),
@@ -813,7 +846,7 @@ mouse = [
 
 widget_defaults = dict(
     font=my_font,
-    fontsize=my_thin_font_size,
+    fontsize=my_normal_font_size,
     padding=my_thin_border_width,
     margin=my_thin_margin,
     border_width=my_thin_border_width,
@@ -1212,8 +1245,8 @@ for monitor in monitors:
                     wallpaper = choice(wallpapers)
             else:
                 do_solid_wall = True
-        top_bar=bar.Bar(get_widgets_1(i), bar_height, margin=my_thin_margin, foreground=invisible_color if segment_bars else fg_color, background=invisible_color if segment_bars else dark_bg_color, border_color=invisible_color if segment_bars else fg_line_color, border_width=0 if segment_bars else my_thick_border_width)
-        bottom_bar=bar.Bar(get_widgets_2(i), bar_height, margin=my_thin_margin, foreground=invisible_color if segment_bars else fg_color, background=invisible_color if segment_bars else dark_bg_color, border_color=invisible_color if segment_bars else fg_line_color, border_width=0 if segment_bars else my_thick_border_width)
+        top_bar=bar.Bar(get_widgets_1(i), bar_height, margin=my_thin_margin, foreground=invisible_color if segment_bars else fg_color, background=invisible_color if segment_bars else dark_bg_color, border_color=invisible_color if segment_bars else [fg_line_color, dark_bg_color]*2, border_width=0 if segment_bars else my_thin_border_width)
+        bottom_bar=bar.Bar(get_widgets_2(i), bar_height, margin=my_thin_margin, foreground=invisible_color if segment_bars else fg_color, background=invisible_color if segment_bars else dark_bg_color, border_color=invisible_color if segment_bars else [fg_line_color, dark_bg_color]*2, border_width=0 if segment_bars else my_thin_border_width)
         bars.extend([top_bar, bottom_bar])
         screens.append(
             Screen(

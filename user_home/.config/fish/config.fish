@@ -1,6 +1,6 @@
 # Variables
 set fish_greeting
-export PATH="$HOME/bin:$HOME/.local/bin:$HOME/go/bin:$HOME/.fnm:$HOME/.fnm/aliases/default/bin:$HOME/.guix-profile/bin:$HOME/.nix-profile/bin:/usr/local/bin:$HOME/.nimble/bin:$HOME/Launchers:$HOME/.emacs.d/bin/:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.private/copy/bin:$HOME/go/bin:$HOME/.fnm:$HOME/.fnm/aliases/default/bin:$HOME/.guix-profile/bin:$HOME/.nix-profile/bin:/usr/local/bin:$HOME/.nimble/bin:$HOME/Launchers:$HOME/.emacs.d/bin/:$PATH"
 export superdrive="$HOME/superdrive-ln/"
 export programming="$superdrive/Programming/"
 export mcmoddev="$programming/Games/MCModDev/"
@@ -43,12 +43,17 @@ alias pass1="PASSWORD_STORE_ENABLE_EXTENSIONS=true PASSWORD_STORE_DIR=$superdriv
 alias sl="sl -e"
 alias ferium-cfg1="ferium --config-file=$games/Ferium/Configs/1/config.json"
 alias vfzf="ytfzf -tcY,P,O"
+alias cfzf="ytfzf --type=channel -L"
 alias zellij-mc-1="zellij a mc-1 || zellij -s mc-1"
-alias install-minegrub="sudo git -C /boot/grub/themes/ clone https://github.com/Lxtharia/minegrub-theme.git || sudo git -C /boot/grub/themes/minegrub-theme pull; sudo sed -i'.bak' 's@#GRUB_THEME=\"/path/to/gfxtheme\"@GRUB_THEME=/boot/grub/themes/minegrub-theme/theme.txt@g' /etc/default/grub; sudo update-grub"
+alias install-minegrub="sudo git -C /boot/grub/themes/ clone --depth=1 https://github.com/Lxtharia/minegrub-theme.git || sudo git -C /boot/grub/themes/minegrub-theme pull; sudo sed -i'.bak' 's@#GRUB_THEME=\"/path/to/gfxtheme\"@GRUB_THEME=/boot/grub/themes/minegrub-theme/theme.txt@g' /etc/default/grub; sudo update-grub"
 alias install-capitaine-cursors-sainnhe="wget https://github.com/sainnhe/capitaine-cursors/releases/latest/download/Linux.zip -O /tmp/Linux.zip && mkdir -p ~/.local/share/icons && unzip -o /tmp/Linux.zip -d ~/.local/share/icons/"
+alias install-stable-diffusion-ui="wget https://github.com/cmdr2/stable-diffusion-ui/releases/latest/download/stable-diffusion-ui-linux.zip -O /tmp/stable-diffusion-ui-linux.zip && mkdir -p ~/ProgramFiles/stable-diffusion-ui && unzip -o /tmp/stable-diffusion-ui-linux.zip -d ~/ProgramFiles/stable-diffusion-ui/"
+alias stable-diffusion-ui="bash ~/ProgramFiles/stable-diffusion-ui/stable-diffusion-ui/start.sh"
+#alias install-chevron="mkdir -p ~/ProgramFiles/Chevron; git -C ~/ProgramFiles/Chevron clone --depth=1 https://github.com/kholmogorov27/chevron || git -C ~/ProgramFiles/Chevron/chevron pull; pushd ~/ProgramFiles/Chevron/chevron; npm install -g node-linux && npm link node-linux; npm run register_linux; popd"
+alias install-chevron="mkdir -p ~/ProgramFiles/Chevron; git -C ~/ProgramFiles/Chevron clone --depth=1 https://github.com/kholmogorov27/chevron || git -C ~/ProgramFiles/Chevron/chevron pull; pushd ~/ProgramFiles/Chevron/chevron; npm install; npm run build; popd"
 alias install-capitaine-cursors-sainnhe-root="wget https://github.com/sainnhe/capitaine-cursors/releases/latest/download/Linux.zip -O /tmp/Linux.zip && sudo mkdir -p /usr/share/icons && sudo unzip -o /tmp/Linux.zip -d /usr/share/icons/"
 alias install-mpv-sponsorblock="git -C /tmp clone --depth=1 https://github.com/po5/mpv_sponsorblock.git; mkdir -p ~/.config/mpv/scripts/; cp /tmp/mpv_sponsorblock/sponsorblock.lua ~/.config/mpv/scripts/; cp -r /tmp/mpv_sponsorblock/sponsorblock_shared ~/.config/mpv/scripts/"
-alias install-searx='docker stop searx-1; docker rm -v searx-1; PORT=8888 docker run --name=searx-1 --restart=unless-stopped -d -v ~/ProgramFiles/searx:/etc/searx -p $PORT:8080 --expose 9050 --dns 9.9.9.9 -e BASE_URL=http://localhost:$PORT/ searx/searx:latest'
+alias install-searx='docker stop searx-1; docker rm -v searx-1; PORT=8888 docker run --name=searx-1 --restart=unless-stopped -d -v ~/ProgramFiles/searx:/etc/searx -p $PORT:8080 --dns 9.9.9.9 -e BASE_URL=http://localhost:$PORT/ searx/searx:latest'
 alias install-retroshare-voip='mkdir -p ~/ProgramFiles/RetroShare/src/; mkdir -p ~/.retroshare/extensions6/; git clone --depth=1 https://github.com/RetroShare/RetroShare.git ~/ProgramFiles/RetroShare/src; cd ~/ProgramFiles/RetroShare/src/; git submodule update --depth=1 --init --remote --recursive --force; cd ~/ProgramFiles/RetroShare/src/plugins/VOIP; qmake && make clean && make; cp lib*.so ~/.retroshare/extensions6/'
 alias install-quicklisp="mkdir -p ~/ProgramFiles/quicklisp/; curl https://beta.quicklisp.org/quicklisp.lisp -o ~/ProgramFiles/quicklisp/quicklisp.lisp; sbcl --load ~/ProgramFiles/quicklisp/quicklisp.lisp --eval '(progn (quicklisp-quickstart:install)(exit))'"
 function install-quicklisp-module -a 'm'; test -e ~/quicklisp/ || install-quicklisp; sbcl --load ~/quicklisp/setup.lisp --eval "(progn (ql:system-apropos \"$m\") (ql:quickload \"$m\") (exit))"; end
