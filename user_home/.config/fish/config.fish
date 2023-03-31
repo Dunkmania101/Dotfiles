@@ -112,7 +112,7 @@ alias uu-node="install-fnm; npm install -g npm; npm -g update"
 alias uu-doom="doom --force sync; doom --force upgrade; doom --force sync; doom --force purge"
 alias uu-emacs="uu-doom"
 alias uu-nvim="nvim -c 'UU' -c 'qa!'"
-alias uu-noguix="uu-arch; uu-fish; uu-nix; uu-flatpak; uu-pip; uu-nim; uu-node; uu-emacs; uu-graal; install-blender-gruvbox; install-blender-dracula; install-blender-cad-sketcher; install-searx; install-pax-mc; install-packwiz-mc; install-capitaine-cursors-sainnhe; install-capitaine-cursors-sainnhe-root"
+alias uu-noguix="uu-arch; uu-fish; uu-nix; uu-flatpak; uu-pip; uu-nim; uu-node; uu-emacs; uu-graal; install-blender-gruvbox; install-blender-dracula; install-blender-cad-sketcher; install-searx; install-pax-mc; install-packwiz-mc; uu-fontcache; install-capitaine-cursors-sainnhe; install-capitaine-cursors-sainnhe-root"
 alias uu="uu-noguix; uu-guix"
 alias uu-clean="uu; guixclean-full"
 export add_package_cmd="sudo aura -S --needed "
@@ -122,6 +122,7 @@ alias lfi="~/.config/lf/run_lf.sh"
 alias lsa="exa -a"
 alias getwinid="xwininfo -display :0"
 alias lsmon="xrandr --query | grep ' connected' | cut -d' ' -f1"
+alias lsports="ss -lntu"
 #alias mc-run-client="./gradlew runClient"
 #alias mc-build="./gradlew build"
 alias show-weather="curl wttr.in/"
@@ -131,6 +132,7 @@ alias show-weather-map='curl v3.wttr.in/(get-city).sxl'
 alias show-weather-map-kitty='curl v3.wttr.in/(get-city).png | kitty +kitten icat'
 alias show-weather-moon="curl wttr.in/Moon"
 alias spark-runtime='ps -A | string replace --filter --regex -- ".*(\d+):(\d+).*" "\$1 * 3600 + \$2 * 60" | bc | spark'
+alias fake-virus-scan="tree /; echo 'No Viruses Found!'"
 
 
 # Env

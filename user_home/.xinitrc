@@ -14,6 +14,7 @@ xrandr --setprovideroffloadsink 1 0
 
 #startwm="hyprland"
 #startwm="stumpwm"
+#startwm="qtile-wayland"
 startwm="qtile"
 
 if [[ "$startwm" == "hyprland" ]]; then
@@ -23,6 +24,8 @@ if [[ "$startwm" == "hyprland" ]]; then
 elif [[ "$startwm" == "stumpwm" ]]; then
     export SBCL_HOME=/usr/lib/sbcl/;
     exec stumpwm;
+elif [[ "$startwm" == "qtile-wayland" ]]; then
+    qtile start --backend wayland;
 else
     qtile start;
 fi
