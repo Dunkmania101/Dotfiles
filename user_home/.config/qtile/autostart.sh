@@ -26,8 +26,8 @@ playerctld daemon &
 #deadd-notification-center &
 pgrep copyq || copyq &
 #pgrep synapse || synapse --startup &
-#pgrep element-desktop || element-desktop --hidden &
-pgrep element-desktop-nightly || element-desktop-nightly --hidden &
+pgrep element-desktop || element-desktop --hidden &
+#pgrep element-desktop-nightly || element-desktop-nightly --hidden &
 #pgrep birdtray || birdtray &
 pgrep easyeffects || easyeffects --gapplication-service &
 #agordejo --hide --load-session Main &
