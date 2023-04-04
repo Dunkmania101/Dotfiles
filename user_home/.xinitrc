@@ -12,21 +12,24 @@ fi
 
 xrandr --setprovideroffloadsink 1 0
 
+#startwm="gnome"
 #startwm="hyprland"
 #startwm="stumpwm"
-#startwm="gnome"
+#startwm="exwm"
 #startwm="qtile-wayland"
 startwm="qtile"
 
-if [[ "$startwm" == "hyprland" ]]; then
+if [[ "$startwm" == "gnome" ]]; then
+    gnome-shell;
+elif [[ "$startwm" == "hyprland" ]]; then
     export XDG_SESSION_TYPE=wayland;
     export WLR_NO_HARDWARE_CURSORS=1;
     exec Hyprland;
 elif [[ "$startwm" == "stumpwm" ]]; then
     export SBCL_HOME=/usr/lib/sbcl/;
     exec stumpwm;
-elif [[ "$startwm" == "gnome" ]]; then
-    gnome-shell;
+elif [[ "$startwm" == "exwm" ]]; then
+    ~/.doom.d/start-exwm.sh
 elif [[ "$startwm" == "qtile-wayland" ]]; then
     qtile start --backend wayland;
 else

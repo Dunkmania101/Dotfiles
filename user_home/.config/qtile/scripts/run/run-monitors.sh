@@ -12,7 +12,8 @@
 #xrandr --output VGA-0 --right-of DVI-D-0 --primary --auto
 #xrandr --output VGA-1 --right-of DVI-D-1 --primary --auto
 #xrandr --output HDMI-1 --right-of DVI-D-1 --primary --auto
-xrandr --output HDMI-0 --right-of DVI-D-0 --primary --auto
+#xrandr --output HDMI-1 --right-of DVI-D-0 --primary --auto
+xrandr --output HDMI-1 --right-of eDP-1 --primary --auto
 #xrandr --output DP-2 --right-of VGA-1 --primary --auto
 #xrandr --output VGA1 --right-of DP2 --primary --auto
 

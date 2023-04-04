@@ -231,7 +231,7 @@
             ([?\s-q] . (lambda ()
                        (interactive)
                        (let ((options '(("Lock + Monitor Off" . (lambda () (start-process-shell-command "monitorsoff" nil monitors-off-cmd) (start-process-shell-command "lock" nil lock-session-cmd))) ("Lock" . (lambda () (start-process-shell-command "lock" nil lock-session-cmd))) ("Monitors Off" . (lambda () (start-process-shell-command "monitorsoff" nil monitors-off-cmd))) ("Reboot" . (lambda () (start-process-shell-command "reboot" nil reboot-cmd))) ("Poweoff" . (lambda () (start-process-shell-command "poweroff" nil poweroff-cmd))))))
-                         (funcall (alist-get (completing-read "Power/Session Menu: " options) options (lambda () (print "Selection Aborted!")))))))
+                         (funcall (alist-get (completing-read "Power/Session Menu: " options) options (lambda () (print "Selection Aborted!")) nil 'equal)))))
             ([s-backspace] . (lambda ()
                         (interactive)
                         (start-process "" nil "loginctl" "lock-session")))))
@@ -260,7 +260,8 @@
             ([?\C-s] . [?\C-f])))
     ;;(setq exwm-randr-workspace-output-plist '(0 "DP-0" 1 "DVI-D-0"))
     ;;(setq exwm-randr-workspace-output-plist '(0 "eDP1"))
-    (setq exwm-randr-workspace-monitor-plist '(0 "HDMI1" 1 "eDP1"))
+    ;;(setq exwm-randr-workspace-monitor-plist '(0 "HDMI1" 1 "eDP1"))
+    (setq exwm-randr-workspace-monitor-plist '(0 "HDMI-1" 1 "eDP-1"))
     (add-hook 'exwm-randr-screen-change-hook
               (lambda ()
                 (progn
@@ -280,7 +281,8 @@
                         "xset r rate 280 40"
                         ;;"xset 1800"
                         "xss-lock -l -- i3lock --ignore-empty-password --color=2c2826 --bar-indicator --bar-color=3c3836 &"
-                        "picom --config ~/.config/picom/picom.conf &"))))
+                        "picom --config ~/.config/picom/picom.conf &"
+                        ))))
     ;;(add-hook 'exwm-exit-hook
     ;;          (lambda ()))
     (exwm-systemtray-enable)
