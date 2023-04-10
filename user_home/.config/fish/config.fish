@@ -8,6 +8,7 @@ export games="$superdrive/Games/"
 export gdlauncher_path="$games/MC/GDlauncher/"
 export creepyr_path="$games/MC/creepyr"
 export mclauncher_path="$creepyr_path"
+export PATH="$PATH:$mclauncher_path/bin"
 export mcinstances="$mclauncher_path/instances/"
 # export TERM=xterm-kitty
 #export VISUAL="emacs -nw"
@@ -57,7 +58,7 @@ alias install-chevron="mkdir -p ~/ProgramFiles/Chevron; git -C ~/ProgramFiles/Ch
 alias install-capitaine-cursors-sainnhe-root="wget https://github.com/sainnhe/capitaine-cursors/releases/latest/download/Linux.zip -O /tmp/Linux.zip && sudo mkdir -p /usr/share/icons && sudo unzip -o /tmp/Linux.zip -d /usr/share/icons/"
 alias install-mpv-sponsorblock="git -C /tmp clone --depth=1 https://github.com/po5/mpv_sponsorblock.git; mkdir -p ~/.config/mpv/scripts/; cp /tmp/mpv_sponsorblock/sponsorblock.lua ~/.config/mpv/scripts/; cp -r /tmp/mpv_sponsorblock/sponsorblock_shared ~/.config/mpv/scripts/"
 alias install-searx='docker stop searx-1; docker rm -v searx-1; PORT=8888 docker run --name=searx-1 --restart=unless-stopped -d -v ~/ProgramFiles/searx:/etc/searx -p $PORT:8080 --dns 9.9.9.9 -e BASE_URL=http://localhost:$PORT/ searx/searx:latest'
-alias install-retroshare-voip='mkdir -p ~/ProgramFiles/RetroShare/src/; mkdir -p ~/.retroshare/extensions6/; git clone --depth=1 https://github.com/RetroShare/RetroShare.git ~/ProgramFiles/RetroShare/src; cd ~/ProgramFiles/RetroShare/src/; git submodule update --depth=1 --init --remote --recursive --force; cd ~/ProgramFiles/RetroShare/src/plugins/VOIP; qmake && make clean && make; cp lib*.so ~/.retroshare/extensions6/'
+alias install-retroshare-voip='mkdir -p ~/ProgramFiles/RetroShare/; mkdir -p ~/.retroshare/extensions6/; git clone --depth=1 https://github.com/RetroShare/RetroShare.git ~/ProgramFiles/RetroShare/src; cd ~/ProgramFiles/RetroShare/src/; git submodule update --depth=1 --init --remote --recursive --force; cd ~/ProgramFiles/RetroShare/src/plugins/VOIP; qmake && make clean && make; cp lib*.so ~/.retroshare/extensions6/'
 alias install-quicklisp="mkdir -p ~/ProgramFiles/quicklisp/; curl https://beta.quicklisp.org/quicklisp.lisp -o ~/ProgramFiles/quicklisp/quicklisp.lisp; sbcl --load ~/ProgramFiles/quicklisp/quicklisp.lisp --eval '(progn (quicklisp-quickstart:install)(exit))'"
 function install-quicklisp-module -a 'm'; test -e ~/quicklisp/ || install-quicklisp; sbcl --load ~/quicklisp/setup.lisp --eval "(progn (ql:system-apropos \"$m\") (ql:quickload \"$m\") (exit))"; end
 alias install-mycroft='docker stop mycroft-1; docker rm -v mycroft-1; docker run --name=mycroft-1 --restart=unless-stopped -d -v ~/ProgramFiles/mycroft:/root/.mycroft --device /dev/snd -e PULSE_SERVER=unix:{$XDG_RUNTIME_DIR}/pulse/native -v {$XDG_RUNTIME_DIR}/pulse/native:{$XDG_RUNTIME_DIR}/pulse/native -v ~/.config/pulse/cookie:/root/.config/pulse/cookie -p 42069:8181 mycroftai/docker-mycroft'
@@ -101,8 +102,9 @@ alias nixclean="nix-collect-garbage"
 alias nixclean-full="nix-collect-garbage --delete-old"
 alias uu-nix="nix-channel --update; nix-env --upgrade; nixclean"
 alias uu-stack="stack upgrade; stack update"
-function lsoutdated-pip; eval "$P list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1"; end
-function uu-pip; for P in "python -m pip" "sudo python -m pip" "pypy3 -m pip" "sudo pypy3 -m pip"; eval "$P install --upgrade pip (P=\"$P\" lsoutdated-pip)"; end; end
+#function lsoutdated-pip; eval "$P list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1"; end
+function lsoutdated-pip; echo (eval "$P list --outdated --format=json" | jq -r 'map(.name) | join(" ")' | string split " "); end
+function uu-pip; for P in "python -m pip" "sudo python -m pip" "pypy3 -m pip" "sudo pypy3 -m pip"; eval "echo (P=\"$P\" lsoutdated-pip) | xargs $P install --upgrade pip "; end; end
 #alias uu-nim="choosenim update self; choosenim update devel; nimble refresh || rm -rf $HOME/.nimble && nimble refresh; for nim_package in (nimble list --installed | cut -d' ' -f1); nimble --accept install $nim_package"
 alias uu-fish="fisher update; fish_update_completions"
 alias uu-node="install-fnm; npm install -g npm; npm -g update"

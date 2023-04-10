@@ -934,20 +934,23 @@ class ColorGmailChecker(widget.GmailChecker):
 #        widget.base._Widget.__init__(self, size, **config)
 
 
+def get_alternating_colors_of(color) -> list[str]:
+    return [color, dark_bg_color, dark_bg_color, dark_bg_color, color]
+
 def get_alternating_colors_dark() -> list[str]:
-    return [dark_bg_color, bg_line_color, dark_bg_color, dark_bg_color, dark_bg_color, bg_line_color, dark_bg_color]
+    return get_alternating_colors_of(bg_line_color)
 
 def get_alternating_colors_red() -> list[str]:
-    return [dark_bg_color, red_color, dark_bg_color, dark_bg_color, dark_bg_color, red_color, dark_bg_color]
+    return get_alternating_colors_of(red_color)
 
 def get_alternating_colors_green() -> list[str]:
-    return [dark_bg_color, green_color, dark_bg_color, dark_bg_color, dark_bg_color, green_color, dark_bg_color]
+    return get_alternating_colors_of(green_color)
 
 def get_alternating_colors_blue() -> list[str]:
-    return [dark_bg_color, blue_color, dark_bg_color, dark_bg_color, dark_bg_color, blue_color, dark_bg_color]
+    return get_alternating_colors_of(blue_color)
 
 def get_alternating_colors_cyan() -> list[str]:
-    return [dark_bg_color, cyan_color, dark_bg_color, dark_bg_color, dark_bg_color, cyan_color, dark_bg_color]
+    return get_alternating_colors_of(cyan_color)
 
 
 def get_bend_widget(left=False) -> widget_base._Widget:
