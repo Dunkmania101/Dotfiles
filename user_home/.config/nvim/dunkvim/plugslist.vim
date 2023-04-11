@@ -97,13 +97,17 @@ Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
-Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-nvim-lua'
 
-" Snippets
-Plug 'L3MON4D3/LuaSnip'
-Plug 'rafamadriz/friendly-snippets'
+" For vsnip users.
+Plug 'hrsh7th/cmp-vsnip'
+
+" For luasnip users.
+Plug 'saadparwaiz1/cmp_luasnip'
+
+" For ultisnips users.
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 
 Plug 'VonHeikemen/lsp-zero.nvim'
 
@@ -117,7 +121,9 @@ Plug 'nvim-telescope/telescope-ui-select.nvim'
 "Plug 'rafamadriz/friendly-snippets'
 
 " Snippets
+Plug 'L3MON4D3/LuaSnip'
 Plug 'sirver/ultisnips'
+Plug 'rafamadriz/friendly-snippets'
 "Plug 'honza/vim-snippets'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
