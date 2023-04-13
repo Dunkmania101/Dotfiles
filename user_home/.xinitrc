@@ -12,6 +12,8 @@ fi
 
 xrandr --setprovideroffloadsink 1 0
 
+xrdb ~/.Xresources
+
 #startwm="gnome"
 #startwm="hyprland"
 #startwm="stumpwm"

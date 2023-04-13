@@ -1,3 +1,7 @@
+Xcursor.theme: Capitaine Cursors (Gruvbox) - White
+
+! Start gruvbox-dark
+
 ! -----------------------------------------------------------------------------
 ! File: gruvbox-dark.xresources
 ! Description: Retro groove colorscheme generalized
@@ -34,3 +38,6 @@
 ! LightGrey + White
 *color7:  #a89984
 *color15: #ebdbb2
+
+! End gruvbox-dark
+
