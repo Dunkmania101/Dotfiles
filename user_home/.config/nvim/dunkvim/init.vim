@@ -29,9 +29,6 @@ let $colorsname = 'gruvbox-material' " Valid are 'gruvbox-material' / 'sonokai' 
 " Plugins
 source $dunkvimdir/scripts/initplugs.vim
 
-" Autostart Stuff
-source $dunkvimdir/scripts/autostart.vim
-
 " Custom Commands
 source $dunkvimdir/scripts/initcmds.vim
 
@@ -40,4 +37,8 @@ source $dunkvimdir/scripts/initcolors.vim
 
 " Keybinds
 source $dunkvimdir/scripts/initkeys.vim
+
+" Autostart Stuff
+source $dunkvimdir/scripts/autostart.vim
+
 """"""""""

@@ -399,7 +399,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 require("nvim-tree").setup({
     update_cwd = true,
-    ignore_ft_on_setup = {'startify', 'dashboard'},
+    --ignore_ft_on_setup = {'startify', 'dashboard'},
     view = {
         adaptive_size = true,
         mappings = {

@@ -34,6 +34,7 @@ set smartindent
 set autoindent
 set laststatus=2
 set number
+set relativenumber
 set cursorline
 set background=dark
 set showtabline=2
@@ -47,7 +48,7 @@ set updatetime=100
 set timeoutlen=700
 set clipboard=unnamedplus
 set incsearch
-set guifont=Hack
+set guifont=Iosevka
 let &t_ut=''
 
 set display+=lastline

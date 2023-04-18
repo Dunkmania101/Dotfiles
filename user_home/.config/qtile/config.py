@@ -236,8 +236,8 @@ my_terminal_light = f"uxterm -si -fs {my_tiny_font_size} -fa \'{my_term_font}\' 
 my_terminal_popup = my_terminal_light
 
 #my_editor = cfg_dir + "/scripts/run/run-emacs.sh"
-my_editor = "emacs"
-#my_editor = "emacsclient -a '' -c"
+#my_editor = "emacs"
+my_editor = "emacsclient -a '' -c"
 my_editor_alt = "geany"
 #my_editor_alt = "neovide --multigrid"
 #my_editor_alt = "vscodium"
