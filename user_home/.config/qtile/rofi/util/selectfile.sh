@@ -41,16 +41,20 @@ fi
 # ! Attention: Be careful with modifying these things, otherwise you could end
 # up in an infinite loop.
 file=""
-until [[ -f "$file" || "$selected" == "" ]]
+until [[ -f "$file" || "$selected" == "" || "$stopnow" != "" ]]
 do
     # List all folders in the directory and add ".." as top entry.
     filelist=`ls --color=never -1N "$dir"`
-    selected=`echo -e "..\n$filelist" | $rofi -select "$default_selected" -mesg "$dir"`
+    selected=`echo -e "..\n.\n$filelist" | $rofi -select "$default_selected" -mesg "$dir"`
     default_selected=".."
 
     if [[ "$selected" == "" ]]
     then
         file=""
+    elif [[ "$selected" == "." ]]
+    then
+        file="$dir"
+        stopnow=1
     elif [[ "$selected" == ".." ]]
     then
         # ".." will be translated to go up one folder level and run rofi again.
