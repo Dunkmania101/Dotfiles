@@ -66,6 +66,8 @@ if $amirealvim
   nmap gd :lua vim.lsp.buf.definition()<CR>
   nmap gD :lua vim.lsp.buf.declaration()<CR>
   nmap gr :lua vim.lsp.buf.references()<CR>
+  nmap <leader>cd :lua vim.lsp.buf.definition()<CR>
+  nmap <leader>cD :lua vim.lsp.buf.references()<CR>
   nmap <leader>cr :lua vim.lsp.buf.rename()<CR>
   nmap <leader>co <Cmd>lua require'jdtls'.organize_imports()<CR>
   nmap gt :lua vim.lsp.buf.type_definition()<CR>
