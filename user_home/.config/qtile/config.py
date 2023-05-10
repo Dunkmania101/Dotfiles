@@ -91,7 +91,8 @@ if os.path.isfile(env_file):
 # Themes
 
 my_font = "Iosevka"
-my_term_font = "Iosevka Term"
+#my_term_font = "Iosevka Term"
+my_term_font = "Iosevka"
 
 char_left_bend = "\ue0b6"
 char_right_bend = "\ue0b4"
@@ -211,6 +212,8 @@ my_kbd_type_cmd = "xdotool type --window -- "
 my_mouse_move_cmd = "xdotool mousemove_relative -- "
 my_mouse_move_dist = "10"
 my_mouse_click_cmd = "xdotool click "
+
+my_lock_device_cmd = "loginctl lock-session"
 
 # Applications
 #my_terminal = "kitty -e tmux"
@@ -785,6 +788,7 @@ keys = [
     # System
     # Key([sup, shift, ctrl], "F11", lazy.spawn("sudo hibernate-reboot")),
     # Key([sup, shift, ctrl], "F12", lazy.spawn("systemctl hibernate")),
+    Key([sup], "Escape", lazy.spawn(my_lock_device_cmd)),
     Key([], "Print", lazy.function(exec_func_no_qtile, take_screenshot)),
 
     # Special Keys
@@ -1284,7 +1288,7 @@ for monitor in monitors:
 #extentions = []
 reconfigure_screens = True
 follow_mouse_focus = False
-bring_front_click = True
+bring_front_click = False
 cursor_warp = False
 auto_fullscreen = True
 focus_on_window_activation = "smart"
