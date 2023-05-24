@@ -135,6 +135,9 @@
 (package! carp-mode
  :recipe (:host github :repo "carp-lang/carp-emacs"))
 
+(package! elfeed-tube)
+(package! elfeed-tube-mpv)
+
 
 ;;(use-package! zig-mode
 ;;  :hook ((zig-mode . lsp-deferred))
@@ -179,7 +182,7 @@
 (package! app-launcher
   :recipe (:host github :repo "SebastienWae/app-launcher"))
 
-(unpin! lsp-java)
+;(unpin! lsp-java)
 (unpin! centaur-tabs)
 (unpin! straight)
 ;(unpin! treemacs)

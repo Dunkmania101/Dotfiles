@@ -3,13 +3,18 @@ set fish_greeting
 export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.private/copy/bin:$HOME/go/bin:$HOME/.fnm:$HOME/.fnm/aliases/default/bin:$HOME/.guix-profile/bin:$HOME/.nix-profile/bin:/usr/local/bin:$HOME/.nimble/bin:$HOME/Launchers:$HOME/.emacs.d/bin/:$PATH"
 export superdrive="$HOME/superdrive-ln/"
 export programming="$superdrive/Programming/"
-export mcmoddev="$programming/Games/MCModDev/"
+export mcdev="$programming/Games/MC/"
+export mcmoddev="$mcdev/MCModDev/"
 export games="$superdrive/Games/"
 export gdlauncher_path="$games/MC/GDlauncher/"
 export creepyr_path="$games/MC/creepyr"
 export mclauncher_path="$creepyr_path"
 export PATH="$PATH:$mclauncher_path/bin"
 export mcinstances="$mclauncher_path/instances/"
+export search_engine='http://localhost:8888/'
+export search_url="$search_engine/search?q="
+export cli_browser="elinks"
+export win_browser="nyxt"
 # export TERM=xterm-kitty
 #export VISUAL="emacs -nw"
 #export EDITOR="emacs -nw"
@@ -40,6 +45,10 @@ alias fh="fd . --type f | fzf"
 alias ffv='$EDITOR (ff)'
 alias fhv='$EDITOR (fh)'
 alias mpvv="mpv --script=$HOME/.guix-profile/lib/mpris.so --force-window --no-keepaspect-window --loop "
+function search-query-with -a 'q' -a 'b'; $b "$search_url$q" ; end
+function search-query-cli -a 'q'; search-query-with $q $cli_browser ; end
+function search-query-win -a 'q'; search-query-with $q $win_browser ; end
+alias sq="search-query-cli"
 alias pass1="PASSWORD_STORE_ENABLE_EXTENSIONS=true PASSWORD_STORE_DIR=$superdrive/Key/pass/1/ pass "
 alias sl="sl -e"
 alias ferium-cfg1="ferium --config-file=$games/Ferium/Configs/1/config.json"
