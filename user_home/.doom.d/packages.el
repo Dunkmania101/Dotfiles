@@ -128,6 +128,8 @@
 (package! empv
  :recipe (:host github :repo "isamert/empv.el"))
 
+(package! mpv)
+
 (package! screenshot)
 
 (package! guix)
@@ -137,6 +139,9 @@
 
 (package! elfeed-tube)
 (package! elfeed-tube-mpv)
+
+;(require 'elfeed-tube)
+;(elfeed-tube-setup)
 
 
 ;;(use-package! zig-mode

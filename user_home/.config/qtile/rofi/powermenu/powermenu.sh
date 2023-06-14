@@ -8,11 +8,14 @@ rofi_command="rofi -theme ~/.config/qtile/rofi/theme.rasi"
 
 # Options
 shutdown="⏻ - Poweroff"
-reboot="累 - Reboot"
-monitor=" - Lock & Monitor Off"
+#reboot="累 - Reboot"
+reboot="↻ - Reboot"
+#monitor=" - Lock & Monitor Off"
+monitor="☼ - Lock & Monitor Off"
 lock=" - Lock"
 suspend=" - Suspend"
-logout=" - Logout"
+#logout=" - Logout"
+logout="⬑ - Logout"
 
 
 # Message

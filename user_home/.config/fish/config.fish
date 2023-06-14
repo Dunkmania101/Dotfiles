@@ -116,7 +116,8 @@ alias uu-nix="nix-channel --update; nix-env --upgrade; nixclean"
 alias uu-stack="stack upgrade; stack update"
 #function lsoutdated-pip; eval "$P list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1"; end
 function lsoutdated-pip; echo (eval "$P list --outdated --format=json" | jq -r 'map(.name) | join(" ")' | string split " "); end
-function uu-pip; for P in "python -m pip" "sudo python -m pip" "pypy3 -m pip" "sudo pypy3 -m pip"; eval "echo (P=\"$P\" lsoutdated-pip | string split ' ' | grep -v cairocffi) | xargs $P install --upgrade pip "; end; end
+function uu-pip; for P in "python -m pip" "pypy3 -m pip"; eval "echo (P=\"$P\" lsoutdated-pip | string split ' ' | grep -v cairocffi) | xargs $P install --upgrade pip "; end; end
+#function uu-pip; for P in "python -m pip" "sudo python -m pip" "pypy3 -m pip" "sudo pypy3 -m pip"; eval "echo (P=\"$P\" lsoutdated-pip | string split ' ' | grep -v cairocffi) | xargs $P install --upgrade pip "; end; end
 #alias uu-nim="choosenim update self; choosenim update devel; nimble refresh || rm -rf $HOME/.nimble && nimble refresh; for nim_package in (nimble list --installed | cut -d' ' -f1); nimble --accept install $nim_package"
 alias uu-fish="fisher update; fish_update_completions"
 alias uu-node="install-fnm; npm install -g npm; npm -g update"
@@ -161,8 +162,8 @@ set NIX_PROFILE "$HOME/.nix-profile"
 if test -f "$HOME/.profile"; bass . "$HOME/.profile"; end
 
 # Atuin
-fish_vi_key_bindings
-#if type -q atuin; atuin init fish | ATUIN_NOBIND=1 source; end
+#fish_vi_key_bindings
+if type -q atuin; atuin init fish --disable-up-arrow | source; end
 
 # fnm
 #if test -f $HOME/.fnm/fnm; fnm env | source; end

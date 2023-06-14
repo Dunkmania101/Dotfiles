@@ -71,8 +71,21 @@
   (minimap-mode))
 
 (after! centaur-tabs
-  (setq centaur-tabs-set-bar nil
+  (setq centaur-tabs-set-bar 'over
         centaur-tabs-height 30))
+;(defun tdr/fix-centaur-tabs ()
+;(centaur-tabs-mode -1)
+;(centaur-tabs-mode)
+;(centaur-tabs-headline-match)
+;
+;)
+;(if (daemonp)
+;(add-hook 'after-make-frame-functions
+;(lambda (frame)
+;(with-selected-frame frame
+;(tdr/fix-centaur-tabs)))
+;(tdr/fix-centaur-tabs))
+;)
 
 (setq evil-split-window-below t
       evil-vsplit-window-right t)
@@ -100,6 +113,8 @@
   (setq empv-invidious-instance "https://vid.puffyan.us/api/v1")
   (mapc (lambda (a) (add-to-list 'empv-mpv-args a)) '("--ytdl-format=best" "--force-window" "--no-keepaspect-window" "--loop"))
   (mapc (lambda (a) (delete a empv-mpv-args)) '("--no-video")))
+
+(after! elfeed-tube (elfeed-tube-setup))
 
 (setf ement-save-sessions t)
 (map! :leader

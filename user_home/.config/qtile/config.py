@@ -213,7 +213,7 @@ my_mouse_move_cmd = "xdotool mousemove_relative -- "
 my_mouse_move_dist = "10"
 my_mouse_click_cmd = "xdotool click "
 
-my_lock_device_cmd = "loginctl lock-session"
+my_lock_device_cmd = "loginctl lock-session & playerctl --all-players pause & amixer set Master mute; sleep 0.5; xset dpms force standby"
 
 # Applications
 #my_terminal = "kitty -e tmux"
@@ -788,7 +788,7 @@ keys = [
     # System
     # Key([sup, shift, ctrl], "F11", lazy.spawn("sudo hibernate-reboot")),
     # Key([sup, shift, ctrl], "F12", lazy.spawn("systemctl hibernate")),
-    Key([sup], "Escape", lazy.spawn(my_lock_device_cmd)),
+    Key([sup], "Escape", lazy.function(exec_func_no_qtile, run_cmd, [my_lock_device_cmd])),
     Key([], "Print", lazy.function(exec_func_no_qtile, take_screenshot)),
 
     # Special Keys
