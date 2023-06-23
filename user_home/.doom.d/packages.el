@@ -22,20 +22,9 @@
 ;  :recipe (:host github :repo "username/repo"
 ;           :files ("some-file.el" "src/lisp/*.el")))
 
-(package! plz
- :recipe (:host github :repo "alphapapa/plz.el"))
-(package! ement
- :recipe (:host github :repo "alphapapa/ement.el"))
-
-(package! gruvbox-theme)
 
 (package! crux)
-
-(package! denote)
-
-(package! w3
-    :recipe (:files (:defaults "etc")))
-;(package! w3m)
+(package! guix)
 
 ;(package! meow)
 (after! meow
@@ -124,24 +113,43 @@
    '("'" . repeat)
    '("<escape>" . ignore))
   (meow-global-mode 1))
+(package! ace-popup-menu)
+(after! ace-popup-menu
+  (ace-popup-menu-mode 1))
+(package! buffer-name-relative)
+(after! buffer-name-relative
+  (buffer-name-relative-mode))
 
-(package! empv
- :recipe (:host github :repo "isamert/empv.el"))
+(package! gruvbox-theme)
+(package! pulsar)
+(package! helpful)
 
-(package! mpv)
 
-(package! screenshot)
-
-(package! guix)
 
 (package! carp-mode
  :recipe (:host github :repo "carp-lang/carp-emacs"))
 
+(package! empv
+ :recipe (:host github :repo "isamert/empv.el"))
+(package! mpv)
 (package! elfeed-tube)
 (package! elfeed-tube-mpv)
-
 ;(require 'elfeed-tube)
 ;(elfeed-tube-setup)
+
+(package! screenshot)
+(package! denote)
+
+(package! w3
+    :recipe (:files (:defaults "etc")))
+;(package! w3m)
+
+(package! plz
+ :recipe (:host github :repo "alphapapa/plz.el"))
+(package! ement
+ :recipe (:host github :repo "alphapapa/ement.el"))
+
+
 
 
 ;;(use-package! zig-mode
@@ -184,8 +192,8 @@
 (require 'eaf-rss-reader)))
 
 (package! exwm)
-(package! app-launcher
-  :recipe (:host github :repo "SebastienWae/app-launcher"))
+;(package! app-launcher
+;  :recipe (:host github :repo "SebastienWae/app-launcher"))
 
 ;(unpin! lsp-java)
 (unpin! centaur-tabs)
