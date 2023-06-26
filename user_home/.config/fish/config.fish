@@ -1,6 +1,6 @@
 # Variables
 set fish_greeting
-export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.private/copy/bin:$HOME/go/bin:$HOME/.fnm:$HOME/.fnm/aliases/default/bin:$HOME/.guix-profile/bin:$HOME/.nix-profile/bin:/usr/local/bin:$HOME/.nimble/bin:$HOME/Launchers:$HOME/.emacs.d/bin/:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.private/copy/bin:$HOME/go/bin:$HOME/.fnm:$HOME/.fnm/aliases/default/bin:$HOME/.guix-profile/bin:$HOME/.nix-profile/bin:/usr/local/bin:$HOME/.nimble/bin:$HOME/Launchers:$HOME/.config/emacs/bin/:$PATH"
 export superdrive="$HOME/superdrive-ln/"
 export programming="$superdrive/Programming/"
 export mcdev="$programming/Games/MC/"
@@ -88,8 +88,8 @@ alias install-fisher="curl -sL https://git.io/fisher | source && fisher install 
 alias install-guix="wget -O /tmp/guix-install.sh https://git.savannah.gnu.org/cgit/guix.git/plain/etc/guix-install.sh; chmod +x /tmp/guix-install.sh; sudo bash \"/tmp/guix-install.sh\""
 alias install-nix="curl -L https://nixos.org/nix/install | sh"
 #alias install-chemacs="[ -f ~/.emacs ] && mv ~/.emacs ~/.emacs.bak; [ -f ~/.emacs ] && mv ~/.emacs ~/.emacs.bak; git clone https://github.com/plexus/chemacs2.git ~/.emacs.d"
-alias install-doom="git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d; ~/.emacs.d/bin/doom install"
-alias reinstall-doom='mkdir -p ~/ProgramFiles/.bak/doom-emacs; mv ~/.emacs.d ~/ProgramFiles/.bak/doom-emacs/(date); install-doom'
+alias install-doom="git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.config/emacs; ~/.config/emacs/bin/doom install"
+alias reinstall-doom='mkdir -p ~/ProgramFiles/.bak/doom-emacs; mv ~/.config/emacs ~/ProgramFiles/.bak/doom-emacs/(date); install-doom'
 alias install-emacs-config="install-chemacs; install-doom"
 alias install-fnm="curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell; fnm install --lts"
 alias install-nvm="wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/latest/install.sh | bash; nvm install node"

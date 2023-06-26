@@ -122,6 +122,8 @@
 
 (package! gruvbox-theme)
 (package! pulsar)
+(after! pulsar
+  (setq pulsar-global-mode))
 (package! helpful)
 
 
