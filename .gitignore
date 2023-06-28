@@ -1,3 +1,5 @@
+.private/
+*.private
 external/
 .vscode
 __pycache__
