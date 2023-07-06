@@ -40,5 +40,5 @@ xsetroot -cursor_name left_ptr
 xset b off
 xset r rate 280 40
 #xset 1800
-xss-lock -l -- i3lock --ignore-empty-password --color=2c2826 --bar-indicator --bar-color=3c3836 &
+xss-lock -l -- i3lock --ignore-empty-password --color=222222 --bar-indicator --bar-color=4f443a &
 
