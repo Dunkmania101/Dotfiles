@@ -323,7 +323,8 @@ my_player_ctrl = rofi_dir + "/player/player.sh"
 my_workspaces = rofi_dir + "/workspaces/workspaces.sh"
 my_emoji = rofi_dir + "/emoji/emoji.sh"
 
-my_window_killer = f"{my_terminal} -e xkill"
+#my_window_killer = f"{my_terminal} -e xkill"
+my_window_killer = "xkill"
 
 my_notification_show = "wired --show 1"
 my_notification_drop = "wired --drop latest"
@@ -592,6 +593,7 @@ keys = [
     Key([sup], "F4", lazy.window.kill()),
     Key([sup, shift], "F4", lazy.spawn(my_window_killer)),
     Key([sup, shift], "q", lazy.window.kill()),
+    Key([sup, ctrl], "q", lazy.spawn(my_window_killer)),
 
     Key([sup], "j", lazy.layout.down()),
     Key([sup], "k", lazy.layout.up()),
