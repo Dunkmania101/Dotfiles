@@ -29,7 +29,7 @@ pgrep copyq || copyq &
 pgrep element-desktop || element-desktop --hidden &
 #pgrep element-desktop-nightly || element-desktop-nightly --hidden &
 #pgrep birdtray || birdtray &
-pgrep easyeffects || easyeffects --gapplication-service &
+#pgrep easyeffects || easyeffects --gapplication-service &
 #agordejo --hide --load-session Main &
 pgrep emacs || emacs --daemon &
 pgrep mpd || mpd &

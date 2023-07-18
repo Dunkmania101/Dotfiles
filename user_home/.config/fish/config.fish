@@ -36,6 +36,9 @@ if not set -q $NO_ZELLIJ
     end
 end
 
+function skipcmd_quiet; ; end
+function skipcmd; echo "Skipping: $(type -q $argv && type $argv || echo $argv)"; end
+
 # Aliases
 alias sudo="sudo "
 function audio-burst-loop -a 'f'; while true; mpv $f --length=0.3; set grimmdelay (random 3 120); echo sleeping for $grimmdelay; sleep $grimmdelay; end; end
@@ -118,6 +121,7 @@ alias uu-stack="stack upgrade; stack update"
 function lsoutdated-pip; echo (eval "$P list --outdated --format=json" | jq -r 'map(.name) | join(" ")' | string split " "); end
 function uu-pip; for P in "python -m pip" "pypy3 -m pip"; eval "echo (P=\"$P\" lsoutdated-pip | string split ' ' | grep -v cairocffi) | xargs $P install --upgrade pip "; end; end
 #function uu-pip; for P in "python -m pip" "sudo python -m pip" "pypy3 -m pip" "sudo pypy3 -m pip"; eval "echo (P=\"$P\" lsoutdated-pip | string split ' ' | grep -v cairocffi) | xargs $P install --upgrade pip "; end; end
+alias uu-pipx="pipx upgrade-all"
 #alias uu-nim="choosenim update self; choosenim update devel; nimble refresh || rm -rf $HOME/.nimble && nimble refresh; for nim_package in (nimble list --installed | cut -d' ' -f1); nimble --accept install $nim_package"
 alias uu-fish="fisher update; fish_update_completions"
 alias uu-node="install-fnm; npm install -g npm; npm -g update"
@@ -128,7 +132,7 @@ alias uu-node="install-fnm; npm install -g npm; npm -g update"
 alias uu-doom="doom --force sync; doom --force upgrade; doom --force sync; doom --force purge"
 alias uu-emacs="uu-doom"
 alias uu-nvim="nvim -c 'UU' -c 'qa!'"
-alias uu-noguix="uu-arch; uu-fish; uu-nix; uu-flatpak; uu-pip; uu-nim; uu-node; uu-emacs; uu-graal; install-blender-gruvbox; install-blender-dracula; install-blender-cad-sketcher; install-searx; install-pax-mc; install-packwiz-mc; uu-fontcache; install-capitaine-cursors-sainnhe; install-capitaine-cursors-sainnhe-root"
+alias uu-noguix="uu-arch; uu-fish; uu-nix; uu-flatpak; skipcmd uu-pip; uu-pipx; uu-nim; uu-node; uu-emacs; skipcmd uu-graal; install-blender-gruvbox; install-blender-dracula; install-blender-cad-sketcher; install-searx; install-pax-mc; install-packwiz-mc; uu-fontcache; skipcmd install-capitaine-cursors-sainnhe; skipcmd install-capitaine-cursors-sainnhe-root"
 alias uu="uu-noguix; uu-guix"
 alias uu-clean="uu; guixclean-full"
 export add_package_cmd="sudo aura -S --needed "

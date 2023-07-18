@@ -70,6 +70,28 @@ def gen_jgmenu_cmd(fmt: str = "uxterm") -> str:
     return f"echo \'{fmt}\' | jgmenu --simple"
 
 
+global force_auto_group_all
+force_auto_group_all: tuple[str | int, bool] | None = None
+
+def set_force_auto_group_all(group: str | int | None, follow: bool = True):
+    if group is None:
+        force_auto_group_all = group
+    else:
+        force_auto_group_all = group, follow
+
+def clear_force_auto_group_all(_ = None):
+    set_force_auto_group_all(None)
+
+def set_current_force_auto_group_all(qtile, follow: bool = True):
+    set_force_auto_group_all(get_current_group_name(qtile), follow)
+
+def set_current_force_auto_group_all_follow(qtile):
+    set_current_force_auto_group_all(get_current_group_name(qtile), True)
+
+def set_current_force_auto_group_all_nofollow(qtile):
+    set_current_force_auto_group_all(get_current_group_name(qtile), False)
+
+
 # -------------------- #
 # -- Base Variables -- #
 # -------------------- #
@@ -405,6 +427,19 @@ def run_kmonad(start: bool = True) -> None:
 # ------------------------------ #
 
 
+def is_win_in_classes(window, classes, require_all: bool = False, provide_first_index: bool = False) -> tuple[bool, int | None]:
+    wcs = window.window.get_wm_class()
+    q = lambda : (c in classes for c in wcs)
+    if provide_first_index:
+        r = is_win_in_classes(window, classes, require_all, provide_first_index=False)
+        if r:
+            i = min(classes.index[c] for c in wcs if c in classes)
+        else:
+            i = None
+        return r is True, i
+    else:
+        return all(q()) if require_all else any(q()), None
+
 def get_full_group_name(screen_name, base_name) -> str:
     return f"{screen_name}:{base_name}"
 
@@ -417,11 +452,23 @@ def get_current_screen_index(qtile) -> int:
 def get_screen_index_by_offset(qtile, offset: int = 1) -> int:
     return (get_current_screen_index(qtile) + offset) % len(qtile.screens)
 
+def get_group_index(qtile, group) -> int:
+    return qtile.groups.index(group)
+
+def get_group_name(qtile, group) -> str:
+    return list(qtile.groups_map.keys())[get_group_index(qtile, group)]
+
 def get_current_group_index(qtile) -> int:
-    return qtile.groups.index(qtile.current_group)
+    return get_group_index(qtile, qtile.current_group)
+
+def get_current_group_name(qtile) -> str:
+    return get_group_name(qtile, qtile.current_group)
 
 def get_group_by_name(qtile, group: str) -> Group:
     return qtile.groups_map.get(group)
+
+def get_group_by_index(qtile, i: int) -> Group:
+    return qtile.groups.get(i)
 
 def get_current_group_index_on_current_screen(qtile) -> int:
     return get_current_group_index(qtile) - ((len(qtile.screens) * len(my_base_groups)))
@@ -462,8 +509,11 @@ def set_current_screen_group_by_offset(qtile, offset: int = 1) -> None:
     set_current_screen_group(qtile, get_group_on_current_screen_by_offset(qtile, offset).name)
 
 
+def send_win_to_group(qtile, window, group: str, switch_group: bool = True) -> None:
+    window.togroup(group, switch_group=switch_group)
+
 def send_current_win_to_group(qtile, group: str, switch_group: bool = True) -> None:
-    qtile.current_window.togroup(group, switch_group=switch_group)
+    send_win_to_group(qtile, qtile.current_window, group, switch_group)
 
 def send_current_win_to_group_on_current_screen_switch(qtile, group: Group) -> None:
     send_current_win_to_group(qtile, get_group_name_on_current_screen(qtile, group))
@@ -611,6 +661,8 @@ keys = [
     Key([sup, alt, shift], "l", lazy.layout.swap_column_right()),
     Key([sup], "g", lazy.layout.toggle_split()),
     Key([sup, shift], "g", lazy.layout.normalize()),
+    Key([sup, alt], "g", lazy.function(set_current_force_auto_group_all)),
+    Key([sup, alt, shift], "g", lazy.function(clear_force_auto_group_all)),
 
     # Key([sup], left, lazy.layout.shrink_main()),
     # Key([sup], right, lazy.layout.grow_main()),
@@ -1332,14 +1384,39 @@ floating_layout = layout.Floating(
 )
 
 
-dont_auto_float_rules = []
+force_auto_float_rules = []
+no_auto_float_rules = []
 @hook.subscribe.client_new
 def floating_dialogs_hook(window) -> None:
     dialog = window.window.get_wm_type() == 'dialog'
     transient = window.window.get_wm_transient_for()
-    allowed = all(c not in dont_auto_float_rules for c in window.window.get_wm_class())
-    if allowed and (dialog or transient):
+    forced = is_win_in_classes(window, force_auto_float_rules, False)
+    allowed = not is_win_in_classes(window, no_auto_float_rules, False)
+    if allowed and (forced or dialog or transient):
         window.floating = True
+
+
+force_auto_group_rules: list[tuple[str, str | int, bool]] = []
+no_auto_group_rules: list[tuple[str, list[str | int]]] = []
+@hook.subscribe.client_new
+def pref_group_hook(window) -> None:
+    if force_auto_group_all is not None:
+        gn, follow = force_auto_group_all
+    else:
+        forced, i = is_win_in_classes(window, [r[0] for r in force_auto_group_rules], False, True)
+        if forced and i is not None:
+            gn, follow = force_auto_group_rules[i][1:]
+        else:
+            gn, follow = None, None
+    if gn is not None and follow is not None:
+        if isinstance(gn, str):
+            g = get_group_by_name(qtile, gn)
+        elif isinstance(gn, int):
+            g = get_group_by_index(qtile, gn)
+        else:
+            return
+        if not is_win_in_classes(window, [r[0] for r in no_auto_group_rules if r[1] not in [get_group_name(qtile, g), get_group_index(qtile, g)]], False):
+            send_win_to_group(qtile, window, get_group_name(qtile, g), follow)
 
 
 @hook.subscribe.screen_change
