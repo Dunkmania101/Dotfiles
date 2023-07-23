@@ -114,17 +114,32 @@
   (mapc (lambda (a) (add-to-list 'empv-mpv-args a)) '("--ytdl-format=best" "--force-window" "--no-keepaspect-window" "--loop"))
   (mapc (lambda (a) (delete a empv-mpv-args)) '("--no-video")))
 
-(after! elfeed-tube (elfeed-tube-setup))
+(after! elfeed-tube
+  (elfeed-tube-setup)
+  (elfeed-tube-mpv-follow-mode 1))
+(after! mpv
+  (setq mpv-default-options (append mpv-default-options '("--script=/home/dunk/.guix-profile/lib/mpris.so" "--no-keepaspect-window"))))
 
 (setf ement-save-sessions t)
 (map! :leader
-      (:prefix ("1" . "General Keys")
+      (:prefix ("1" . "Communication")
        :desc "Connect To Matrix Session For Ement" "c" #'ement-connect
-       :desc "List Ement Rooms" "e" #'ement-list-rooms))
+       :desc "List Ement Rooms" "e" #'ement-list-rooms)
+      (:prefix ("2" . "Media")
+        (:prefix ("t" . "Elfeed-tube")
+         :desc "Search with Elfeed-tube" "m" #'elfeed-tube-mpv
+         :desc "Connect Elfeed-tube to MPV" "m" #'elfeed-tube-mpv
+         :desc "Follow/Unfollow Elfeed-tube with MPV" "f" #'elfeed-tube-mpv
+         :desc "Search with Elfeed-tube" "o" #'elfeed-tube-add-feeds
+         :desc "Fetch with Elfeed-tube" "i" #'elfeed-tube-fetch)
+        :desc "Play/Pause MPV" "m" #'mpv-pause))
 
 (map! :leader
       (:prefix ("c")
-       :desc "Comment line(s)" ";" #'comment-line))
+       :desc "Comment line(s)" ";" #'comment-line)
+      (:prefix ("TAB")
+       :desc "Swap current workspace left" "j" #'+workspace/swap-left
+       :desc "Swap current workspace right" "k" #'+workspace/swap-right))
 
 (map! "M-&" #'with-editor-async-shell-command)
 
