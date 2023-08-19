@@ -57,6 +57,7 @@ Plug 'onsails/lspkind-nvim'
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'dgileadi/vscode-java-decompiler'
 Plug 'Stevertus/mcscript'
+Plug 'twh2898/vim-scarpet'
 " Plug 'valloric/youcompleteme'
 " Plug 'autozimu/LanguageClient-neovim', {
 "     \ 'branch': 'next',
@@ -107,7 +108,7 @@ Plug 'hrsh7th/cmp-vsnip'
 Plug 'saadparwaiz1/cmp_luasnip'
 
 " For ultisnips users.
-Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+"Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 
 Plug 'VonHeikemen/lsp-zero.nvim'
 
@@ -122,7 +123,7 @@ Plug 'nvim-telescope/telescope-ui-select.nvim'
 
 " Snippets
 Plug 'L3MON4D3/LuaSnip'
-Plug 'sirver/ultisnips'
+"Plug 'sirver/ultisnips'
 Plug 'rafamadriz/friendly-snippets'
 "Plug 'honza/vim-snippets'
 Plug 'hrsh7th/vim-vsnip'
