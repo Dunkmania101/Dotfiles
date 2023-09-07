@@ -41,6 +41,12 @@ function skipcmd; echo "Skipping: $(type -q $argv && type $argv || echo $argv)";
 
 # Aliases
 alias sudo="sudo "
+alias droll_n="random 1 "
+alias d4="droll_n 4"
+alias d6="droll_n 6"
+alias d8="droll_n 8"
+alias d12="droll_n 12"
+alias d20="droll_n 20"
 function audio-burst-loop -a 'f'; while true; mpv $f --length=0.3; set grimmdelay (random 3 120); echo sleeping for $grimmdelay; sleep $grimmdelay; end; end
 function uu-graal; for j in /usr/lib/jvm/java-*-graalvm/bin/gu; sudo $j rebuild libpolyglot ; end; end
 alias ff="fd . / --type f | fzf"
@@ -72,7 +78,8 @@ alias easy-diffusion="bash ~/ProgramFiles/easy-diffusion/easy-diffusion/start.sh
 alias install-chevron="mkdir -p ~/ProgramFiles/Chevron; git -C ~/ProgramFiles/Chevron clone --depth=1 https://github.com/kholmogorov27/chevron || git -C ~/ProgramFiles/Chevron/chevron pull; pushd ~/ProgramFiles/Chevron/chevron; npm install; npm run build; popd"
 alias install-capitaine-cursors-sainnhe-root="wget https://github.com/sainnhe/capitaine-cursors/releases/latest/download/Linux.zip -O /tmp/Linux.zip && sudo mkdir -p /usr/share/icons && sudo unzip -o /tmp/Linux.zip -d /usr/share/icons/"
 alias install-mpv-sponsorblock="git -C /tmp clone --depth=1 https://github.com/po5/mpv_sponsorblock.git; mkdir -p ~/.config/mpv/scripts/; cp /tmp/mpv_sponsorblock/sponsorblock.lua ~/.config/mpv/scripts/; cp -r /tmp/mpv_sponsorblock/sponsorblock_shared ~/.config/mpv/scripts/"
-alias install-searx='docker stop searx-1; docker rm -v searx-1; PORT=8888 docker run --name=searx-1 --restart=unless-stopped -d -v ~/ProgramFiles/searx:/etc/searx -p $PORT:8080 --dns 9.9.9.9 -e BASE_URL=http://localhost:$PORT/ searx/searx:latest'
+alias install-searx='docker stop searx-1; docker rm -v searx-1; PORT=8888 docker run --name=searx-1 --restart=unless-stopped -d -v ~/ProgramFiles/searx:/etc/searx -p $PORT:8080 --dns 127.0.0.1 -e BASE_URL=http://localhost:$PORT/ searx/searx:latest'
+alias install-searxng='docker stop searxng-1; docker rm -v searxng-1; PORT=8888 docker run --name=searxng-1 --restart=unless-stopped -d -v ~/ProgramFiles/searxng:/etc/searxng -p $PORT:8080 --dns 127.0.0.1 -e BASE_URL=http://localhost:$PORT/ searxng/searxng:latest'
 alias install-retroshare-voip='mkdir -p ~/ProgramFiles/RetroShare/; mkdir -p ~/.retroshare/extensions6/; git clone --depth=1 https://github.com/RetroShare/RetroShare.git ~/ProgramFiles/RetroShare/src; cd ~/ProgramFiles/RetroShare/src/; git submodule update --depth=1 --init --remote --recursive --force; cd ~/ProgramFiles/RetroShare/src/plugins/VOIP; qmake && make clean && make; cp lib*.so ~/.retroshare/extensions6/'
 alias install-quicklisp="mkdir -p ~/ProgramFiles/quicklisp/; curl https://beta.quicklisp.org/quicklisp.lisp -o ~/ProgramFiles/quicklisp/quicklisp.lisp; sbcl --load ~/ProgramFiles/quicklisp/quicklisp.lisp --eval '(progn (quicklisp-quickstart:install)(exit))'"
 function install-quicklisp-module -a 'm'; test -e ~/quicklisp/ || install-quicklisp; sbcl --load ~/quicklisp/setup.lisp --eval "(progn (ql:system-apropos \"$m\") (ql:quickload \"$m\") (exit))"; end
@@ -132,7 +139,7 @@ alias uu-node="install-fnm; npm install -g npm; npm -g update"
 alias uu-doom="doom --force sync; doom --force upgrade; doom --force sync; doom --force purge"
 alias uu-emacs="uu-doom"
 alias uu-nvim="nvim -c 'UU' -c 'qa!'"
-alias uu-noguix="uu-arch; uu-fish; uu-nix; uu-flatpak; skipcmd uu-pip; uu-pipx; uu-nim; uu-node; uu-emacs; skipcmd uu-graal; install-blender-gruvbox; install-blender-dracula; install-blender-cad-sketcher; install-searx; install-pax-mc; install-packwiz-mc; uu-fontcache; skipcmd install-capitaine-cursors-sainnhe; skipcmd install-capitaine-cursors-sainnhe-root"
+alias uu-noguix="uu-arch; uu-fish; uu-nix; uu-flatpak; skipcmd uu-pip; uu-pipx; uu-nim; uu-node; uu-emacs; skipcmd uu-graal; install-blender-gruvbox; install-blender-dracula; install-blender-cad-sketcher; install-searxng; install-pax-mc; install-packwiz-mc; uu-fontcache; skipcmd install-capitaine-cursors-sainnhe; skipcmd install-capitaine-cursors-sainnhe-root"
 alias uu="uu-noguix; uu-guix"
 alias uu-clean="uu; guixclean-full"
 export add_package_cmd="sudo aura -S --needed "
