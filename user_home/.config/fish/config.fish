@@ -41,6 +41,7 @@ function skipcmd; echo "Skipping: $(type -q $argv && type $argv || echo $argv)";
 
 # Aliases
 alias sudo="sudo "
+alias nvsx="nvx on && sx"
 alias droll_n="random 1 "
 alias d4="droll_n 4"
 alias d6="droll_n 6"
