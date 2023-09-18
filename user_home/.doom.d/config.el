@@ -127,9 +127,8 @@
        :desc "List Ement Rooms" "e" #'ement-list-rooms)
       (:prefix ("2" . "Media")
         (:prefix ("t" . "Elfeed-tube")
-         :desc "Search with Elfeed-tube" "m" #'elfeed-tube-mpv
          :desc "Connect Elfeed-tube to MPV" "m" #'elfeed-tube-mpv
-         :desc "Follow/Unfollow Elfeed-tube with MPV" "f" #'elfeed-tube-mpv
+         :desc "Follow/Unfollow Elfeed-tube with MPV" "f" #'elfeed-tube-mpv-follow-mode
          :desc "Search with Elfeed-tube" "o" #'elfeed-tube-add-feeds
          :desc "Fetch with Elfeed-tube" "i" #'elfeed-tube-fetch)
         :desc "Play/Pause MPV" "m" #'mpv-pause))

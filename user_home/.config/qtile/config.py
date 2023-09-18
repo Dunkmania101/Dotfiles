@@ -433,7 +433,7 @@ def is_win_in_classes(window, classes, require_all: bool = False, provide_first_
     if provide_first_index:
         r = is_win_in_classes(window, classes, require_all, provide_first_index=False)
         if r:
-            i = min(classes.index[c] for c in wcs if c in classes)
+            i = min(classes.index(c) for c in wcs if c in classes)
         else:
             i = None
         return r is True, i
@@ -1148,20 +1148,20 @@ def get_widgets_1(i) -> list:
                 #    ),
                 OpenWidgetBox(
                     widgets=[
-                        widget.CheckUpdates(
-                            distro=my_distro,
-                            custom_command=my_check_updates_cmd if my_check_updates_cmd is not None else ...,
-                            no_update_string=":)",
-                            colour_no_updates=green_color,
-                            colour_have_updates=red_color,
-                        ),
-                        widget.Spacer(length=5),
-                        widget.Canto(),
-                        widget.Spacer(length=5),
-                        ColorGmailChecker(
-                            username=my_gmail_username,
-                            password=my_gmail_pass,
-                        ),
+                        #widget.CheckUpdates(
+                        #    distro=my_distro,
+                        #    custom_command=my_check_updates_cmd if my_check_updates_cmd is not None else ...,
+                        #    no_update_string=":)",
+                        #    colour_no_updates=green_color,
+                        #    colour_have_updates=red_color,
+                        #),
+                        #widget.Spacer(length=5),
+                        ##widget.Canto(),
+                        #widget.Spacer(length=5),
+                        #ColorGmailChecker(
+                        #    username=my_gmail_username,
+                        #    password=my_gmail_pass,
+                        #),
                     ]
                 ),
                 get_sep_widget(),

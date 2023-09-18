@@ -140,6 +140,8 @@
 ;(elfeed-tube-setup)
 
 (package! screenshot)
+(package! demo-it)
+
 (package! denote)
 
 (package! w3
