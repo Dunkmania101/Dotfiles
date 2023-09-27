@@ -433,7 +433,7 @@ def is_win_in_classes(window, classes, require_all: bool = False, provide_first_
     if provide_first_index:
         r = is_win_in_classes(window, classes, require_all, provide_first_index=False)
         if r:
-            i = min(classes.index(c) for c in wcs if c in classes)
+            i = min([classes.index(c) for c in wcs if c in classes], default=None)
         else:
             i = None
         return r is True, i
