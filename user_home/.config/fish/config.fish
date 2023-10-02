@@ -41,6 +41,7 @@ function skipcmd; echo "Skipping: $(type -q $argv && type $argv || echo $argv)";
 
 # Aliases
 alias sudo="sudo "
+for cls in "cls" "claer" "clera"; alias $cls="clear; echo There, you\'re welcome. Learn to type next time."; end
 alias nvsx="nvx on && sx"
 alias droll_n="random 1 "
 alias d4="droll_n 4"
@@ -176,7 +177,7 @@ if test -f "$HOME/.profile"; bass . "$HOME/.profile"; end
 
 # Atuin
 #fish_vi_key_bindings
-if type -q atuin; atuin init fish --disable-up-arrow | source; end
+#if type -q atuin; atuin init fish --disable-up-arrow | source; end
 
 # fnm
 #if test -f $HOME/.fnm/fnm; fnm env | source; end
