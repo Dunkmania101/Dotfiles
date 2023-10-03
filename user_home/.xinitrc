@@ -10,9 +10,13 @@ fi
 #export __GLX_VENDOR_LIBRARY_NAME=nvidia
 #export __NV_PRIME_RENDER_OFFLOAD=1
 
-xrandr --setprovideroffloadsink 1 0
+#xrandr --setprovideroffloadsink 1 0
+xrandr --setprovideroffloadsink 0 1
+#xrandr --setprovideroutputsource modesetting NVIDIA-0
+xrandr --auto
 
 xrdb ~/.Xresources
+#xrdb -merge ~/.Xresources
 
 #startwm="gnome"
 #startwm="hyprland"
