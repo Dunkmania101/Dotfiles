@@ -318,7 +318,7 @@
     (exwm-systemtray-enable)
     (exwm-randr-enable)))
 
-(load! "private-config" ".private" 1)
+(load! ".private/private-config" doom-user-dir 1)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
