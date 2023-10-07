@@ -1356,10 +1356,14 @@ wmname = "LG3D"
 
 layouts: list = [
     layout.Columns(
-        border_normal=[bg_line_color, dark_bg_color],
-        border_focus=[fg_line_color, fg_line_color_alt],
-        border_normal_stack=[bg_line_color, dark_bg_color],
-        border_focus_stack=[fg_line_color, fg_line_color_alt],
+        #border_normal=[bg_line_color, dark_bg_color],
+        border_normal=[fg_line_color],
+        #border_focus=[fg_line_color, fg_line_color_alt],
+        border_focus=[fg_line_color_alt],
+        #border_normal_stack=[bg_line_color, dark_bg_color],
+        border_normal_stack=[fg_line_color],
+        #border_focus_stack=[fg_line_color, fg_line_color_alt],
+        border_focus_stack=[fg_line_color_alt],
         border_on_single=True,
         border_width=my_thick_border_width,
         margin=my_thick_margin,
@@ -1378,8 +1382,10 @@ floating_layout = layout.Floating(
         Match(title='branchdialog'),  # gitk
         Match(title='pinentry'),  # GPG key password entry
     ],
-    border_normal=[bg_line_color, dark_bg_color],
-    border_focus=[fg_line_color, fg_line_color_alt],
+    #border_normal=[bg_line_color, dark_bg_color],
+    border_normal=[fg_line_color],
+    #border_focus=[fg_line_color, fg_line_color_alt],
+    border_focus=[fg_line_color_alt],
     border_width=my_thick_border_width,
 )
 
