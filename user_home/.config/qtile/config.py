@@ -1359,11 +1359,11 @@ layouts: list = [
         #border_normal=[bg_line_color, dark_bg_color],
         border_normal=[fg_line_color],
         #border_focus=[fg_line_color, fg_line_color_alt],
-        border_focus=[fg_line_color_alt],
+        border_focus=[bg_line_color_alt],
         #border_normal_stack=[bg_line_color, dark_bg_color],
         border_normal_stack=[fg_line_color],
         #border_focus_stack=[fg_line_color, fg_line_color_alt],
-        border_focus_stack=[fg_line_color_alt],
+        border_focus_stack=[bg_line_color_alt],
         border_on_single=True,
         border_width=my_thick_border_width,
         margin=my_thick_margin,
@@ -1385,7 +1385,7 @@ floating_layout = layout.Floating(
     #border_normal=[bg_line_color, dark_bg_color],
     border_normal=[fg_line_color],
     #border_focus=[fg_line_color, fg_line_color_alt],
-    border_focus=[fg_line_color_alt],
+    border_focus=[bg_line_color_alt],
     border_width=my_thick_border_width,
 )
 
