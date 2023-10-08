@@ -235,7 +235,8 @@ my_mouse_move_cmd = "xdotool mousemove_relative -- "
 my_mouse_move_dist = "10"
 my_mouse_click_cmd = "xdotool click "
 
-my_lock_device_cmd = "loginctl lock-session & playerctl --all-players pause & amixer set Master mute; sleep 0.5; xset dpms force standby"
+#my_lock_device_cmd = "loginctl lock-session & playerctl --all-players pause & amixer set Master mute; sleep 0.5; xset dpms force standby"
+my_lock_device_cmd = "loginctl lock-session & playerctl --all-players pause & amixer set Master mute & xset dpms force standby"
 
 # Applications
 #my_terminal = "kitty -e tmux"
