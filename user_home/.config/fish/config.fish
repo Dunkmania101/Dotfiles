@@ -42,6 +42,8 @@ function skipcmd; echo "Skipping: $(type -q $argv && type $argv || echo $argv)";
 # Aliases
 alias sudo="sudo "
 for cls in "cls" "claer" "clera" "celar"; alias $cls="clear; echo There, you\'re welcome. Learn to type next time."; end
+function toggle-dns -a 'f' -a 'e'; if test $e = '1'; sudo mv $f /etc/resolv.conf; else if test $e = '0'; sudo mv /etc/resolv.conf $f; end; sudo systemctl restart NetworkManager; end
+alias wifi-form='set tmpf /etc/resolv.conf.(uuidgen); toggle-dns $tmpf \'0\'; nyxt --profile nosave http://example.com; toggle-dns $tmpf \'1\''
 alias nvsx="nvx on && sx"
 alias droll_n="random 1 "
 alias d4="droll_n 4"
@@ -49,7 +51,7 @@ alias d6="droll_n 6"
 alias d8="droll_n 8"
 alias d12="droll_n 12"
 alias d20="droll_n 20"
-function audio-burst-loop -a 'f'; while true; mpv $f --length=0.3; set grimmdelay (random 3 120); echo sleeping for $grimmdelay; sleep $grimmdelay; end; end
+function audio-burst-loop -a 'f'; while true; mpv $f --length=0.3; set grimmdelay (random 3 120); echo sleeping for $grimmdelay; sleep $grimmdelay; end; end # ONLY FOR USE IN APPROPRIATE SITUATIONS
 function uu-graal; for j in /usr/lib/jvm/java-*-graalvm/bin/gu; sudo $j rebuild libpolyglot ; end; end
 alias ff="fd . / --type f | fzf"
 alias fh="fd . --type f | fzf"
