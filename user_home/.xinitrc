@@ -38,7 +38,7 @@ elif [[ "$startwm" == "exwm" ]]; then
     ~/.doom.d/start-exwm.sh
 elif [[ "$startwm" == "qtile-wayland" ]]; then
     qtile start --backend wayland;
-else
+elif [[ "$startwm" == "qtile" ]]; then
     qtile start;
 fi
 

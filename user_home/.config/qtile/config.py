@@ -1204,7 +1204,7 @@ def get_widgets_1(i) -> list:
                     mouse_callbacks={'Button1': lambda: qtile.cmd_spawn('playerctl position 2+')},
                 ),
                 widget.Spacer(length=7),
-                widget.TextBox("vol:"),
+                widget.TextBox("Vol:"),
                 widget.Volume(update_interval=my_fast_update_interval, step=1),
                 #get_sep_widget(),
                 # widget.CurrentLayoutIcon(scale=0.70),
