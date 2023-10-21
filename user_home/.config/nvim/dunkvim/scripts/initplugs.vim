@@ -17,5 +17,5 @@ autocmd VimEnter *
 source $dunkvimdir/scripts/setupplugs.vim
 source $dunkvimdir/scripts/configplugs.vim
 
-:command UU PlugUpgrade | PlugUpdate | source $dunkvimdir/scripts/setupplugs.vim | TSUpdate " | CocUpdate
+:command UU PlugUpgrade | PlugUpdate | source $dunkvimdir/scripts/setupplugs.vim | TSUpdate | MasonUpdate " | CocUpdate
 
