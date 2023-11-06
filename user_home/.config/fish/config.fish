@@ -43,7 +43,7 @@ function skipcmd; echo "Skipping: $(type -q $argv && type $argv || echo $argv)";
 alias sudo="sudo "
 for cls in "cls" "claer" "clera" "celar"; alias $cls="clear; echo There, you\'re welcome. Learn to type next time."; end
 function toggle-dns -a 'f' -a 'e'; if test $e = '1'; sudo mv $f /etc/resolv.conf; else if test $e = '0'; sudo mv /etc/resolv.conf $f; end; sudo systemctl restart NetworkManager; end
-alias wifi-form='set tmpf /etc/resolv.conf.(uuidgen); toggle-dns $tmpf \'0\'; nyxt --profile nosave http://example.com; toggle-dns $tmpf \'1\''
+alias wifi-form='set tmpf /etc/resolv.conf.(uuidgen); toggle-dns $tmpf \'0\'; sleep 1; nyxt --profile nosave http://example.com; toggle-dns $tmpf \'1\''
 alias nvsx="nvx on && sx"
 alias droll_n="random 1 "
 alias d4="droll_n 4"
