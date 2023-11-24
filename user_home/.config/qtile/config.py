@@ -112,9 +112,9 @@ if os.path.isfile(env_file):
 
 # Themes
 
-my_font = "Iosevka"
-#my_term_font = "Iosevka Term"
-my_term_font = "Iosevka"
+my_font = "Iosevka Regular"
+my_term_font = "Iosevka Term Regular"
+#my_term_font = "Iosevka Regular"
 
 char_left_bend = "\ue0b6"
 char_right_bend = "\ue0b4"
