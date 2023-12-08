@@ -40,6 +40,6 @@
         executable: aura
         state: latest
         extra_args: "-A"
-        name: buku gruvbox-material-gtk-theme-git gruvbox-material-icon-theme-git gruvbox-dark-gtk gruvbox-dark-icons-gtk skeuowaita-git xcursor-simp1e-gruvbox-dark visual-studio-code-bin cuda nvidia-prime nvidia-exec nvidia-vaapi-driver-git bumblebee bbswitch-dkms primus lib32-virtualgl lib32-primus boop-gtk-bin wtfutil-bin bigtime clock-tui pass-import ly waybar-hyprland-git jdk17-graalvm-bin native-image-jdk17-bin jdk19-graalvm-bin native-image-jdk19-bin picom-ftlabs-git logisim-evolution-bin # coreapps-meta # gtkdialog # picom-jonaburg-git capitaine-cursors-sainnhe-git # xf86-video-intel xf86-video-amdgpu alvr
+        name: buku gruvbox-material-gtk-theme-git gruvbox-material-icon-theme-git gruvbox-dark-gtk gruvbox-dark-icons-gtk skeuowaita-git xcursor-simp1e-gruvbox-dark visual-studio-code-bin cuda nvidia-prime envycontrol nvidia-vaapi-driver-git bumblebee bbswitch-dkms primus lib32-virtualgl lib32-primus boop-gtk-bin wtfutil-bin bigtime clock-tui pass-import ly waybar-hyprland-git jdk17-graalvm-bin native-image-jdk17-bin jdk19-graalvm-bin native-image-jdk19-bin picom-ftlabs-git logisim-evolution-bin # coreapps-meta # gtkdialog # picom-jonaburg-git capitaine-cursors-sainnhe-git # xf86-video-intel xf86-video-amdgpu alvr nvidia-exec
     - name: "Update Grub"
       command: update-grub
