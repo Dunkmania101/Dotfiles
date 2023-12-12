@@ -53,6 +53,8 @@ alias d6="droll_n 6"
 alias d8="droll_n 8"
 alias d12="droll_n 12"
 alias d20="droll_n 20"
+function fishtimer-fun -a 's'; for n in (seq $s); clear; pyfiglet "$n / $s    Seconds"; sleep 1; end; notify-send "It's been $s seconds!"; end
+alias fishtimer="fishtimer-fun"
 function audio-burst-loop -a 'f'; while true; mpv $f --length=0.3; set grimmdelay (random 3 120); echo sleeping for $grimmdelay; sleep $grimmdelay; end; end # ONLY FOR USE IN APPROPRIATE SITUATIONS
 function uu-graal; for j in /usr/lib/jvm/java-*-graalvm/bin/gu; sudo $j rebuild libpolyglot ; end; end
 alias ff="fd . / --type f | fzf"
