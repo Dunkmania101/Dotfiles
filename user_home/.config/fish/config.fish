@@ -125,7 +125,8 @@ alias dockerclean="docker system prune --all"
 #alias with-ld-path="LD_LIBRARY_PATH=$HOME/.guix-profile/lib "
 #function uu-pax-ensureloop; while true; pax upgrade -y && break; end; end # Because CurseForge is unreliable
 alias uu-fontcache="fc-cache -rv"
-alias uu-arch='sudo aura -Syyu --noconfirm --needed; sudo aura -Ayyu --noconfirm --needed; sudo aura -R (aura -O); sudo paccache -rk 1; sudo paccache -ruk0'
+alias clean-arch="sudo paccache -rk 1; sudo paccache -ruk0"
+alias uu-arch='sudo aura -Syyu --noconfirm --needed; sudo aura -Ayyu --noconfirm --needed; sudo aura -R (aura -O); clean-arch'
 alias uu-flatpak="flatpak update --assumeyes; flatpak uninstall --unused"
 alias guixclean="guix gc; guix gc --optimize"
 alias guixclean-full="guix gc --delete-generations; guixclean"
