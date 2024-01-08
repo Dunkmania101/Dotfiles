@@ -191,3 +191,5 @@
        :config
        ;;literate
        (default +bindings +smartparens))
+
+(load! ".private/private-init" doom-user-dir 1)
