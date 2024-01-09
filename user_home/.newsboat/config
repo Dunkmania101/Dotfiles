@@ -5,14 +5,14 @@
 #include /usr/share/doc/newsboat/contrib/colorschemes/gruvbox
 #include /usr/share/doc/newsboat/contrib/colorschemes/universal-color
 
-color background default default
-color listnormal default default
-color listfocus default default bold
-color listnormal_unread default default
-color listfocus_unread default default bold
-color title default default reverse
-color info default default bold
-color article default default
+#color background default default
+#color listnormal default default
+#color listfocus default default bold
+#color listnormal_unread default default
+#color listfocus_unread default default bold
+#color title default default reverse
+#color info default default bold
+#color article default default
 
 color background          color223   color0
 color listnormal          color223   color0
@@ -30,6 +30,8 @@ highlight article "https?://[^ ]+" color2 default underline
 highlight article "\\[[0-9]+\\]" color2 default bold
 highlight article "\\[image\\ [0-9]+\\]" color2 default bold
 highlight feedlist "^─.*$" color6 color6 bold
+highlight feedlist "#.*#" color234 color8 bold
+highlight feedlist "#\\+\\-.*#" color223 color8 bold
 
 #color background          color223   color0
 #color listnormal          color223   color0
@@ -87,8 +89,8 @@ bind-key j down
 bind-key k up
 bind-key h quit
 bind-key l open
-bind-key { prev-dialog
-bind-key } next-dialog
+bind-key [ prev-dialog
+bind-key ] next-dialog
 bind-key L toggle-show-read-feeds
 bind-key g home
 bind-key G end
