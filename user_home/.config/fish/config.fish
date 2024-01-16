@@ -175,6 +175,7 @@ alias show-weather-map='curl v3.wttr.in/(get-city).sxl'
 alias show-weather-map-kitty='curl v3.wttr.in/(get-city).png | kitty +kitten icat'
 alias show-weather-moon="curl wttr.in/Moon"
 alias spark-runtime='ps -A | string replace --filter --regex -- ".*(\d+):(\d+).*" "\$1 * 3600 + \$2 * 60" | bc | spark'
+alias treeep="tree -fin | grep"
 alias demo-fake-virus-scan="tree /; echo 'No Viruses Found!'"
 alias demo-donationware="which vim | xargs hexdump -C | grep Uganda"
 
