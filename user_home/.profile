@@ -11,6 +11,8 @@
 
 export QT_QPA_PLATFORMTHEME="qt5ct"
 
+GUIX_PROFILE="$HOME/.config/guix/current"
+if test -d "$GUIX_PROFILE"; . "$GUIX_PROFILE/etc/profile"; end
 
 sshenv=~/.ssh/agent.env
 

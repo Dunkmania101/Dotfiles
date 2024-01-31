@@ -10,23 +10,23 @@
   ;      "33f86a4b48205c0dc19d7c036c85393f0766f806"
   ;      (openpgp-fingerprint
   ;        "736A C00E 1254 378B A982  7AF6 9DBE 8265 81B6 4490"))))
-  (channel
-   (name 'rosenthal)
-   (url "https://github.com/rakino/rosenthal")
-   (branch "trunk")
-   (introduction
-    (make-channel-introduction
-     "7677db76330121a901604dfbad19077893865f35"
-     (openpgp-fingerprint
-      "13E7 6CD6 E649 C28C 3385  4DF5 5E5A A665 6149 17F7"))))
-  (channel
-    (name 'rde)
-    (url "https://git.sr.ht/~abcdw/rde")
-    (introduction
-      (make-channel-introduction
-        "257cebd587b66e4d865b3537a9a88cccd7107c95"
-        (openpgp-fingerprint
-          "2841 9AC6 5038 7440 C7E9  2FFA 2208 D209 58C1 DEB0"))))
+  ;(channel
+  ; (name 'rosenthal)
+  ; (url "https://github.com/rakino/rosenthal")
+  ; (branch "trunk")
+  ; (introduction
+  ;  (make-channel-introduction
+  ;   "7677db76330121a901604dfbad19077893865f35"
+  ;   (openpgp-fingerprint
+  ;    "13E7 6CD6 E649 C28C 3385  4DF5 5E5A A665 6149 17F7"))))
+  ;(channel
+  ;  (name 'rde)
+  ;  (url "https://git.sr.ht/~abcdw/rde")
+  ;  (introduction
+  ;    (make-channel-introduction
+  ;      "257cebd587b66e4d865b3537a9a88cccd7107c95"
+  ;      (openpgp-fingerprint
+  ;        "2841 9AC6 5038 7440 C7E9  2FFA 2208 D209 58C1 DEB0"))))
   ;(channel
   ;  (name 'home-service-dwl-guile)
   ;  (url "https://github.com/engstrand-config/home-service-dwl-guile")
