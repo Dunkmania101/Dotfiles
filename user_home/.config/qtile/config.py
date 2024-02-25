@@ -486,9 +486,9 @@ def get_group_on_current_screen_by_offset(qtile, offset: int = 1) -> Group:
 
 def set_screen(qtile, screen: int, move_focus: bool = True, move_window: bool = True) -> None:
     if move_window:
-        qtile.current_window.cmd_toscreen(screen)
+        qtile.current_window.toscreen(screen)
     if move_focus:
-        qtile.cmd_to_screen(screen)
+        qtile.to_screen(screen)
 
 def cycle_screen(qtile, offset: int = 1, move_focus: bool = True, move_window: bool = True) -> None:
     set_screen(qtile, get_screen_index_by_offset(qtile, offset), move_focus, move_window)
@@ -496,7 +496,7 @@ def cycle_screen(qtile, offset: int = 1, move_focus: bool = True, move_window: b
 
 def set_current_screen_group(qtile, group: str, toggle:bool = True) -> None:
     if toggle:
-        qtile.current_screen.cmd_toggle_group(group)
+        qtile.current_screen.toggle_group(group)
     else:
         qtile.current_screen.set_group(get_group_by_name(qtile, group))
 
@@ -549,7 +549,7 @@ def swap_current_screen(qtile, offset: int = 1) -> None:
     if o >= len(qtile.screens):
         o = len(qtile.screens) % o
     qtile.screens[i], qtile.screens[o] = qtile.screens[o], qtile.screens[i]
-    qtile.cmd_reconfigure_screens()
+    qtile.reconfigure_screens()
 
 def swap_current_screen_next(qtile) -> None:
     swap_current_screen(qtile)
@@ -578,7 +578,7 @@ def win_cycle_screen_prev_noswitch(qtile) -> None:
     cycle_screen(qtile, -1, False, True)
 
 def win_toggle_minimize(qtile) -> None:
-    qtile.current_window.cmd_toggle_minimize()
+    qtile.current_window.toggle_minimize()
 
 
 # ----------
@@ -954,7 +954,7 @@ class OpenWidgetBox(widget.WidgetBox):
             while not self.configured:
                 sleep(0.1)
             if self.box_is_open != self.starts_open:
-                self.cmd_toggle()
+                self.toggle()
 
 
 class ColorGmailChecker(widget.GmailChecker):
@@ -1086,7 +1086,7 @@ def get_widgets_1(i) -> list:
                     fontsize=16,
                     foreground=green_color,
                     fmt='::',
-                    mouse_callbacks={'Button1': lambda: qtile.cmd_spawn(my_launcher)},
+                    mouse_callbacks={'Button1': lambda: qtile.spawn(my_launcher)},
                 ),
                 get_sep_widget(),
                 OpenWidgetBox(
@@ -1115,7 +1115,7 @@ def get_widgets_1(i) -> list:
 #                    fmt='',
 #                    mouse_callbacks={
 #                        'Button1': lambda: qtile.current_window.kill(),
-#                        'Button3': lambda: qtile.cmd_spawn(my_window_killer),
+#                        'Button3': lambda: qtile.spawn(my_window_killer),
 #                    },
 #                ),
                 get_bend_widget(False),
@@ -1187,21 +1187,21 @@ def get_widgets_1(i) -> list:
                 get_bend_widget(True),
                 widget.TextBox(
                     fmt='[-',
-                    mouse_callbacks={'Button1': lambda: qtile.cmd_spawn('playerctl position 2-')},
+                    mouse_callbacks={'Button1': lambda: qtile.spawn('playerctl position 2-')},
                 ),
                 widget.Spacer(7),
                 widget.TextBox(
                     fmt='>/=',
                     mouse_callbacks={
-                        'Button1': lambda: qtile.cmd_spawn('playerctl -a pause'),
-                        'Button2': lambda: qtile.cmd_spawn('playerctl stop'),
-                        'Button3': lambda: qtile.cmd_spawn('playerctl play'),
+                        'Button1': lambda: qtile.spawn('playerctl -a pause'),
+                        'Button2': lambda: qtile.spawn('playerctl stop'),
+                        'Button3': lambda: qtile.spawn('playerctl play'),
                     },
                 ),
                 widget.Spacer(7),
                 widget.TextBox(
                     fmt='-]',
-                    mouse_callbacks={'Button1': lambda: qtile.cmd_spawn('playerctl position 2+')},
+                    mouse_callbacks={'Button1': lambda: qtile.spawn('playerctl position 2+')},
                 ),
                 widget.Spacer(length=7),
                 widget.TextBox("Vol:"),
@@ -1213,7 +1213,7 @@ def get_widgets_1(i) -> list:
                     fontsize=16,
                     foreground=red_color,
                     fmt='Q',
-                    mouse_callbacks={'Button1': lambda: qtile.cmd_spawn(my_powermenu)},
+                    mouse_callbacks={'Button1': lambda: qtile.spawn(my_powermenu)},
                 ),
                 get_bend_widget(False),
                 get_sep_widget(True),
