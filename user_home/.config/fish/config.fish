@@ -206,7 +206,8 @@ if type -q ferium; ferium complete fish | source; end
 if type -q packwiz; packwiz completion fish | source; end
 
 # Zoxide
-if type -q zoxide; zoxide init fish | source; end
+if type -q zoxide; zoxide init --cmd cd fish | source; end
+#if type -q zoxide; zoxide init fish | source; end
 
 # Functions
 function strdiff -a 'a'; command diff --color --from (echo $a | psub) (for s in $argv[2..-1]; echo $s | psub; end); end
