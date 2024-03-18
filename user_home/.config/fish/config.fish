@@ -55,7 +55,8 @@ alias d12="droll_n 12"
 alias d20="droll_n 20"
 function fishtimer-fun -a 's'; for n in (seq $s); clear; pyfiglet "$n / $s    Seconds"; sleep 1; end; notify-send "It's been $s seconds!"; end
 alias fishtimer="fishtimer-fun"
-function audio-burst-loop -a 'f'; while true; mpv $f --length=0.3; set grimmdelay (random 3 120); echo sleeping for $grimmdelay; sleep $grimmdelay; end; end # ONLY FOR USE IN APPROPRIATE SITUATIONS
+function bedtime-soundscape -a 'f1' -a 'f2'; mpv --loop $f1 & echo 123; while true; set d (date +"%H"); test $d -gt 6 && test $d -lt 16 && break; end; killall mpv; mpv --loop $2; end
+function audio-burst-loop -a 'f'; while true; mpv $f --length=0.(random 1 9); set grimmdelay (random 3 120); echo sleeping for $grimmdelay; sleep $grimmdelay; end; end # ONLY FOR USE IN APPROPRIATE SITUATIONS
 function uu-graal; for j in /usr/lib/jvm/java-*-graalvm/bin/gu; sudo $j rebuild libpolyglot ; end; end
 alias ff="fd . / --type f | fzf"
 alias fh="fd . --type f | fzf"
@@ -205,7 +206,7 @@ if type -q ferium; ferium complete fish | source; end
 if type -q packwiz; packwiz completion fish | source; end
 
 # Zoxide
-zoxide init fish | source
+if type -q zoxide; zoxide init fish | source; end
 
 # Functions
 function strdiff -a 'a'; command diff --color --from (echo $a | psub) (for s in $argv[2..-1]; echo $s | psub; end); end
