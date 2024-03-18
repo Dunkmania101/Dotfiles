@@ -50,14 +50,14 @@ Plug 'nvim-tree/nvim-tree.lua'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Icons
-Plug 'ryanoasis/vim-devicons'
-Plug 'onsails/lspkind-nvim'
+" Plug 'ryanoasis/vim-devicons'
+" Plug 'onsails/lspkind-nvim'
 
 " Syntax
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'dgileadi/vscode-java-decompiler'
-Plug 'Stevertus/mcscript'
-Plug 'twh2898/vim-scarpet'
+" Plug 'Stevertus/mcscript'
+" Plug 'twh2898/vim-scarpet'
 " Plug 'valloric/youcompleteme'
 " Plug 'autozimu/LanguageClient-neovim', {
 "     \ 'branch': 'next',
@@ -74,7 +74,6 @@ Plug 'twh2898/vim-scarpet'
 " Plug 'hrsh7th/nvim-compe'
 " Plug 'glepnir/lspsaga.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'RRethy/vim-illuminate'
 Plug 'mfussenegger/nvim-jdtls'
 " Plug 'alvan/vim-closetag'
 " Plug 'tpope/vim-surround'
@@ -87,30 +86,34 @@ Plug 'mfussenegger/nvim-jdtls'
 " Plug 'williamboman/nvim-lsp-installer'
 " Plug 'kabouzeid/nvim-lspinstall'
 " Plug 'p00f/nvim-ts-rainbow'
-Plug 'https://github.com/ap/vim-css-color.git'
+" Plug 'https://github.com/ap/vim-css-color.git'
 " LSP-Zero
+Plug 'VonHeikemen/lsp-zero.nvim'
 " LSP Support
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'mfussenegger/nvim-lint'
+" DAP
+Plug 'mfussenegger/nvim-dap'
+Plug 'nvim-neotest/nvim-nio'
+Plug 'rcarriga/nvim-dap-ui'
 
 " Autocompletion
-Plug 'hrsh7th/nvim-cmp'
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'hrsh7th/cmp-nvim-lua'
+ Plug 'hrsh7th/nvim-cmp'
+ Plug 'hrsh7th/cmp-buffer'
+ Plug 'hrsh7th/cmp-path'
+ Plug 'hrsh7th/cmp-nvim-lsp'
+ Plug 'hrsh7th/cmp-nvim-lua'
 
 " For vsnip users.
 Plug 'hrsh7th/cmp-vsnip'
 
 " For luasnip users.
-Plug 'saadparwaiz1/cmp_luasnip'
+" Plug 'saadparwaiz1/cmp_luasnip'
 
 " For ultisnips users.
 "Plug 'quangnguyen30192/cmp-nvim-ultisnips'
-
-Plug 'VonHeikemen/lsp-zero.nvim'
 
 " Telescope
 Plug 'nvim-lua/popup.nvim'
@@ -122,16 +125,17 @@ Plug 'nvim-telescope/telescope-ui-select.nvim'
 "Plug 'rafamadriz/friendly-snippets'
 
 " Snippets
-Plug 'L3MON4D3/LuaSnip'
+" Plug 'L3MON4D3/LuaSnip'
 "Plug 'sirver/ultisnips'
-Plug 'rafamadriz/friendly-snippets'
+" Plug 'rafamadriz/friendly-snippets'
 "Plug 'honza/vim-snippets'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 
 " Format
-Plug 'godlygeek/tabular'
-Plug 'sbdchd/neoformat'
+"Plug 'godlygeek/tabular'
+"Plug 'sbdchd/neoformat'
+Plug 'mhartington/formatter.nvim'
 
 " Build
 Plug 'neomake/neomake'
@@ -149,8 +153,8 @@ Plug 'skywind3000/asyncrun.vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-Plug 'mfussenegger/nvim-dap'
 Plug 'npxbr/glow.nvim', {'do': ':GlowInstall','branch':'main'}
+Plug 'RRethy/vim-illuminate'
 
 " Non-Embeddable Stuff
 if $amirealvim

@@ -55,19 +55,20 @@ db.custom_footer = {}
 -- })
 
 
-require("mason").setup({
-    install_root_dir = vim.fn.DunkvimExternalDir() .. "/mason"
-})
-require("mason-lspconfig").setup({
-    ensure_installed = { "jdtls", "pyright" }
-})
-
-
-
 local lspzero = require('lsp-zero')
 
 lspzero.preset('recommended')
 lspzero.setup()
+
+require("mason").setup({
+    install_root_dir = vim.fn.DunkvimExternalDir() .. "/mason"
+})
+require("mason-lspconfig").setup({
+    ensure_installed = { "jdtls", "pyright" },
+    handlers = {
+        lspzero.default_setup,
+    }
+})
 
 vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
 
