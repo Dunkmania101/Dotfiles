@@ -993,8 +993,10 @@ class ColorGmailChecker(widget.GmailChecker):
 #        widget.base._Widget.__init__(self, size, **config)
 
 
-def get_alternating_colors_of(color) -> list[str]:
-    return [color, dark_bg_color, dark_bg_color, dark_bg_color, color]
+def get_alternating_colors_of(color, bg_color=dark_bg_color) -> list[str]:
+    _color = [color]*4
+    _bg = [bg_color]*len(_color)*5
+    return [*_color, *_bg, *_color]
 
 def get_alternating_colors_dark() -> list[str]:
     return get_alternating_colors_of(bg_line_color)
