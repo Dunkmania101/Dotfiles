@@ -24,7 +24,7 @@ playerctld daemon &
 #dunst -config ~/.config/qtile/dunstrc &
 #pulsemeeter daemon &
 #deadd-notification-center &
-pgrep copyq || copyq &
+#pgrep copyq || copyq &
 #pgrep synapse || synapse --startup &
 pgrep element-desktop || element-desktop --hidden &
 #pgrep element-desktop-nightly || element-desktop-nightly --hidden &
