@@ -86,7 +86,7 @@ Plug 'mfussenegger/nvim-jdtls'
 " Plug 'williamboman/nvim-lsp-installer'
 " Plug 'kabouzeid/nvim-lspinstall'
 " Plug 'p00f/nvim-ts-rainbow'
-" Plug 'https://github.com/ap/vim-css-color.git'
+Plug 'https://github.com/ap/vim-css-color.git'
 " LSP-Zero
 Plug 'VonHeikemen/lsp-zero.nvim'
 " LSP Support
