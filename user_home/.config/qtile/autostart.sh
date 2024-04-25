@@ -31,7 +31,7 @@ pgrep element-desktop || element-desktop --hidden &
 #pgrep birdtray || birdtray &
 #pgrep easyeffects || easyeffects --gapplication-service &
 #agordejo --hide --load-session Main &
-pgrep emacs || emacs --daemon &
+#pgrep emacs || emacs --daemon &
 pgrep mpd || mpd &
 
 xsetroot -cursor_name left_ptr

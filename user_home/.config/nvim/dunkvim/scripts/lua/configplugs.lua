@@ -64,7 +64,7 @@ require("mason").setup({
     install_root_dir = vim.fn.DunkvimExternalDir() .. "/mason"
 })
 require("mason-lspconfig").setup({
-    ensure_installed = { "ast_grep", "jdtls", "basedpyright", "vimls", "lua_ls" }, -- "harper-ls", 
+    ensure_installed = { "ast_grep", "jdtls", "basedpyright", "vimls", "lua_ls" }, --, "shellcheck", "shellharden" , "harper-ls"
     handlers = {
         lspzero.default_setup,
     }
