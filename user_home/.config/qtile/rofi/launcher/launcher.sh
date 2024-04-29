@@ -2,4 +2,5 @@
 
 rofi -no-lazy-grab -show drun \
 -modi window,drun,run \
--theme "$HOME/.config/qtile/rofi/launcher/launcher.rasi"
+-theme "$HOME/.config/qtile/rofi/theme.rasi"
+
