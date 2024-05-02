@@ -57,7 +57,7 @@ def get_cmd_output(cmd: str, cwd: str | None = None) -> str:
         pass
     return output
 
-def exec_func_no_qtile(_, func, args):
+def exec_func_no_qtile(_, func, args=None):
     if callable(func):
         return func(*args)
 
