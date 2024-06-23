@@ -21,6 +21,7 @@ export win_browser="nyxt"
 #export ALTERNATE_EDITOR=""
 export VISUAL="nvim"
 export EDITOR="nvim"
+export QT_QPA_PLATFORMTHEME="qt6ct"
 set -g fish_escape_delay_ms 30
 
 # Zellij
@@ -94,7 +95,9 @@ alias install-chevron="mkdir -p ~/ProgramFiles/Chevron; git -C ~/ProgramFiles/Ch
 alias install-capitaine-cursors-sainnhe-root="wget https://github.com/sainnhe/capitaine-cursors/releases/latest/download/Linux.zip -O /tmp/Linux.zip && sudo mkdir -p /usr/share/icons && sudo unzip -o /tmp/Linux.zip -d /usr/share/icons/"
 alias install-mpv-sponsorblock="git -C /tmp clone --depth=1 https://github.com/po5/mpv_sponsorblock.git; mkdir -p ~/.config/mpv/scripts/; cp /tmp/mpv_sponsorblock/sponsorblock.lua ~/.config/mpv/scripts/; cp -r /tmp/mpv_sponsorblock/sponsorblock_shared ~/.config/mpv/scripts/"
 alias install-searx='docker stop searx-1; docker rm -v searx-1; docker pull searx/searx:latest; PORT=8888 docker run --name=searx-1 --restart=unless-stopped -d -v ~/ProgramFiles/searx:/etc/searx -p $PORT:8080 -e BASE_URL=http://localhost:$PORT/ searx/searx:latest' # --dns 127.0.0.1
-alias install-searxng='docker stop searxng-1; docker rm -v searxng-1; docker pull searxng/searxng:latest; PORT=8888 docker run --name=searxng-1 --restart=unless-stopped -d -v ~/ProgramFiles/searxng:/etc/searxng -p $PORT:8080 -e BASE_URL=http://localhost:$PORT/ searxng/searxng:latest' # --dns 127.0.0.1
+alias install-searxng-nochown='docker stop searxng-1; docker rm -v searxng-1; docker pull searxng/searxng:latest; PORT=8888 docker run --name=searxng-1 --restart=unless-stopped -d -v ~/ProgramFiles/searxng:/etc/searxng -p $PORT:8080 -e BASE_URL=http://localhost:$PORT/ searxng/searxng:latest' # --dns 127.0.0.1
+alias install-searxng-chown='install-searxng-nochown; mkdir -p ~/ProgramFiles/searxng; sudo chown -R $USER:$USER ~/ProgramFiles/searxng ~/ProgramFiles/searxng/settings.yml ~/ProgramFiles/searxng/uwsgi.ini'
+alias install-searxng='test -d ~/ProgramFiles/searxng && install-searxng-nochown || install-searxng-chown'
 alias install-retroshare-voip='mkdir -p ~/ProgramFiles/RetroShare/; mkdir -p ~/.retroshare/extensions6/; git clone --depth=1 https://github.com/RetroShare/RetroShare.git ~/ProgramFiles/RetroShare/src; cd ~/ProgramFiles/RetroShare/src/; git submodule update --depth=1 --init --remote --recursive --force; cd ~/ProgramFiles/RetroShare/src/plugins/VOIP; qmake && make clean && make; cp lib*.so ~/.retroshare/extensions6/'
 alias install-quicklisp="mkdir -p ~/ProgramFiles/quicklisp/; curl https://beta.quicklisp.org/quicklisp.lisp -o ~/ProgramFiles/quicklisp/quicklisp.lisp; sbcl --load ~/ProgramFiles/quicklisp/quicklisp.lisp --eval '(progn (quicklisp-quickstart:install)(exit))'"
 function install-quicklisp-module -a 'm'; test -e ~/quicklisp/ || install-quicklisp; sbcl --load ~/quicklisp/setup.lisp --eval "(progn (ql:system-apropos \"$m\") (ql:quickload \"$m\") (exit))"; end
@@ -152,7 +155,8 @@ alias uu-node="install-fnm; npm install -g npm; npm -g update"
 #alias uu-apt="sudo apt update; sudo apt -y full-upgrade; sudo apt -y autoremove"
 #alias uu-dnf="sudo dnf check-update; sudo dnf -y distro-sync; sudo dnf -y autoremove"
 #alias uu-chemacs="git -C ~/.emacs.d fetch; git -C ~/.emacs.d pull"
-alias uu-doom="git -C ~/.config/emacs fetch; git -C ~/.config/emacs pull; doom --force sync; doom --force upgrade; doom sync --force --rebuild; doom --force gc; doom --force sync"
+#alias uu-doom="git -C ~/.config/emacs fetch; git -C ~/.config/emacs pull; doom --force sync; doom --force upgrade; doom sync --force --rebuild; doom --force gc; doom --force sync"
+alias uu-doom="git -C ~/.config/emacs fetch; git -C ~/.config/emacs pull; doom sync; doom upgrade; doom gc"
 alias uu-emacs="uu-doom"
 alias uu-nvim="nvim -c 'UU' -c 'qa!'"
 alias uu-noguix="uu-arch; uu-fish; uu-nix; uu-flatpak; skipcmd uu-pip; uu-pipx; uu-nim; uu-node; uu-emacs; skipcmd uu-graal; install-blender-gruvbox; install-blender-dracula; install-blender-cad-sketcher; install-searxng; install-pax-mc; install-packwiz-mc; uu-fontcache; skipcmd install-capitaine-cursors-sainnhe; skipcmd install-capitaine-cursors-sainnhe-root"
