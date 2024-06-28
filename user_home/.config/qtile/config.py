@@ -112,9 +112,8 @@ if os.path.isfile(env_file):
 
 # Themes
 
-my_font = "Iosevka Regular"
-my_term_font = "Iosevka Term Regular"
-#my_term_font = "Iosevka Regular"
+my_font = "Iosevka Nerd Font Regular"
+my_term_font = "IosevkaTerm Nerd Font Regular"
 
 char_left_bend = "\ue0b6"
 char_right_bend = "\ue0b4"
@@ -236,7 +235,7 @@ my_mouse_move_dist = "10"
 my_mouse_click_cmd = "xdotool click "
 
 #my_lock_device_cmd = "loginctl lock-session & playerctl --all-players pause & amixer set Master mute; sleep 0.5; xset dpms force standby"
-my_lock_device_cmd = "loginctl lock-session & playerctl --all-players pause & amixer set Master mute & xset dpms force standby"
+my_lock_device_cmd = "playerctl --all-players pause & amixer set Master mute & loginctl lock-session & xset dpms force standby"
 
 # Applications
 #my_terminal = "kitty -e tmux"
