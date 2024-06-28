@@ -13,7 +13,6 @@ from time import sleep
 from shutil import which
 from threading import Thread
 from random import choice
-from typing import Union
 #from requests import get as get_request
 from libqtile import qtile, layout, hook, bar, widget, extension
 from libqtile.backend.x11.core import get_keys
@@ -203,8 +202,8 @@ draw_wallpaper: bool = True
 draw_wallpaper_img: bool = True # False for my_solid_wallpaper_cmd
 my_solid_wallpaper_cmd: str = f"xsetroot -solid '{bg_color}'"
 my_distro: str = "Arch"
-#my_check_updates_cmd: Union[str, None] = None
-my_check_updates_cmd: Union[str, None] = ""
+#my_check_updates_cmd: str | None = None
+my_check_updates_cmd: str | None = ""
 if shcmd_exists("pip"):
     my_check_updates_cmd += "; pip list --outdated --format=freeze"
 if shcmd_exists("paru"):
