@@ -15,6 +15,8 @@ fi
 #xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
 
+xset r rate 280 40
+
 #xrdb ~/.Xresources
 xrdb -merge ~/.Xresources
 
