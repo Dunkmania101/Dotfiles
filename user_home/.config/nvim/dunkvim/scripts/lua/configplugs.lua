@@ -28,24 +28,25 @@
 
 
 local db = require('dashboard')
-db.custom_header = {
-    '',
-    ' _____              _           _           ',
-    '|  __ \\            | |         (_)          ',
-    '| |  | |_   _ _ __ | | ____   ___ _ __ ___  ',
-    '| |  | | | | | \'_ \\| |/ /\\ \\ / / | \'_ ` _ \\ ',
-    '| |__| | |_| | | | |   <  \\ V /| | | | | | |',
-    '|_____/ \\__,_|_| |_|_|\\_\\  \\_/ |_|_| |_| |_|',
-    '',
-    '',
-}
-db.custom_center = {
-  --{icon_hl={fg="color_code"},icon ="some icon",desc="some desc"} --correct
-  --{ icon = 'some icon' desc = 'some description here' } --correct if you don't action filed
-  --{ desc = 'some description here' }                    --correct if you don't action and icon filed
-  { desc = ':Telescope', action = 'Telescope'} --correct if you don't icon filed
-}
-db.custom_footer = {}
+db.setup {}
+--    header = {
+--    '',
+--    ' _____              _           _           ',
+--    '|  __ \\            | |         (_)          ',
+--    '| |  | |_   _ _ __ | | ____   ___ _ __ ___  ',
+--    '| |  | | | | | \'_ \\| |/ /\\ \\ / / | \'_ ` _ \\ ',
+--    '| |__| | |_| | | | |   <  \\ V /| | | | | | |',
+--    '|_____/ \\__,_|_| |_|_|\\_\\  \\_/ |_|_| |_| |_|',
+--    '',
+--    '',
+--}}
+--db.custom_center = {
+--  --{icon_hl={fg="color_code"},icon ="some icon",desc="some desc"} --correct
+--  --{ icon = 'some icon' desc = 'some description here' } --correct if you don't action filed
+--  --{ desc = 'some description here' }                    --correct if you don't action and icon filed
+--  { desc = ':Telescope', action = 'Telescope'} --correct if you don't icon filed
+--}
+--db.custom_footer = {}
 
 -- require("indent_blankline").setup( {
 --     -- char = "|",

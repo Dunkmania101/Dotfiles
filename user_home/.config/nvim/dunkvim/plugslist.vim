@@ -10,9 +10,9 @@ Plug 'sainnhe/sonokai'
 
 " Fancy
 "Plug 'mhinz/vim-startify'
-Plug 'glepnir/dashboard-nvim'
+Plug 'nvimdev/dashboard-nvim'
 " Plug 'konapun/vacuumline.nvim'
-Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
+Plug 'nvimdev/galaxyline.nvim' , {'branch': 'main'}
 " Plug 'itchyny/lightline.vim'
 " Plug 'hoob3rt/lualine.nvim'
 " Plug 'lukas-reineke/indent-blankline.nvim', {'branch': 'master'}
