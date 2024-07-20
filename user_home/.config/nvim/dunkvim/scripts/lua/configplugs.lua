@@ -27,8 +27,8 @@
 -- end
 
 
-local db = require('dashboard')
-db.setup {}
+--local db = require('dashboard')
+--db.setup {}
 --    header = {
 --    '',
 --    ' _____              _           _           ',

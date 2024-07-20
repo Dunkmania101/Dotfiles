@@ -10,7 +10,7 @@ Plug 'sainnhe/sonokai'
 
 " Fancy
 "Plug 'mhinz/vim-startify'
-Plug 'nvimdev/dashboard-nvim'
+"Plug 'nvimdev/dashboard-nvim'
 " Plug 'konapun/vacuumline.nvim'
 Plug 'nvimdev/galaxyline.nvim' , {'branch': 'main'}
 " Plug 'itchyny/lightline.vim'
