@@ -130,7 +130,7 @@ alias dockerclean="docker system prune --all"
 #function uu-pax-ensureloop; while true; pax upgrade -y && break; end; end # Because CurseForge is unreliable
 alias uu-fontcache="fc-cache -rv"
 alias clean-arch="sudo aura -Oj; sudo paccache -rk 1; sudo paccache -ruk0"
-alias uu-arch='sudo aura -Syyu --noconfirm --needed; sudo aura -Ayyu --noconfirm --needed; clean-arch'
+alias uu-arch='sudo aura -Syu --noconfirm --needed; sudo aura -Ayu --noconfirm --needed; clean-arch'
 alias uu-flatpak="flatpak update --assumeyes; flatpak uninstall --unused"
 alias guixclean="guix gc; guix gc --optimize"
 alias guixclean-full="guix gc --delete-generations; guixclean"
