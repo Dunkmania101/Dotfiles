@@ -93,11 +93,11 @@ Plug 'VonHeikemen/lsp-zero.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
-Plug 'mfussenegger/nvim-lint'
+"Plug 'mfussenegger/nvim-lint'
 " DAP
-Plug 'mfussenegger/nvim-dap'
-Plug 'nvim-neotest/nvim-nio'
-Plug 'rcarriga/nvim-dap-ui'
+"Plug 'mfussenegger/nvim-dap'
+"Plug 'nvim-neotest/nvim-nio'
+"Plug 'rcarriga/nvim-dap-ui'
 
 " Autocompletion
  Plug 'hrsh7th/nvim-cmp'

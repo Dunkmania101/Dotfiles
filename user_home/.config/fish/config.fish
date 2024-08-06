@@ -42,7 +42,7 @@ function skipcmd; echo "Skipping: $(type -q $argv && type $argv || echo $argv)";
 
 # Aliases
 alias sudo="sudo "
-for cls in "cls" "claer" "clera" "celar"; alias $cls="clear; echo There, you\'re welcome. Learn to type next time."; end
+for cls in "cls" "claer" "clera" "celar"; alias $cls="clear"; end #; echo There, you\'re welcome. Learn to type next time."; end
 alias monitor-disk='while true; clear; df -h .; sleep 5; end;'
 alias monitor-disk-history='while true; date; df -h .; sleep 5; end;'
 function toggle-dns -a 'f' -a 'e'; if test $e = '1'; sudo mv $f /etc/resolv.conf; else if test $e = '0'; sudo mv /etc/resolv.conf $f; end; sudo systemctl restart NetworkManager; end
@@ -130,7 +130,7 @@ alias dockerclean="docker system prune --all"
 #function uu-pax-ensureloop; while true; pax upgrade -y && break; end; end # Because CurseForge is unreliable
 alias uu-fontcache="fc-cache -rv"
 alias clean-arch="sudo aura -Oj; sudo paccache -rk 1; sudo paccache -ruk0"
-alias uu-arch='sudo aura -Syu --noconfirm --needed; sudo aura -Ayu --noconfirm --needed; clean-arch'
+alias uu-arch='sudo aura -Syu --noconfirm; sudo aura -Ayu --noconfirm; clean-arch'
 alias uu-flatpak="flatpak update --assumeyes; flatpak uninstall --unused"
 alias guixclean="guix gc; guix gc --optimize"
 alias guixclean-full="guix gc --delete-generations; guixclean"

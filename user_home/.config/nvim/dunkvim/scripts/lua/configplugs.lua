@@ -58,8 +58,14 @@
 
 local lspzero = require('lsp-zero')
 
-lspzero.preset('recommended')
-lspzero.setup()
+--lspzero.preset('recommended')
+
+lspzero.extend_lspconfig({
+  sign_text = true,
+  --lsp_attach = lsp_attach,
+  capabilities = require('cmp_nvim_lsp').default_capabilities()
+})
+
 
 require("mason").setup({
     install_root_dir = vim.fn.DunkvimExternalDir() .. "/mason"
@@ -67,15 +73,21 @@ require("mason").setup({
 require("mason-lspconfig").setup({
     ensure_installed = { "ast_grep", "jdtls", "basedpyright", "vimls", "lua_ls" }, --, "shellcheck", "shellharden" , "harper-ls"
     handlers = {
-        lspzero.default_setup,
-    }
-})
+        function(server_name)
+            require('lspconfig')[server_name].setup({})
+        end,
+    },
+    --handlers = {
+        --    lspzero.default_setup,
+        --}
+    })
 
 vim.opt.completeopt = {'menu', 'menuone', 'noselect'}
 
 local cmp = require('cmp')
 
-local cmp_config = lspzero.defaults.cmp_config({
+--local cmp_config = lspzero.defaults.cmp_config({
+local cmp_config = {
     mapping = cmp.mapping.preset.insert({
         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
@@ -86,9 +98,12 @@ local cmp_config = lspzero.defaults.cmp_config({
     window = {
         completion = cmp.config.window.bordered()
     },
-})
+}
 
 cmp.setup(cmp_config)
+lspzero.extend_cmp()
+
+lspzero.setup()
 
 require('bufferline').setup {
   options = {
