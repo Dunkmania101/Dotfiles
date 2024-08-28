@@ -1176,9 +1176,10 @@ def get_widgets_1(i) -> list:
                     background=get_alternating_colors_cyan(),
                 ),
                 widget.TextBox("Light:", background=get_alternating_colors_cyan()),
-                widget.Backlight(backlight_name=(os.listdir("/sys/class/backlight")+[None])[0], background=get_alternating_colors_cyan()),
+                widget.Backlight(max_chars=10, background=get_alternating_colors_cyan()),
+                #widget.Backlight(backlight_name=(os.listdir("/sys/class/backlight")+[None])[0], background=get_alternating_colors_cyan()),
                 widget.TextBox("Bat:", background=get_alternating_colors_cyan()),
-                widget.Battery(update_interval=my_slow_update_interval, background=get_alternating_colors_cyan()),
+                widget.Battery(max_chars=10, update_interval=my_slow_update_interval, background=get_alternating_colors_cyan()),
                 get_sep_widget(),
                 OpenWidgetBox(widgets=get_sys_stat_widgets()),
                 #widget.WidgetBox(widgets=get_sys_stat_widgets()),
@@ -1226,31 +1227,33 @@ def get_widgets_1(i) -> list:
 
 def get_widgets_2(i) -> list:
     widgets = [
+                get_sep_widget(True),
                 get_bend_widget(True),
                 widget.TaskList(
                     border=fg_line_color,
                     unfocused_border=bg_line_color,
                     rounded=True,
                 ),
+                #get_bend_widget(False),
+                #get_sep_widget(True),
+                #get_bend_widget(True),
+                #FileReaderWidget(
+                #    file = "/tmp/tmux-bar-keysboard-pipe",
+                #    msg_base = "Keysboard: ",
+                #    #file = "/tmp/tmux-bar-kmonad-pipe",
+                #    #msg_base = "Kmonad: ",
+                #    margin_y=4,
+                #    padding_y=4,
+                #    update_interval=my_slow_update_interval,
+                #    mouse_callbacks={
+                #        'Button1': lambda: run_keysboard(True),
+                #        'Button3': lambda: run_keysboard(False),
+                #        #'Button1': lambda: run_kmonad(True),
+                #        #'Button3': lambda: run_kmonad(False),
+                #    },
+                #),
                 get_bend_widget(False),
                 get_sep_widget(True),
-                get_bend_widget(True),
-                FileReaderWidget(
-                    file = "/tmp/tmux-bar-keysboard-pipe",
-                    msg_base = "Keysboard: ",
-                    #file = "/tmp/tmux-bar-kmonad-pipe",
-                    #msg_base = "Kmonad: ",
-                    margin_y=4,
-                    padding_y=4,
-                    update_interval=my_slow_update_interval,
-                    mouse_callbacks={
-                        'Button1': lambda: run_keysboard(True),
-                        'Button3': lambda: run_keysboard(False),
-                        #'Button1': lambda: run_kmonad(True),
-                        #'Button3': lambda: run_kmonad(False),
-                    },
-                ),
-                get_bend_widget(False),
     ]
     return widgets
 
