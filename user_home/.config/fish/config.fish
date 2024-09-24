@@ -65,6 +65,7 @@ alias ffv='$EDITOR (ff)'
 alias fhv='$EDITOR (fh)'
 alias mpvv="mpv --script=$HOME/.guix-profile/lib/mpris.so --force-window --no-keepaspect-window --loop "
 function search-query-with -a 'q' -a 'b'; $b "$search_url$q" ; end
+alias ffdenoise='ffmpeg -af "highpass=f=200, lowpass=f=3000"'
 function search-query-cli -a 'q'; search-query-with $q $cli_browser ; end
 function search-query-win -a 'q'; search-query-with $q $win_browser ; end
 alias sq="search-query-cli"
@@ -116,6 +117,8 @@ alias install-fisher="curl -sL https://git.io/fisher | source && fisher install 
 alias install-guix="wget -O /tmp/guix-install.sh https://git.savannah.gnu.org/cgit/guix.git/plain/etc/guix-install.sh; chmod +x /tmp/guix-install.sh; sudo bash \"/tmp/guix-install.sh\""
 alias install-nix="curl -L https://nixos.org/nix/install | sh"
 #alias install-chemacs="[ -f ~/.emacs ] && mv ~/.emacs ~/.emacs.bak; [ -f ~/.emacs ] && mv ~/.emacs ~/.emacs.bak; git clone https://github.com/plexus/chemacs2.git ~/.emacs.d"
+alias install-nvchad="git clone --depth=1 https://github.com/NvChad/starter ~/.config/nvim && rm -rf ~/.config/nvim/.git"
+alias reinstall-nvchad="mkdir -p ~/ProgramFiles/.bak/nvchad; mv ~/.config/nvim ~/ProgramFiles/.bak/nvchad/(date); install-nvchad"
 alias install-doom="git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.config/emacs; ~/.config/emacs/bin/doom install"
 alias reinstall-doom='mkdir -p ~/ProgramFiles/.bak/doom-emacs; mv ~/.config/emacs ~/ProgramFiles/.bak/doom-emacs/(date); install-doom'
 alias install-emacs-config="install-chemacs; install-doom"
@@ -129,8 +132,8 @@ alias dockerclean="docker system prune --all"
 #alias with-ld-path="LD_LIBRARY_PATH=$HOME/.guix-profile/lib "
 #function uu-pax-ensureloop; while true; pax upgrade -y && break; end; end # Because CurseForge is unreliable
 alias uu-fontcache="fc-cache -rv"
-alias clean-arch="sudo aura -Oj; sudo paccache -rk 1; sudo paccache -ruk0"
-alias uu-arch='sudo aura -Syu --noconfirm; sudo aura -Ayu --noconfirm; clean-arch'
+alias clean-arch="aura -Oj; sudo paccache -rk 1; sudo paccache -ruk0"
+alias uu-arch='aura -Syu --noconfirm; aura -Ayu --noconfirm; clean-arch'
 alias uu-flatpak="flatpak update --assumeyes; flatpak uninstall --unused"
 alias guixclean="guix gc; guix gc --optimize"
 alias guixclean-full="guix gc --delete-generations; guixclean"
@@ -162,7 +165,7 @@ alias uu-nvim="nvim -c 'UU' -c 'qa!'"
 alias uu-noguix="uu-arch; uu-fish; uu-nix; uu-flatpak; skipcmd uu-pip; uu-pipx; uu-nim; uu-node; uu-emacs; skipcmd uu-graal; install-blender-gruvbox; install-blender-dracula; install-blender-cad-sketcher; install-searxng; install-pax-mc; install-packwiz-mc; uu-fontcache; skipcmd install-capitaine-cursors-sainnhe; skipcmd install-capitaine-cursors-sainnhe-root"
 alias uu="uu-noguix; uu-guix"
 alias uu-clean="uu; guixclean-full"
-export add_package_cmd="sudo aura -S --needed "
+export add_package_cmd="aura -S --needed "
 #export add_package_cmd="guix install "
 alias pkgadd="$add_package_cmd"
 alias lfi="~/.config/lf/run_lf.sh"
