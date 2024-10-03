@@ -9,7 +9,7 @@
 #    export __GLX_VENDOR_LIBRARY_NAME=nvidia
 #fi
 
-export QT_QPA_PLATFORMTHEME="qt5ct"
+export QT_QPA_PLATFORMTHEME="qt6ct"
 
 GUIX_PROFILE="$HOME/.config/guix/current"
 if test -d "$GUIX_PROFILE"; then . "$GUIX_PROFILE/etc/profile"; fi
