@@ -1,17 +1,17 @@
 {
-	"AurRpcUrl": "https://server.moson.rocks/rpc",
+	"AurRpcUrl": "https://aurapi.moson.org/rpc",
 	"AurTimeout": 5000,
 	"AurSearchDelay": 500,
 	"AurUseDifferentCommands": true,
-	"AurInstallCommand": "sudo aura -A",
-	"AurUpgradeCommand": "sudo aura -Ayyu",
+	"AurInstallCommand": "aura -A",
+	"AurUpgradeCommand": "aura -Ayu",
 	"DisableAur": false,
 	"MaxResults": 500,
 	"PacmanDbPath": "/var/lib/pacman/",
 	"PacmanConfigPath": "/etc/pacman.conf",
-	"InstallCommand": "sudo aura -S",
-	"UninstallCommand": "sudo aura -Rs",
-	"SysUpgradeCommand": "sudo aura -Syyu",
+	"InstallCommand": "aura -S",
+	"UninstallCommand": "aura -Rs",
+	"SysUpgradeCommand": "aura -Syu",
 	"SearchMode": "Contains",
 	"SearchBy": "Name \u0026 Description",
 	"CacheExpiry": 10,
@@ -28,5 +28,7 @@
 	"SaveWindowLayout": false,
 	"LeftProportion": 4,
 	"Transparent": false,
-	"PackageColumnWidth": 0
+	"PackageColumnWidth": 0,
+	"EnableAutoSuggest": false,
+	"SepDepsWithNewLine": false
 }

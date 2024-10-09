@@ -1,0 +1,2 @@
+picom-ftlabs-git logisim-evolution-bin
+
