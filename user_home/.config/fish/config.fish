@@ -257,3 +257,5 @@ set -gx PATH "$PNPM_HOME" $PATH
 #export SDKMAN_DIR="$HOME/.sdkman"
 #test -f "$HOME/.sdkman/bin/sdkman-init.sh" && bass source "$HOME/.sdkman/bin/sdkman-init.sh"
 
+if test -f '~/.config/fish/private_config.fish'; source ~/.config/fish/private_config.fish; end
+

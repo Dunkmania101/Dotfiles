@@ -379,9 +379,12 @@ equal = "equal"
 # quote = "quoteright"
 
 
-monitors = get_cmd_output(my_get_monitors_cmd).split("\n")
-#gdkdsp = Gdk.Screen.get_default()
-#monitors = [gdkdsp.get_monitor_plug_name(i) for i in range(gdkdsp.get_n_monitors())]
+def get_monitors(srv: str = "x11") -> list[str]:
+    if srv =="x11":
+        return get_cmd_output(my_get_monitors_cmd).split("\n")
+    else:
+        gdkdsp = Gdk.Screen.get_default()
+        return [gdkdsp.get_monitor_plug_name(i) for i in range(gdkdsp.get_n_monitors())]
 
 
 def take_screenshot(cmd: str = "scrot", cwd: str = my_screenshots_dir) -> None:
@@ -491,7 +494,20 @@ def set_screen(qtile, screen: int, move_focus: bool = True, move_window: bool = 
         qtile.to_screen(screen)
 
 def cycle_screen(qtile, offset: int = 1, move_focus: bool = True, move_window: bool = True) -> None:
-    set_screen(qtile, get_screen_index_by_offset(qtile, offset), move_focus, move_window)
+    #set_screen(qtile, get_screen_index_by_offset(qtile, offset), move_focus, move_window)
+    for _ in range(offset-1):
+        if move_focus:
+            if offset < 0:
+                qtile.prev_screen()
+            else:
+                qtile.next_screen()
+        if move_window:
+            if offset < 0:
+                qtile.current_window.prev_screen()
+            else:
+                qtile.current_window.next_screen()
+        if abs(offset) == 1:
+            break
 
 
 def set_current_screen_group(qtile, group: str, toggle:bool = True) -> None:
@@ -584,307 +600,312 @@ def win_toggle_minimize(qtile) -> None:
 # ----------
 
 
-keys = [
-    # Menus
-    Key([sup], space, lazy.spawn(my_launcher)),
-    Key([sup, shift], space, lazy.run_extension(
-        extension.DmenuRun(
-            foreground=fg_color,
-            background=bg_color,
-            selected_foreground=fg_txt_color,
-            selected_background=bg_txt_color,
-            font=my_font,
-            fontsize=my_thick_font_size,
-            dmenu_ignorecase=True,
-            dmenu_lines=None,
-        )
-    )),
-    #Key([sup, alt], space, lazy.spawn(my_launcher_alt)),
-    Key([sup], tab, lazy.spawn(my_window_pager)),
-    #Key([sup], tab, lazy.run_extension(
-    #    extension.WindowList(
-    #        foreground=fg_color,
-    #        background=bg_color,
-    #        selected_foreground=fg_txt_color,
-    #        selected_background=bg_txt_color,
-    #        font=my_font,
-    #        fontsize=my_thick_font_size,
-    #        dmenu_ignorecase=True,
-    #        dmenu_lines=None,
-    #    )
-    #)),
-    Key([sup, shift], tab, lazy.run_extension(
-        extension.WindowList(
-            all_groups=False,
-            foreground=fg_color,
-            background=bg_color,
-            selected_foreground=fg_txt_color,
-            selected_background=bg_txt_color,
-            font=my_font,
-            fontsize=my_thick_font_size,
-            dmenu_ignorecase=True,
-            dmenu_lines=None,
-        )
-    )),
-    #Key([sup, alt], tab, lazy.spawn(my_window_pager)),
-    #Key([sup, shift], tab, lazy.spawn(my_window_pager)),
-    Key([sup], "v", lazy.spawn(my_clipmenu)),
-    Key([sup, shift], "v", lazy.spawn(my_clipmenu_alt)),
-    Key([sup], "q", lazy.spawn(my_powermenu)),
-    Key([sup], "p", lazy.spawn(my_player_ctrl)),
-    Key([sup], "y", lazy.spawn(my_workspaces)),
-    #Key([sup], "r", lazy.spawn(my_handy)),
-    Key([sup], "i", lazy.spawn(my_emoji)),
+keys: list = []
 
-    # Window / Layout Management
-    Key([sup], "f", lazy.window.toggle_fullscreen()),
-    Key([sup], "f", lazy.window.toggle_fullscreen()),
-    Key([sup], "t", lazy.window.toggle_floating()),
-    Key([sup], "r", lazy.function(win_toggle_minimize)),
-    Key([sup], "F4", lazy.window.kill()),
-    Key([sup, shift], "F4", lazy.spawn(my_window_killer)),
-    Key([sup, shift], "q", lazy.window.kill()),
-    Key([sup, ctrl], "q", lazy.spawn(my_window_killer)),
-
-    Key([sup], "j", lazy.layout.down()),
-    Key([sup], "k", lazy.layout.up()),
-    Key([sup], "h", lazy.layout.left()),
-    Key([sup], "l", lazy.layout.right()),
-    Key([sup, alt], "j", lazy.layout.shuffle_down()),
-    Key([sup, alt], "k", lazy.layout.shuffle_up()),
-    Key([sup, alt], "h", lazy.layout.shuffle_left()),
-    Key([sup, alt], "l", lazy.layout.shuffle_right()),
-    Key([sup, shift], "j", lazy.layout.grow_down()),
-    Key([sup, shift], "k", lazy.layout.grow_up()),
-    Key([sup, shift], "h", lazy.layout.grow_left()),
-    Key([sup, shift], "l", lazy.layout.grow_right()),
-    Key([sup, alt, shift], "h", lazy.layout.swap_column_left()),
-    Key([sup, alt, shift], "l", lazy.layout.swap_column_right()),
-    Key([sup], "g", lazy.layout.toggle_split()),
-    Key([sup, shift], "g", lazy.layout.normalize()),
-    Key([sup, alt], "g", lazy.function(set_current_force_auto_group_all)),
-    Key([sup, alt, shift], "g", lazy.function(clear_force_auto_group_all)),
-
-    # Key([sup], left, lazy.layout.shrink_main()),
-    # Key([sup], right, lazy.layout.grow_main()),
-    # Key([sup], down, lazy.layout.down()),
-    # Key([sup], up, lazy.layout.up()),
-    # Key([sup, shift], down, lazy.layout.shuffle_down()),
-    # Key([sup, shift], up, lazy.layout.shuffle_up()),
-
-    # Key([sup], "h", lazy.layout.shrink_main()),
-    # Key([sup], "l", lazy.layout.grow_main()),
-    # Key([sup], "j", lazy.layout.down()),
-    # Key([sup], "k", lazy.layout.up()),
-    # Key([sup, shift], "j", lazy.layout.shuffle_down()),
-    # Key([sup, shift], "k", lazy.layout.shuffle_up()),
-
-    # Groups
-    # Key([sup], "n", lazy.screen.prev_group()),
-    # Key([sup], "m", lazy.screen.next_group()),
-    Key([sup], "n", lazy.function(cycle_group_prev)),
-    Key([sup], "m", lazy.function(cycle_group_next)),
-    Key([sup, alt], "n", lazy.function(win_cycle_group_prev_switch)),
-    Key([sup, alt], "m", lazy.function(win_cycle_group_next_switch)),
-    Key([sup, shift, alt], "n", lazy.function(win_cycle_group_prev_noswitch)),
-    Key([sup, shift, alt], "m", lazy.function(win_cycle_group_next_noswitch)),
-    Key([sup, ctrl], "n", lazy.function(cycle_screen_prev)),
-    Key([sup, ctrl], "m", lazy.function(cycle_screen_next)),
-    Key([sup, ctrl, alt], "n", lazy.function(win_cycle_screen_prev_switch)),
-    Key([sup, ctrl, alt], "m", lazy.function(win_cycle_screen_next_switch)),
-    Key([sup, shift, ctrl, alt], "n", lazy.function(win_cycle_screen_prev_noswitch)),
-    Key([sup, shift, ctrl, alt], "m", lazy.function(win_cycle_screen_next_noswitch)),
-    Key([sup, shift, ctrl], "n", lazy.function(swap_current_screen_prev)),
-    Key([sup, shift, ctrl], "m", lazy.function(swap_current_screen_next)),
-
-
-    # WM Cmds
-    Key([sup, ctrl, shift, alt], "q", lazy.shutdown()),
-    Key([sup, shift], "r", lazy.restart()),
-    KeyChord([sup, ctrl, shift], "r", [
-        Key([], "r", lazy.restart()),
-        Key([], "b", lazy.function(reload_only_bars)),
-        Key([], "c", lazy.reload_config()),
-    ],),
-
-    # Vim Emulation
-    KeyChord([sup, ctrl, shift], "v", [
-        Key([], "i", lazy.spawn(my_kbd_key_cmd + "Escape")),
-        Key([], "h", lazy.spawn(my_kbd_key_cmd + "Left")),
-        Key([], "j", lazy.spawn(my_kbd_key_cmd + "Down")),
-        Key([], "k", lazy.spawn(my_kbd_key_cmd + "Up")),
-        Key([], "l", lazy.spawn(my_kbd_key_cmd + "Right")),
-        Key([], "w", lazy.spawn(my_kbd_key_cmd + "ctrl+Right")),
-        Key([], "b", lazy.spawn(my_kbd_key_cmd + "ctrl+Left")),
-    ], mode=True, name="vim"),
-
-    # Mouse Emulation
-    Key([sup, ctrl], "h", lazy.spawn(my_mouse_move_cmd + f"-{my_mouse_move_dist} 0")),
-    Key([sup, ctrl], "j", lazy.spawn(my_mouse_move_cmd + f"0 {my_mouse_move_dist}")),
-    Key([sup, ctrl], "k", lazy.spawn(my_mouse_move_cmd + f"0 -{my_mouse_move_dist}")),
-    Key([sup, ctrl], "l", lazy.spawn(my_mouse_move_cmd + f"{my_mouse_move_dist} 0")),
-    Key([sup, ctrl], "a", lazy.spawn(my_mouse_click_cmd + "1")), # LC
-    Key([sup, ctrl], "d", lazy.spawn(my_mouse_click_cmd + "3")), # RC
-    Key([sup, ctrl], "x", lazy.spawn(my_mouse_click_cmd + "2")), # MC
-    Key([sup, ctrl], "s", lazy.spawn(my_mouse_click_cmd + "5")), # WU
-    Key([sup, ctrl], "w", lazy.spawn(my_mouse_click_cmd + "4")), # WD
-    KeyChord([sup, ctrl, shift], "a", [
-        Key([], "h", lazy.spawn(my_mouse_move_cmd + f"-{my_mouse_move_dist} 0")),
-        Key([], "j", lazy.spawn(my_mouse_move_cmd + f"0 {my_mouse_move_dist}")),
-        Key([], "k", lazy.spawn(my_mouse_move_cmd + f"0 -{my_mouse_move_dist}")),
-        Key([], "l", lazy.spawn(my_mouse_move_cmd + f"{my_mouse_move_dist} 0")),
-        Key([], "a", lazy.spawn(my_mouse_click_cmd + "1")), # LC
-        Key([], "d", lazy.spawn(my_mouse_click_cmd + "3")), # RC
-        Key([], "x", lazy.spawn(my_mouse_click_cmd + "2")), # MC
-        Key([], "s", lazy.spawn(my_mouse_click_cmd + "5")), # WU
-        Key([], "w", lazy.spawn(my_mouse_click_cmd + "4")), # WD
-    ], mode=True, name="mouse"),
-
-    # Apps
-    Key([sup], period, lazy.spawn(my_audio_mixer)),
-    Key([sup, shift], period, lazy.spawn(my_audio_mixer_alt)),
-    KeyChord([sup, ctrl, shift], period, [
-        Key([], period, lazy.spawn(my_audio_mixer)),
-        Key([shift], period, lazy.spawn(my_audio_mixer_alt)),
-        Key([], "1", lazy.spawn(my_audio_mixer_alt1)),
-    ]),
-    Key([sup], apostrophe, lazy.function(exec_func_no_qtile, run_keysboard, [True])),
-    #Key([sup], apostrophe, lazy.function(exec_func_no_qtile, run_kmonad, [True])),
-    Key([sup, shift], apostrophe, lazy.function(exec_func_no_qtile, run_keysboard, [False])),
-    #Key([sup, shift], apostrophe, lazy.function(exec_func_no_qtile, run_kmonad, [False])),
-    Key([sup], ret, lazy.spawn(my_terminal)),
-    Key([sup, shift], ret, lazy.spawn(my_terminal_alt)),
-    KeyChord([sup, ctrl, shift], ret, [
-        Key([], ret, lazy.spawn(my_terminal)),
-        Key([shift], ret, lazy.spawn(my_terminal_alt)),
-        Key([], "1", lazy.spawn(my_terminal_alt1)),
-        Key([], "2", lazy.spawn(my_terminal_alt2)),
-        Key([], "3", lazy.spawn(my_terminal_alt3)),
-        Key([], "4", lazy.spawn(my_terminal_alt4)),
-    ]),
-    Key([sup], "w", lazy.spawn(my_editor)),
-    Key([sup, shift], "w", lazy.spawn(my_editor_alt)),
-    KeyChord([sup, ctrl, shift], "w", [
-        Key([], "w", lazy.spawn(my_editor)),
-        Key([shift], "w", lazy.spawn(my_editor_alt)),
-        Key([], "1", lazy.spawn(my_editor_alt1)),
-        Key([], "2", lazy.spawn(my_editor_alt2)),
-    ]),
-    Key([sup], "b", lazy.spawn(my_browser)),
-    Key([sup, ctrl], "b", lazy.spawn(my_browser_profile_menu)),
-    Key([sup, shift], "b", lazy.spawn(my_browser_alt)),
-    KeyChord([sup, ctrl, shift], "b", [
-        Key([], "b", lazy.spawn(my_browser)),
-        Key([shift], "b", lazy.spawn(my_browser_alt)),
-        Key([], "1", lazy.spawn(my_browser_alt1)),
-        Key([], "2", lazy.spawn(my_browser_alt2)),
-        Key([], "3", lazy.spawn(my_browser_alt3)),
-    ]),
-    Key([sup, alt], "b", lazy.spawn(my_private_browser)),
-    Key([sup, alt, shift], "b", lazy.spawn(my_private_browser_alt)),
-    Key([sup], "e", lazy.spawn(my_file_manager)),
-    Key([sup, shift], "e", lazy.spawn(my_file_manager_alt)),
-    KeyChord([sup, ctrl, shift], "e", [
-        Key([], "e", lazy.spawn(my_file_manager)),
-        Key([shift], "e", lazy.spawn(my_file_manager_alt)),
-        Key([], "1", lazy.spawn(my_file_manager_alt1)),
-    ]),
-    Key([sup], "x", lazy.spawn(my_mp)),
-    Key([sup, alt], "x", lazy.spawn(my_mp_private)),
-    Key([sup, shift], "x", lazy.spawn(my_mp_alt)),
-    Key([sup, alt, shift], "x", lazy.spawn(my_mp_private_alt)),
-    KeyChord([sup, ctrl, shift], "x", [
-        Key([], "x", lazy.spawn(my_mp)),
-        Key([shift], "x", lazy.spawn(my_mp_alt)),
-        Key([], "1", lazy.spawn(my_mp_alt1)),
-        Key([], "2", lazy.spawn(my_mp_alt2)),
-    ]),
-    Key([sup], "s", lazy.spawn(my_package_manager)),
-    Key([sup, shift], "s", lazy.spawn(my_package_manager_alt)),
-    Key([sup], "c", lazy.spawn(my_calculator)),
-    Key([sup, shift], "c", lazy.spawn(my_calculator_alt)),
-    Key([sup], semicolon, lazy.spawn(my_control_panel)),
-    Key([sup, shift], semicolon, lazy.spawn(my_control_panel_alt)),
-    KeyChord([sup, ctrl, shift], semicolon, [
-        Key([], semicolon, lazy.spawn(my_control_panel)),
-        Key([shift], semicolon, lazy.spawn(my_control_panel_alt)),
-        Key([], "1", lazy.spawn(my_control_panel_alt1)),
-    ]),
-    Key([sup], comma, lazy.spawn(my_notification_drop)),
-    Key([sup, shift], comma, lazy.spawn(my_notification_show)),
-
-    # DropDown
-    KeyChord([sup], "d", [
-        # Sys
-        Key([], ret, lazy.group['sys'].dropdown_toggle('term')),
-        KeyChord([shift], ret, [
-            Key([], "1", lazy.group['sys'].dropdown_toggle('term1')),
-            Key([], "2", lazy.group['sys'].dropdown_toggle('term2')),
-            Key([], "3", lazy.group['sys'].dropdown_toggle('term3')),
+def init_keys():
+    keys.extend([
+        # Menus
+        Key([sup], space, lazy.spawn(my_launcher)),
+        Key([sup, shift], space, lazy.run_extension(
+            extension.DmenuRun(
+                foreground=fg_color,
+                background=bg_color,
+                selected_foreground=fg_txt_color,
+                selected_background=bg_txt_color,
+                font=my_font,
+                fontsize=my_thick_font_size,
+                dmenu_ignorecase=True,
+                dmenu_lines=None,
+            )
+        )),
+        #Key([sup, alt], space, lazy.spawn(my_launcher_alt)),
+        Key([sup], tab, lazy.spawn(my_window_pager)),
+        #Key([sup], tab, lazy.run_extension(
+        #    extension.WindowList(
+        #        foreground=fg_color,
+        #        background=bg_color,
+        #        selected_foreground=fg_txt_color,
+        #        selected_background=bg_txt_color,
+        #        font=my_font,
+        #        fontsize=my_thick_font_size,
+        #        dmenu_ignorecase=True,
+        #        dmenu_lines=None,
+        #    )
+        #)),
+        Key([sup, shift], tab, lazy.run_extension(
+            extension.WindowList(
+                all_groups=False,
+                foreground=fg_color,
+                background=bg_color,
+                selected_foreground=fg_txt_color,
+                selected_background=bg_txt_color,
+                font=my_font,
+                fontsize=my_thick_font_size,
+                dmenu_ignorecase=True,
+                dmenu_lines=None,
+            )
+        )),
+        #Key([sup, alt], tab, lazy.spawn(my_window_pager)),
+        #Key([sup, shift], tab, lazy.spawn(my_window_pager)),
+        Key([sup], "v", lazy.spawn(my_clipmenu)),
+        Key([sup, shift], "v", lazy.spawn(my_clipmenu_alt)),
+        Key([sup], "q", lazy.spawn(my_powermenu)),
+        Key([sup], "p", lazy.spawn(my_player_ctrl)),
+        Key([sup], "y", lazy.spawn(my_workspaces)),
+        #Key([sup], "r", lazy.spawn(my_handy)),
+        Key([sup], "i", lazy.spawn(my_emoji)),
+    
+        # Window / Layout Management
+        Key([sup], "f", lazy.window.toggle_fullscreen()),
+        Key([sup], "f", lazy.window.toggle_fullscreen()),
+        Key([sup], "t", lazy.window.toggle_floating()),
+        Key([sup], "r", lazy.function(win_toggle_minimize)),
+        Key([sup], "F4", lazy.window.kill()),
+        Key([sup, shift], "F4", lazy.spawn(my_window_killer)),
+        Key([sup, shift], "q", lazy.window.kill()),
+        Key([sup, ctrl], "q", lazy.spawn(my_window_killer)),
+    
+        Key([sup], "j", lazy.layout.down()),
+        Key([sup], "k", lazy.layout.up()),
+        Key([sup], "h", lazy.layout.left()),
+        Key([sup], "l", lazy.layout.right()),
+        Key([sup, alt], "j", lazy.layout.shuffle_down()),
+        Key([sup, alt], "k", lazy.layout.shuffle_up()),
+        Key([sup, alt], "h", lazy.layout.shuffle_left()),
+        Key([sup, alt], "l", lazy.layout.shuffle_right()),
+        Key([sup, shift], "j", lazy.layout.grow_down()),
+        Key([sup, shift], "k", lazy.layout.grow_up()),
+        Key([sup, shift], "h", lazy.layout.grow_left()),
+        Key([sup, shift], "l", lazy.layout.grow_right()),
+        Key([sup, alt, shift], "h", lazy.layout.swap_column_left()),
+        Key([sup, alt, shift], "l", lazy.layout.swap_column_right()),
+        Key([sup], "g", lazy.layout.toggle_split()),
+        Key([sup, shift], "g", lazy.layout.normalize()),
+        Key([sup, alt], "g", lazy.function(set_current_force_auto_group_all)),
+        Key([sup, alt, shift], "g", lazy.function(clear_force_auto_group_all)),
+    
+        # Key([sup], left, lazy.layout.shrink_main()),
+        # Key([sup], right, lazy.layout.grow_main()),
+        # Key([sup], down, lazy.layout.down()),
+        # Key([sup], up, lazy.layout.up()),
+        # Key([sup, shift], down, lazy.layout.shuffle_down()),
+        # Key([sup, shift], up, lazy.layout.shuffle_up()),
+    
+        # Key([sup], "h", lazy.layout.shrink_main()),
+        # Key([sup], "l", lazy.layout.grow_main()),
+        # Key([sup], "j", lazy.layout.down()),
+        # Key([sup], "k", lazy.layout.up()),
+        # Key([sup, shift], "j", lazy.layout.shuffle_down()),
+        # Key([sup, shift], "k", lazy.layout.shuffle_up()),
+    
+        # Groups
+        # Key([sup], "n", lazy.screen.prev_group()),
+        # Key([sup], "m", lazy.screen.next_group()),
+        Key([sup], "n", lazy.function(cycle_group_prev)),
+        Key([sup], "m", lazy.function(cycle_group_next)),
+        Key([sup, alt], "n", lazy.function(win_cycle_group_prev_switch)),
+        Key([sup, alt], "m", lazy.function(win_cycle_group_next_switch)),
+        Key([sup, shift, alt], "n", lazy.function(win_cycle_group_prev_noswitch)),
+        Key([sup, shift, alt], "m", lazy.function(win_cycle_group_next_noswitch)),
+        Key([sup, ctrl], "n", lazy.function(cycle_screen_prev)),
+        Key([sup, ctrl], "m", lazy.function(cycle_screen_next)),
+        Key([sup, ctrl, alt], "n", lazy.function(win_cycle_screen_prev_switch)),
+        Key([sup, ctrl, alt], "m", lazy.function(win_cycle_screen_next_switch)),
+        Key([sup, shift, ctrl, alt], "n", lazy.function(win_cycle_screen_prev_noswitch)),
+        Key([sup, shift, ctrl, alt], "m", lazy.function(win_cycle_screen_next_noswitch)),
+        Key([sup, shift, ctrl], "n", lazy.function(swap_current_screen_prev)),
+        Key([sup, shift, ctrl], "m", lazy.function(swap_current_screen_next)),
+    
+    
+        # WM Cmds
+        Key([sup, ctrl, shift, alt], "q", lazy.shutdown()),
+        Key([sup, shift], "r", lazy.restart()),
+        KeyChord([sup, ctrl, shift], "r", [
+            Key([], "r", lazy.restart()),
+            Key([], "b", lazy.function(reload_only_bars)),
+            Key([], "c", lazy.reload_config()),
+        ],),
+    
+        # Vim Emulation
+        KeyChord([sup, ctrl, shift], "v", [
+            Key([], "i", lazy.spawn(my_kbd_key_cmd + "Escape")),
+            Key([], "h", lazy.spawn(my_kbd_key_cmd + "Left")),
+            Key([], "j", lazy.spawn(my_kbd_key_cmd + "Down")),
+            Key([], "k", lazy.spawn(my_kbd_key_cmd + "Up")),
+            Key([], "l", lazy.spawn(my_kbd_key_cmd + "Right")),
+            Key([], "w", lazy.spawn(my_kbd_key_cmd + "ctrl+Right")),
+            Key([], "b", lazy.spawn(my_kbd_key_cmd + "ctrl+Left")),
+        ], mode=True, name="vim"),
+    
+        # Mouse Emulation
+        Key([sup, ctrl], "h", lazy.spawn(my_mouse_move_cmd + f"-{my_mouse_move_dist} 0")),
+        Key([sup, ctrl], "j", lazy.spawn(my_mouse_move_cmd + f"0 {my_mouse_move_dist}")),
+        Key([sup, ctrl], "k", lazy.spawn(my_mouse_move_cmd + f"0 -{my_mouse_move_dist}")),
+        Key([sup, ctrl], "l", lazy.spawn(my_mouse_move_cmd + f"{my_mouse_move_dist} 0")),
+        Key([sup, ctrl], "a", lazy.spawn(my_mouse_click_cmd + "1")), # LC
+        Key([sup, ctrl], "d", lazy.spawn(my_mouse_click_cmd + "3")), # RC
+        Key([sup, ctrl], "x", lazy.spawn(my_mouse_click_cmd + "2")), # MC
+        Key([sup, ctrl], "s", lazy.spawn(my_mouse_click_cmd + "5")), # WU
+        Key([sup, ctrl], "w", lazy.spawn(my_mouse_click_cmd + "4")), # WD
+        KeyChord([sup, ctrl, shift], "a", [
+            Key([], "h", lazy.spawn(my_mouse_move_cmd + f"-{my_mouse_move_dist} 0")),
+            Key([], "j", lazy.spawn(my_mouse_move_cmd + f"0 {my_mouse_move_dist}")),
+            Key([], "k", lazy.spawn(my_mouse_move_cmd + f"0 -{my_mouse_move_dist}")),
+            Key([], "l", lazy.spawn(my_mouse_move_cmd + f"{my_mouse_move_dist} 0")),
+            Key([], "a", lazy.spawn(my_mouse_click_cmd + "1")), # LC
+            Key([], "d", lazy.spawn(my_mouse_click_cmd + "3")), # RC
+            Key([], "x", lazy.spawn(my_mouse_click_cmd + "2")), # MC
+            Key([], "s", lazy.spawn(my_mouse_click_cmd + "5")), # WU
+            Key([], "w", lazy.spawn(my_mouse_click_cmd + "4")), # WD
+        ], mode=True, name="mouse"),
+    
+        # Apps
+        Key([sup], period, lazy.spawn(my_audio_mixer)),
+        Key([sup, shift], period, lazy.spawn(my_audio_mixer_alt)),
+        KeyChord([sup, ctrl, shift], period, [
+            Key([], period, lazy.spawn(my_audio_mixer)),
+            Key([shift], period, lazy.spawn(my_audio_mixer_alt)),
+            Key([], "1", lazy.spawn(my_audio_mixer_alt1)),
         ]),
-        Key([], semicolon, lazy.group['sys'].dropdown_toggle('panel')),
-        Key([], "e", lazy.group['sys'].dropdown_toggle('files')),
-        KeyChord([shift], "e", [
-            Key([], "1", lazy.group['sys'].dropdown_toggle('files1')),
-            Key([], "2", lazy.group['sys'].dropdown_toggle('files2')),
-            Key([], "3", lazy.group['sys'].dropdown_toggle('files3')),
+        Key([sup], apostrophe, lazy.function(exec_func_no_qtile, run_keysboard, [True])),
+        #Key([sup], apostrophe, lazy.function(exec_func_no_qtile, run_kmonad, [True])),
+        Key([sup, shift], apostrophe, lazy.function(exec_func_no_qtile, run_keysboard, [False])),
+        #Key([sup, shift], apostrophe, lazy.function(exec_func_no_qtile, run_kmonad, [False])),
+        Key([sup], ret, lazy.spawn(my_terminal)),
+        Key([sup, shift], ret, lazy.spawn(my_terminal_alt)),
+        KeyChord([sup, ctrl, shift], ret, [
+            Key([], ret, lazy.spawn(my_terminal)),
+            Key([shift], ret, lazy.spawn(my_terminal_alt)),
+            Key([], "1", lazy.spawn(my_terminal_alt1)),
+            Key([], "2", lazy.spawn(my_terminal_alt2)),
+            Key([], "3", lazy.spawn(my_terminal_alt3)),
+            Key([], "4", lazy.spawn(my_terminal_alt4)),
         ]),
-
-        # Media
-        Key([], 'x', lazy.group['media'].dropdown_toggle('mp')),
-
-        # CMD
-        Key([], "p", lazy.group['cmd'].dropdown_toggle('pass')),
-        KeyChord([shift], "p", [
-            Key([], "1", lazy.group['cmd'].dropdown_toggle('pass1')),
+        Key([sup], "w", lazy.spawn(my_editor)),
+        Key([sup, shift], "w", lazy.spawn(my_editor_alt)),
+        KeyChord([sup, ctrl, shift], "w", [
+            Key([], "w", lazy.spawn(my_editor)),
+            Key([shift], "w", lazy.spawn(my_editor_alt)),
+            Key([], "1", lazy.spawn(my_editor_alt1)),
+            Key([], "2", lazy.spawn(my_editor_alt2)),
         ]),
-    ]),
+        Key([sup], "b", lazy.spawn(my_browser)),
+        Key([sup, ctrl], "b", lazy.spawn(my_browser_profile_menu)),
+        Key([sup, shift], "b", lazy.spawn(my_browser_alt)),
+        KeyChord([sup, ctrl, shift], "b", [
+            Key([], "b", lazy.spawn(my_browser)),
+            Key([shift], "b", lazy.spawn(my_browser_alt)),
+            Key([], "1", lazy.spawn(my_browser_alt1)),
+            Key([], "2", lazy.spawn(my_browser_alt2)),
+            Key([], "3", lazy.spawn(my_browser_alt3)),
+        ]),
+        Key([sup, alt], "b", lazy.spawn(my_private_browser)),
+        Key([sup, alt, shift], "b", lazy.spawn(my_private_browser_alt)),
+        Key([sup], "e", lazy.spawn(my_file_manager)),
+        Key([sup, shift], "e", lazy.spawn(my_file_manager_alt)),
+        KeyChord([sup, ctrl, shift], "e", [
+            Key([], "e", lazy.spawn(my_file_manager)),
+            Key([shift], "e", lazy.spawn(my_file_manager_alt)),
+            Key([], "1", lazy.spawn(my_file_manager_alt1)),
+        ]),
+        Key([sup], "x", lazy.spawn(my_mp)),
+        Key([sup, alt], "x", lazy.spawn(my_mp_private)),
+        Key([sup, shift], "x", lazy.spawn(my_mp_alt)),
+        Key([sup, alt, shift], "x", lazy.spawn(my_mp_private_alt)),
+        KeyChord([sup, ctrl, shift], "x", [
+            Key([], "x", lazy.spawn(my_mp)),
+            Key([shift], "x", lazy.spawn(my_mp_alt)),
+            Key([], "1", lazy.spawn(my_mp_alt1)),
+            Key([], "2", lazy.spawn(my_mp_alt2)),
+        ]),
+        Key([sup], "s", lazy.spawn(my_package_manager)),
+        Key([sup, shift], "s", lazy.spawn(my_package_manager_alt)),
+        Key([sup], "c", lazy.spawn(my_calculator)),
+        Key([sup, shift], "c", lazy.spawn(my_calculator_alt)),
+        Key([sup], semicolon, lazy.spawn(my_control_panel)),
+        Key([sup, shift], semicolon, lazy.spawn(my_control_panel_alt)),
+        KeyChord([sup, ctrl, shift], semicolon, [
+            Key([], semicolon, lazy.spawn(my_control_panel)),
+            Key([shift], semicolon, lazy.spawn(my_control_panel_alt)),
+            Key([], "1", lazy.spawn(my_control_panel_alt1)),
+        ]),
+        Key([sup], comma, lazy.spawn(my_notification_drop)),
+        Key([sup, shift], comma, lazy.spawn(my_notification_show)),
+    
+        # DropDown
+        KeyChord([sup], "d", [
+            # Sys
+            Key([], ret, lazy.group['sys'].dropdown_toggle('term')),
+            KeyChord([shift], ret, [
+                Key([], "1", lazy.group['sys'].dropdown_toggle('term1')),
+                Key([], "2", lazy.group['sys'].dropdown_toggle('term2')),
+                Key([], "3", lazy.group['sys'].dropdown_toggle('term3')),
+            ]),
+            Key([], semicolon, lazy.group['sys'].dropdown_toggle('panel')),
+            Key([], "e", lazy.group['sys'].dropdown_toggle('files')),
+            KeyChord([shift], "e", [
+                Key([], "1", lazy.group['sys'].dropdown_toggle('files1')),
+                Key([], "2", lazy.group['sys'].dropdown_toggle('files2')),
+                Key([], "3", lazy.group['sys'].dropdown_toggle('files3')),
+            ]),
+    
+            # Media
+            Key([], 'x', lazy.group['media'].dropdown_toggle('mp')),
+    
+            # CMD
+            Key([], "p", lazy.group['cmd'].dropdown_toggle('pass')),
+            KeyChord([shift], "p", [
+                Key([], "1", lazy.group['cmd'].dropdown_toggle('pass1')),
+            ]),
+        ]),
+    
+        # System
+        # Key([sup, shift, ctrl], "F11", lazy.spawn("sudo hibernate-reboot")),
+        # Key([sup, shift, ctrl], "F12", lazy.spawn("systemctl hibernate")),
+        Key([sup], "Escape", lazy.function(exec_func_no_qtile, run_cmd, [my_lock_device_cmd])),
+        Key([], "Print", lazy.function(exec_func_no_qtile, take_screenshot)),
+    
+        # Special Keys
+        Key([], 'XF86AudioRaiseVolume', lazy.spawn('amixer sset Master 1%+')),
+        Key([], 'XF86AudioLowerVolume', lazy.spawn('amixer sset Master 1%-')),
+        Key([shift], 'XF86AudioRaiseVolume', lazy.spawn('amixer sset Master 1%+')),
+        Key([shift], 'XF86AudioLowerVolume', lazy.spawn('amixer sset Master 1%-')),
+        Key([], 'XF86AudioMute', lazy.spawn('amixer sset Master toggle')),
+        Key([], 'XF86AudioPause', lazy.spawn('playerctl play-pause')),
+        Key([], 'XF86AudioPlay', lazy.spawn('playerctl play-pause')),
+        Key([ctrl], 'XF86AudioPause', lazy.spawn('playerctl -a play-pause')),
+        Key([ctrl], 'XF86AudioPlay', lazy.spawn('playerctl -a play-pause')),
+        Key([], 'XF86AudioNext', lazy.spawn('playerctl position 1+')),
+        Key([], 'XF86AudioPrev', lazy.spawn('playerctl position 1-')),
+        Key([shift], 'XF86AudioNext', lazy.spawn('playerctl position 1+')),
+        Key([shift], 'XF86AudioPrev', lazy.spawn('playerctl position 1-')),
+        Key([], 'XF86AudioStop', lazy.spawn('playerctl stop')),
+        Key([shift], 'XF86AudioStop', lazy.spawn('playerctl stop')),
+        Key([ctrl], 'XF86AudioStop', lazy.spawn('playerctl -a stop')),
+        Key([], 'XF86MonBrightnessUp', lazy.spawn('brightnessctl set 1%+')),
+        Key([], 'XF86MonBrightnessDown', lazy.spawn('brightnessctl set 1%-')),
+    ])
 
-    # System
-    # Key([sup, shift, ctrl], "F11", lazy.spawn("sudo hibernate-reboot")),
-    # Key([sup, shift, ctrl], "F12", lazy.spawn("systemctl hibernate")),
-    Key([sup], "Escape", lazy.function(exec_func_no_qtile, run_cmd, [my_lock_device_cmd])),
-    Key([], "Print", lazy.function(exec_func_no_qtile, take_screenshot)),
+    for i, g in enumerate(my_base_groups):
+        g_key = g
+        if g_key != "1" and not g_key in get_keys():
+            if i == 0:
+                g_key = grave
+            elif i == 11:
+                g_key = minus
+            elif i == 12:
+                g_key = equal
+        if g_key in get_keys():
+            keys.extend(
+                [
+                    Key([sup], g_key, lazy.function(set_current_screen_group_on_current_screen, g)),
+                    Key([sup, shift], g_key, lazy.function(set_current_screen_group_on_current_screen_no_toggle, g)),
+                    Key([sup, alt], g_key, lazy.function(send_current_win_to_group_on_current_screen_switch, g)),
+                    Key([sup, shift, alt], g_key, lazy.function(send_current_win_to_group_on_current_screen_noswitch, g)),
+                ]
+            )
+init_keys()
 
-    # Special Keys
-    Key([], 'XF86AudioRaiseVolume', lazy.spawn('amixer sset Master 1%+')),
-    Key([], 'XF86AudioLowerVolume', lazy.spawn('amixer sset Master 1%-')),
-    Key([shift], 'XF86AudioRaiseVolume', lazy.spawn('amixer sset Master 1%+')),
-    Key([shift], 'XF86AudioLowerVolume', lazy.spawn('amixer sset Master 1%-')),
-    Key([], 'XF86AudioMute', lazy.spawn('amixer sset Master toggle')),
-    Key([], 'XF86AudioPause', lazy.spawn('playerctl play-pause')),
-    Key([], 'XF86AudioPlay', lazy.spawn('playerctl play-pause')),
-    Key([ctrl], 'XF86AudioPause', lazy.spawn('playerctl -a play-pause')),
-    Key([ctrl], 'XF86AudioPlay', lazy.spawn('playerctl -a play-pause')),
-    Key([], 'XF86AudioNext', lazy.spawn('playerctl position 1+')),
-    Key([], 'XF86AudioPrev', lazy.spawn('playerctl position 1-')),
-    Key([shift], 'XF86AudioNext', lazy.spawn('playerctl position 1+')),
-    Key([shift], 'XF86AudioPrev', lazy.spawn('playerctl position 1-')),
-    Key([], 'XF86AudioStop', lazy.spawn('playerctl stop')),
-    Key([shift], 'XF86AudioStop', lazy.spawn('playerctl stop')),
-    Key([ctrl], 'XF86AudioStop', lazy.spawn('playerctl -a stop')),
-    Key([], 'XF86MonBrightnessUp', lazy.spawn('brightnessctl set 1%+')),
-    Key([], 'XF86MonBrightnessDown', lazy.spawn('brightnessctl set 1%-')),
-]
-
-for i, g in enumerate(my_base_groups):
-    g_key = g
-    if g_key != "1" and not g_key in get_keys():
-        if i == 0:
-            g_key = grave
-        elif i == 11:
-            g_key = minus
-        elif i == 12:
-            g_key = equal
-    if g_key in get_keys():
-        keys.extend(
-            [
-                Key([sup], g_key, lazy.function(set_current_screen_group_on_current_screen, g)),
-                Key([sup, shift], g_key, lazy.function(set_current_screen_group_on_current_screen_no_toggle, g)),
-                Key([sup, alt], g_key, lazy.function(send_current_win_to_group_on_current_screen_switch, g)),
-                Key([sup, shift, alt], g_key, lazy.function(send_current_win_to_group_on_current_screen_noswitch, g)),
-            ]
-        )
 
 mouse = [
     # Drag([sup], "Button1", lazy.window.set_position(),
@@ -1301,42 +1322,60 @@ elif os.path.isdir(my_wallpapers):
 else:
     wallpapers = []
 
-i = 0
-for monitor in monitors:
-    if len(monitor) > 0 and monitor != "\n":
-        do_solid_wall = False
-        wallpaper = None
-        if draw_wallpaper:
-            if draw_wallpaper_img:
-                if len(wallpapers) > 0:
-                    wallpaper = choice(wallpapers)
-            else:
-                do_solid_wall = True
-        top_bar=bar.Bar(get_widgets_1(i), bar_height, margin=my_thin_margin, foreground=invisible_color if segment_bars else fg_color, background=invisible_color if segment_bars else dark_bg_color, border_color=invisible_color if segment_bars else [fg_line_color, dark_bg_color]*2, border_width=0 if segment_bars else my_thin_border_width)
-        bottom_bar=bar.Bar(get_widgets_2(i), bar_height, margin=my_thin_margin, foreground=invisible_color if segment_bars else fg_color, background=invisible_color if segment_bars else dark_bg_color, border_color=invisible_color if segment_bars else [fg_line_color, dark_bg_color]*2, border_width=0 if segment_bars else my_thin_border_width)
-        bars.extend([top_bar, bottom_bar])
-        screens.append(
-            Screen(
-                top=top_bar,
-                bottom=bottom_bar,
-                wallpaper=wallpaper if not do_solid_wall else None,
-                wallpaper_mode="stretch" if wallpaper is not None and not do_solid_wall else None,
+def init_screens():
+    monitors = get_monitors()
+    i = 0
+    for monitor in monitors:
+        if len(monitor) > 0 and monitor != "\n":
+            do_solid_wall = False
+            wallpaper = None
+            if draw_wallpaper:
+                if draw_wallpaper_img:
+                    if len(wallpapers) > 0:
+                        wallpaper = choice(wallpapers)
+                else:
+                    do_solid_wall = True
+            top_bar=bar.Bar(get_widgets_1(i), bar_height, margin=my_thin_margin, foreground=invisible_color if segment_bars else fg_color, background=invisible_color if segment_bars else dark_bg_color, border_color=invisible_color if segment_bars else [fg_line_color, dark_bg_color]*2, border_width=0 if segment_bars else my_thin_border_width)
+            bottom_bar=bar.Bar(get_widgets_2(i), bar_height, margin=my_thin_margin, foreground=invisible_color if segment_bars else fg_color, background=invisible_color if segment_bars else dark_bg_color, border_color=invisible_color if segment_bars else [fg_line_color, dark_bg_color]*2, border_width=0 if segment_bars else my_thin_border_width)
+            bars.extend([top_bar, bottom_bar])
+            screens.append(
+                Screen(
+                    top=top_bar,
+                    bottom=bottom_bar,
+                    wallpaper=wallpaper if not do_solid_wall else None,
+                    wallpaper_mode="stretch" if wallpaper is not None and not do_solid_wall else None,
+                    x11_drag_polling_rate=60,
+                )
             )
-        )
-        for g in get_full_group_names_for_screen(i):
-            groups.append(Group(g))
-        m_key = str(i)
-        if m_key in get_keys():
-            keys.extend(
-                    [
-                        Key([sup, ctrl], m_key, lazy.function(set_screen, i, True, False)),
-                        Key([sup, ctrl, alt], m_key, lazy.function(set_screen, i, True, True)),
-                    ]
-                    )
-        if do_solid_wall:
-            run_cmd(my_solid_wallpaper_cmd)
-        i += 1
+            for g in get_full_group_names_for_screen(i):
+                groups.append(Group(g))
+            m_key = str(i)
+            if m_key in get_keys():
+                keys.extend(
+                        [
+                            Key([sup, ctrl], m_key, lazy.function(set_screen, i, True, False)),
+                            Key([sup, ctrl, alt], m_key, lazy.function(set_screen, i, True, True)),
+                        ]
+                        )
+            if do_solid_wall:
+                run_cmd(my_solid_wallpaper_cmd)
+            i += 1
+init_screens()
 
+
+def refresh_keys():
+    keys.clear()
+    init_keys()
+
+def refresh_screens():
+    #refresh_keys()
+    #qtile.screens.clear()
+    #screens.clear()
+    #init_screens()
+    #qtile.screens = screens
+    #for screen in qtile.screens:
+    #    screen.resize(w=event.width, h=event.height)
+    pass
 
 # ---------- #
 # -- Vars -- #
@@ -1434,6 +1473,7 @@ def pref_group_hook(window) -> None:
 @hook.subscribe.screen_change
 def screen_change_hook(qtile) -> None:
     run_cmd(os.path.join(cfg_dir, "scripts", "run", "run-monitors.sh"))
+    refresh_screens()
 
 
 @hook.subscribe.startup

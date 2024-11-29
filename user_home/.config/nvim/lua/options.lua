@@ -7,3 +7,9 @@ local o = vim.o
 
 o.spelllang = 'en_us'
 o.spell = true
+
+local indent = 4;
+o.shiftwidth = indent
+o.softtabstop = indent
+o.tabstop = indent
+
