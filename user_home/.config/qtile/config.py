@@ -240,6 +240,7 @@ my_lock_device_cmd = "playerctl --all-players pause & amixer set Master mute & l
 #my_terminal = "kitty -e tmux"
 #my_terminal_tmux = f"kitty -e \'{cfg_dir}/scripts/run/run-tmux-session.sh\'"
 my_terminal = "tilix"
+#my_terminal = "tilix --command /usr/bin/fish"
 #my_terminal = "kitty"
 #my_terminal = "contour"
 #my_terminal = f"uxterm -si -fs 10 -fa \"{my_term_font}\" -bg \'#212121\' -bd \'#212111\'"
