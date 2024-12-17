@@ -685,8 +685,8 @@ def init_keys():
         Key([sup, alt], "g", lazy.function(set_current_force_auto_group_all)),
         Key([sup, alt, shift], "g", lazy.function(clear_force_auto_group_all)),
     
-        # Key([sup], left, lazy.layout.shrink_main()),
-        # Key([sup], right, lazy.layout.grow_main()),
+        Key([sup, alt], minus, lazy.layout.shrink_main()),
+        Key([sup, alt], equal, lazy.layout.grow_main()),
         # Key([sup], down, lazy.layout.down()),
         # Key([sup], up, lazy.layout.up()),
         # Key([sup, shift], down, lazy.layout.shuffle_down()),
@@ -892,10 +892,10 @@ def init_keys():
         if g_key != "1" and not g_key in get_keys():
             if i == 0:
                 g_key = grave
-            elif i == 11:
-                g_key = minus
-            elif i == 12:
-                g_key = equal
+            #elif i == 11:
+            #    g_key = minus
+            #elif i == 12:
+            #    g_key = equal
         if g_key in get_keys():
             keys.extend(
                 [
