@@ -121,7 +121,7 @@ alias install-nvchad="git clone --depth=1 https://github.com/NvChad/starter ~/.c
 alias reinstall-nvchad="mkdir -p ~/ProgramFiles/.bak/nvchad; mv ~/.config/nvim ~/ProgramFiles/.bak/nvchad/(date); install-nvchad"
 alias install-doom="git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.config/emacs; ~/.config/emacs/bin/doom install"
 alias reinstall-doom='mkdir -p ~/ProgramFiles/.bak/doom-emacs; mv ~/.config/emacs ~/ProgramFiles/.bak/doom-emacs/(date); install-doom'
-alias install-emacs-config="install-chemacs; install-doom"
+alias install-emacs-config="install-chemacs; install-doom" # Doom doesn't work well with this any more because it provides its own config switching system now. Best just to use `install-doom` instead, although this can stay for posterity.
 alias install-fnm="curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell; fnm install --lts"
 alias install-nvm="wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/latest/install.sh | bash; nvm install node"
 alias install-choosenim="curl https://nim-lang.org/choosenim/init.sh -sSf | sh"
@@ -184,7 +184,7 @@ alias show-weather-map='curl v3.wttr.in/(get-city).sxl'
 alias show-weather-map-kitty='curl v3.wttr.in/(get-city).png | kitty +kitten icat'
 alias show-weather-moon="curl wttr.in/Moon"
 alias spark-runtime='ps -A | string replace --filter --regex -- ".*(\d+):(\d+).*" "\$1 * 3600 + \$2 * 60" | bc | spark'
-alias treeep="tree -fin | grep"
+alias treeep="tree -fin | grep" # For when learning to use `find` is too much work.
 alias demo-fake-virus-scan="tree /; echo 'No Viruses Found!'"
 alias demo-donationware="which vim | xargs hexdump -C | grep Uganda"
 
@@ -245,6 +245,8 @@ fish_vi_key_bindings
 #base16-gruvbox-dark-hard
 base16-gruvbox-dark-medium
 #theme_gruvbox dark hard
+## Prompt Theme
+tide configure --auto --style=Classic --prompt_colors='True color' --classic_prompt_color=Dark --show_time='12-hour format' --classic_prompt_separators=Round --powerline_prompt_heads=Round --powerline_prompt_tails=Round --powerline_prompt_style='Two lines, character and frame' --prompt_connection=Dotted --powerline_right_prompt_frame=No --prompt_connection_andor_frame_color=Darkest --prompt_spacing=Sparse --icons='Many icons' --transient=Yes
 
 # Other Inits
 # pnpm
@@ -252,10 +254,10 @@ set -gx PNPM_HOME "/home/dunk/.local/share/pnpm"
 set -gx PATH "$PNPM_HOME" $PATH
 # pnpm end
 
+if test -f '~/.config/fish/private_config.fish'; source ~/.config/fish/private_config.fish; end
+
 # SDKman
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 #export SDKMAN_DIR="$HOME/.sdkman"
 #test -f "$HOME/.sdkman/bin/sdkman-init.sh" && bass source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-if test -f '~/.config/fish/private_config.fish'; source ~/.config/fish/private_config.fish; end
 
