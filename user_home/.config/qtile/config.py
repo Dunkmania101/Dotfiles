@@ -112,7 +112,7 @@ if os.path.isfile(env_file):
 # Themes
 
 my_font = "Iosevka Nerd Font Regular"
-my_term_font = "IosevkaTerm Nerd Font Regular"
+my_term_font = "IosevkaTerm Nerd Font Mono"
 
 char_left_bend = "\ue0b6"
 char_right_bend = "\ue0b4"
@@ -239,7 +239,9 @@ my_lock_device_cmd = "playerctl --all-players pause & amixer set Master mute & l
 # Applications
 #my_terminal = "kitty -e tmux"
 #my_terminal_tmux = f"kitty -e \'{cfg_dir}/scripts/run/run-tmux-session.sh\'"
-my_terminal = "tilix"
+#my_terminal = "wezterm"
+my_terminal = f"wezterm --config-file {expand_full_path('~/.config/wezterm/wezterm.lua')} --config 'font=wezterm.font \"{my_term_font}\"'"
+#my_terminal = "tilix"
 #my_terminal = "tilix --command /usr/bin/fish"
 #my_terminal = "kitty"
 #my_terminal = "contour"
@@ -254,7 +256,8 @@ my_terminal_alt = f"uxterm -si -fs {my_normal_font_size} -fa \'{my_term_font}\' 
 #my_terminal_alt1 = "kitty"
 my_terminal_alt1 = "cool-retro-term"
 #my_terminal_alt2 = "extraterm"
-my_terminal_alt2 = "wezterm"
+#my_terminal_alt2 = "wezterm"
+my_terminal_alt2 = "tilix"
 #my_terminal_alt3 = "tilix"
 my_terminal_alt3 = "kitty"
 #my_terminal_alt3 = "urxvt"
