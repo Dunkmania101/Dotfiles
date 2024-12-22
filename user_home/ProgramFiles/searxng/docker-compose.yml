@@ -1,0 +1,17 @@
+services:
+  tor-1:
+    image: osminogin/tor-simple
+    restart: unless-stopped
+  searxng-1:
+    container_name: searxng-1
+    image: searxng/searxng:latest
+    depends_on:
+      - tor-1
+    restart: unless-stopped
+    ports:
+      - "8888:8080"
+    environment:
+      BASE_URL: "https://localhost:8888"
+    volumes:
+      - "$HOME/ProgramFiles/searxng/config:/etc/searxng"
+
