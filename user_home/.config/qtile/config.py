@@ -239,8 +239,9 @@ my_lock_device_cmd = "playerctl --all-players pause & amixer set Master mute & l
 # Applications
 #my_terminal = "kitty -e tmux"
 #my_terminal_tmux = f"kitty -e \'{cfg_dir}/scripts/run/run-tmux-session.sh\'"
+my_terminal = f"ghostty --font-family='{my_term_font}'"
 #my_terminal = "wezterm"
-my_terminal = f"wezterm --config-file {expand_full_path('~/.config/wezterm/wezterm.lua')} --config 'font=wezterm.font \"{my_term_font}\"'"
+#my_terminal = f"wezterm --config-file {expand_full_path('~/.config/wezterm/wezterm.lua')} --config 'font=wezterm.font \"{my_term_font}\"'"
 #my_terminal = "tilix"
 #my_terminal = "tilix --command /usr/bin/fish"
 #my_terminal = "kitty"
