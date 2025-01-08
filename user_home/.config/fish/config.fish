@@ -184,6 +184,7 @@ alias get-city="curl https://ipapi.co/city/"
 alias show-weather-map='curl v3.wttr.in/(get-city).sxl'
 alias show-weather-map-kitty='curl v3.wttr.in/(get-city).png | kitty +kitten icat'
 alias show-weather-moon="curl wttr.in/Moon"
+function calc-geohash -a DOW -a XCOORD -a YCOORD; set M (echo "$(date -I)-$DOW" | md5sum | cut -b1-32 | tr [:lower:] [:upper:]); for i in "1-16" "17-32"; set v (echo $M | cut -b$i); set v (echo "ibase=16;0.$v" | bc); set c (test "$(echo $i | cut -b1-2)" = '1-' && echo $XCOORD || echo $YCOORD); echo "$c$v"; end; set i; set v; set c; set M; end
 alias spark-runtime='ps -A | string replace --filter --regex -- ".*(\d+):(\d+).*" "\$1 * 3600 + \$2 * 60" | bc | spark'
 alias treeep="tree -fin | grep" # For when learning to use `find` is too much work.
 alias demo-fake-virus-scan="tree /; echo 'No Viruses Found!'"
