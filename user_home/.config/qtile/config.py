@@ -107,6 +107,8 @@ if os.path.isfile(env_file):
             env_data = jloads(f.read())
         except:
             pass
+        finally:
+            f.close()
 
 
 # Themes
@@ -206,8 +208,8 @@ my_distro: str = "Arch"
 my_check_updates_cmd: str | None = ""
 if shcmd_exists("pip"):
     my_check_updates_cmd += "; pip list --outdated --format=freeze"
-if shcmd_exists("paru"):
-    my_check_updates_cmd += "; paru --query --upgrades"
+if shcmd_exists("aura"):
+    my_check_updates_cmd += "; aura --query --upgrades"
 if shcmd_exists("guix"):
     my_check_updates_cmd += "; guix refresh"
 
@@ -215,6 +217,7 @@ if is_wayland():
     my_get_monitors_cmd: str = "wlr-randr"
 else:
     my_get_monitors_cmd: str = "xrandr --query | grep \" connected\" | cut -d\" \" -f1"
+
 # Accounts
 my_gmail_username = env_data.get("gmail.username", "")
 my_gmail_pass = env_data.get("gmail.pass", "")
@@ -226,12 +229,20 @@ else:
     my_city = None
 
 # Input Simulation
-my_kbd_key_cmd = "xdotool key --window -- "
-my_kbd_type_cmd = "xdotool type --window -- "
+if is_wayland():
+    my_kbd_key_cmd = "wtype -P "
+    my_kbd_type_cmd = "wtype -k"
 
-my_mouse_move_cmd = "xdotool mousemove_relative -- "
+    my_mouse_move_cmd = "xdotool mousemove_relative -- "
+    my_mouse_click_cmd = "xdotool click "
+else:
+    my_kbd_key_cmd = "xdotool key --window -- "
+    my_kbd_type_cmd = "xdotool type --window -- "
+
+    my_mouse_move_cmd = "xdotool mousemove_relative -- "
+    my_mouse_click_cmd = "xdotool click "
+
 my_mouse_move_dist = "10"
-my_mouse_click_cmd = "xdotool click "
 
 #my_lock_device_cmd = "loginctl lock-session & playerctl --all-players pause & amixer set Master mute; sleep 0.5; xset dpms force standby"
 my_lock_device_cmd = "playerctl --all-players pause & amixer set Master mute & loginctl lock-session & xset dpms force standby"
