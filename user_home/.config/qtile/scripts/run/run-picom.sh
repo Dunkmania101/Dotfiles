@@ -9,7 +9,7 @@ while pgrep -u $UID -x flashfocus >/dev/null; do sleep 1; done
 killall -q xborders
 while pgrep -u $UID -x xborders >/dev/null; do sleep 1; done
 picom --config ~/.config/qtile/picom.conf & #--experimental-backends &
-flashfocus &
+#flashfocus &
 #xcompmgr &
 #~/ProgramFiles/xborder/xborder/xborders --disable-version-warning --config ~/.config/qtile/xborders_config.json &
 
