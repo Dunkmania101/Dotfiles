@@ -30,10 +30,10 @@ from libqtile.lazy import lazy
 def expand_full_path(path: str = "~") -> str:
     return os.path.expandvars(os.path.expanduser(path))
 
-def find_first_file_in_dir(path: str) -> str | None:
+def find_first_file_in_dir(path: str, default: str | None = "/dev/null") -> str | None:
     path = expand_full_path(path)
     if os.path.isdir(path):
-        return (os.listdir(path)+[None])[0]
+        return (os.listdir(path)+[default])[0]
     return None
 
 def shcmd_exists(cmd: str) -> bool:
@@ -1032,6 +1032,14 @@ class ColorGmailChecker(widget.GmailChecker):
             return "UNKNOWN ERROR"
 
 
+class NonGrouchyBattery(widget.Battery):
+    def poll(self) -> str:
+        msg = super().poll()
+        if not msg.startswith("Error: "):
+            return msg
+        return "N/A"
+
+
 #class BarWidget(bar.Bar, widget.base._Widget):
 #    def __init__(self, widgets, size, **config):
 #        bar.Bar.__init__(self, widgets, size, **config)
@@ -1224,10 +1232,11 @@ def get_widgets_1(i) -> list:
                 ),
                 widget.TextBox("Light:", background=get_alternating_colors_cyan()),
                 #widget.Backlight(max_chars=10, background=get_alternating_colors_cyan()),
-                #widget.Backlight(backlight_name=(os.listdir("/sys/class/backlight")+[None])[0], background=get_alternating_colors_cyan()),
-                widget.Backlight(backlight_name=find_first_file_in_dir("/sys/class/backlight"), background=get_alternating_colors_cyan()),
+                #widget.Backlight(max_chars=10, backlight_name=(os.listdir("/sys/class/backlight")+[None])[0], background=get_alternating_colors_cyan()),
+                widget.Backlight(max_chars=10, backlight_name=find_first_file_in_dir("/sys/class/backlight"), background=get_alternating_colors_cyan()),
                 widget.TextBox("Bat:", background=get_alternating_colors_cyan()),
-                widget.Battery(max_chars=10, update_interval=my_slow_update_interval, background=get_alternating_colors_cyan()),
+                #widget.Battery(max_chars=10, update_interval=my_slow_update_interval, background=get_alternating_colors_cyan()),
+                NonGrouchyBattery(max_chars=10, update_interval=my_slow_update_interval, background=get_alternating_colors_cyan()),
                 get_sep_widget(),
                 OpenWidgetBox(widgets=get_sys_stat_widgets()),
                 #widget.WidgetBox(widgets=get_sys_stat_widgets()),
