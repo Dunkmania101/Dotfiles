@@ -1,6 +1,15 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
+
+
+(package! empv
+    :recipe (:host github :repo "isamert/empv.el"))
+(package! elfeed-tube)
+(package! elfeed-tube-mpv)
+
+
+
 ;; To install a package with Doom you must declare them here and run 'doom sync'
 ;; on the command line, then restart Emacs for the changes to take effect -- or
 ;; use 'M-x doom/reload'.

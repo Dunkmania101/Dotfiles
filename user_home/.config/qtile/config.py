@@ -258,7 +258,7 @@ my_lock_device_cmd = "playerctl --all-players pause & amixer set Master mute & l
 #my_terminal_tmux = f"kitty -e \'{cfg_dir}/scripts/run/run-tmux-session.sh\'"
 #my_terminal = f"ghostty --font-family='{my_term_font}'"
 #my_terminal = "wezterm"
-my_terminal = f"wezterm --config-file {expand_full_path('~/.config/wezterm/wezterm.lua')} --config 'font=wezterm.font \"{my_term_font}\"'"
+my_terminal = f"wezterm --config-file {expand_full_path('~/.config/wezterm/wezterm.lua')} --config 'font=wezterm.font \"{my_term_font}\"'" + " -e fish"
 #my_terminal = "tilix"
 #my_terminal = "tilix --command /usr/bin/fish"
 #my_terminal = "kitty"
@@ -353,9 +353,9 @@ my_control_panel = my_terminal_popup + " -e btop"
 my_control_panel_alt = "system-monitoring-center"
 my_control_panel_alt1 = "stacer"
 
-my_audio_mixer = my_terminal + " -e pulsemixer"
+my_audio_mixer = my_terminal_popup + " -e pulsemixer"
 my_audio_mixer_alt = "easyeffects"
-my_audio_mixer_alt1 = my_terminal + " -e alsamixer"
+my_audio_mixer_alt1 = my_terminal_popup + " -e alsamixer"
 
 # Menus (Rofi Scripts, etc...)
 my_launcher = rofi_dir + "/launcher/launcher.sh"
