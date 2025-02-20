@@ -1506,7 +1506,7 @@ def pref_group_hook(window) -> None:
 
 @hook.subscribe.screen_change
 def screen_change_hook(qtile) -> None:
-    run_cmd(os.path.join(cfg_dir, "scripts", "run", "run-monitors.sh"))
+    #run_cmd(os.path.join(cfg_dir, "scripts", "run", "run-monitors.sh"))
     refresh_screens()
 
 
