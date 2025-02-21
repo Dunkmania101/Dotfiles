@@ -2,6 +2,7 @@
 ;;; $DOOMDIR/packages.el
 
 
+(unpin! consult)
 
 (package! empv
     :recipe (:host github :repo "isamert/empv.el"))

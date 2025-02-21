@@ -101,6 +101,7 @@ alias install-mpv-sponsorblock="git -C /tmp clone --depth=1 https://github.com/p
 alias install-searxng-nochown='docker-compose -f ~/ProgramFiles/searxng/docker-compose.yml up -d --force-recreate'
 alias install-searxng-chown='install-searxng-nochown; mkdir -p ~/ProgramFiles/searxng/config; sudo chown -R $USER:$USER ~/ProgramFiles/searxng/config ~/ProgramFiles/searxng/config/*'
 alias install-searxng='test -d ~/ProgramFiles/searxng/config && install-searxng-nochown || install-searxng-chown'
+alias restart-searxng="docker restart searxng-tor-1-1; docker restart searxng-1"
 alias install-retroshare-voip='mkdir -p ~/ProgramFiles/RetroShare/; mkdir -p ~/.retroshare/extensions6/; git clone --depth=1 https://github.com/RetroShare/RetroShare.git ~/ProgramFiles/RetroShare/src; cd ~/ProgramFiles/RetroShare/src/; git submodule update --depth=1 --init --remote --recursive --force; cd ~/ProgramFiles/RetroShare/src/plugins/VOIP; qmake && make clean && make; cp lib*.so ~/.retroshare/extensions6/'
 alias install-quicklisp="mkdir -p ~/ProgramFiles/quicklisp/; curl https://beta.quicklisp.org/quicklisp.lisp -o ~/ProgramFiles/quicklisp/quicklisp.lisp; sbcl --load ~/ProgramFiles/quicklisp/quicklisp.lisp --eval '(progn (quicklisp-quickstart:install)(exit))'"
 function install-quicklisp-module -a 'm'; test -e ~/quicklisp/ || install-quicklisp; sbcl --load ~/quicklisp/setup.lisp --eval "(progn (ql:system-apropos \"$m\") (ql:quickload \"$m\") (exit))"; end
