@@ -92,6 +92,8 @@ alias install-llamagptj-chat="mkdir -p ~/ProgramFiles/gptj; git -C ~/ProgramFile
 alias gptj="~/ProgramFiles/gptj/LlamaGPTJ-chat/build/bin/chat -m ~/ProgramFiles/gptj/model1.bin"
 alias install-easy-diffusion="wget https://github.com/cmdr2/stable-diffusion-ui/releases/latest/download/Easy-Diffusion-Linux.zip -O /tmp/easy-diffusion-linux.zip && mkdir -p ~/ProgramFiles/easy-diffusion && unzip -o /tmp/easy-diffusion-linux.zip -d ~/ProgramFiles/easy-diffusion/"
 alias easy-diffusion="bash ~/ProgramFiles/easy-diffusion/easy-diffusion/start.sh"
+alias install-open-webui="mkdir -p ~/ProgramFiles/open-webui; test -e ~/ProgramFiles/open-webui/venv/ || ~/.pyenv/versions/3.11.*/bin/python3 -m venv ~/ProgramFiles/open-webui/venv/; bash -c 'source ~/ProgramFiles/open-webui/venv/bin/activate; pip install --upgrade pip open-webui'"
+function open-webui; bash -c "cd ~/ProgramFiles/open-webui/; source venv/bin/activate; open-webui $argv"; end;
 #alias install-chevron="mkdir -p ~/ProgramFiles/Chevron; git -C ~/ProgramFiles/Chevron clone --depth=1 https://github.com/kholmogorov27/chevron || git -C ~/ProgramFiles/Chevron/chevron pull; pushd ~/ProgramFiles/Chevron/chevron; npm install -g node-linux && npm link node-linux; npm run register_linux; popd"
 alias install-chevron="mkdir -p ~/ProgramFiles/Chevron; git -C ~/ProgramFiles/Chevron clone --depth=1 https://github.com/kholmogorov27/chevron || git -C ~/ProgramFiles/Chevron/chevron pull; pushd ~/ProgramFiles/Chevron/chevron; npm install; npm run build; popd"
 alias install-capitaine-cursors-sainnhe-root="wget https://github.com/sainnhe/capitaine-cursors/releases/latest/download/Linux.zip -O /tmp/Linux.zip && sudo mkdir -p /usr/share/icons && sudo unzip -o /tmp/Linux.zip -d /usr/share/icons/"
