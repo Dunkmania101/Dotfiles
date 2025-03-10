@@ -9,6 +9,8 @@
 (package! elfeed-tube)
 (package! elfeed-tube-mpv)
 
+(package! fireplace)
+
 
 
 ;; To install a package with Doom you must declare them here and run 'doom sync'
