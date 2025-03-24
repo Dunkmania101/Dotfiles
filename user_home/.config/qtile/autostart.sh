@@ -34,6 +34,8 @@ pgrep element-desktop || element-desktop --hidden &
 pgrep emacs || emacs --daemon &
 pgrep mpd || mpd &
 
+docker start searxng-1 &
+
 xsetroot -cursor_name left_ptr
 #xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Tapping Enabled" 1
 #xinput set-prop "SynPS/2 Synaptics TouchPad" "libinput Natural Scrolling Enabled" 1
