@@ -102,7 +102,7 @@ alias install-mpv-sponsorblock="git -C /tmp clone --depth=1 https://github.com/p
 #alias install-searx='docker stop searx-1; docker rm -v searx-1; docker pull searx/searx:latest; PORT=8888 docker run --name=searx-1 --restart=unless-stopped -d -v ~/ProgramFiles/searx:/etc/searx -p $PORT:8080 -e BASE_URL=http://localhost:$PORT/ searx/searx:latest' # --dns 127.0.0.1
 #alias install-searxng-nochown='docker stop searxng-1; docker rm -v searxng-1; docker pull searxng/searxng:latest; PORT=8888 docker run --name=searxng-1 --restart=unless-stopped -d -v ~/ProgramFiles/searxng/config:/etc/searxng -p $PORT:8080 -e BASE_URL=http://localhost:$PORT/ searxng/searxng:latest' # --dns 127.0.0.1 --add-host=host.docker.internal:host-gateway
 #alias install-searxng-nochown='docker compose -f ~/ProgramFiles/searxng/docker-compose.yml up -d --pull=always'
-alias install-searxng-nochown='docker compose -f ~/ProgramFiles/searxng/docker-compose.yml up -d --pull'
+alias install-searxng-nochown='docker compose -f ~/ProgramFiles/searxng/docker-compose.yml up -d --pull always'
 #alias install-searxng-nochown='podman compose -f ~/ProgramFiles/searxng/docker-compose.yml up -d --pull'
 alias install-searxng-chown='install-searxng-nochown; mkdir -p ~/ProgramFiles/searxng/config; sudo chown -R $USER:$USER ~/ProgramFiles/searxng/config ~/ProgramFiles/searxng/config/*'
 alias install-searxng='test -d ~/ProgramFiles/searxng/config && install-searxng-nochown || install-searxng-chown'
