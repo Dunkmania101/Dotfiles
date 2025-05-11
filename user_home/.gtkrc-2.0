@@ -5,7 +5,7 @@ include "/home/dunk/.gtkrc-2.0.mine"
 gtk-theme-name="Gruvbox-Material-Dark"
 gtk-icon-theme-name="Gruvbox-Material-Dark"
 gtk-font-name="Iosevka 12"
-gtk-cursor-theme-name="Capitaine Cursors (Gruvbox)"
+gtk-cursor-theme-name="Capitaine Cursors (Gruvbox) - White"
 gtk-cursor-theme-size=0
 gtk-toolbar-style=GTK_TOOLBAR_BOTH
 gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
