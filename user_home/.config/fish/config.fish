@@ -98,7 +98,7 @@ alias install-open-webui='pipx install open-webui --python (find ~/.pyenv/versio
 #function open-webui; bash -c "cd ~/ProgramFiles/open-webui/; source venv/bin/activate; open-webui $argv"; end;
 #alias install-chevron="mkdir -p ~/ProgramFiles/Chevron; git -C ~/ProgramFiles/Chevron clone --depth=1 https://github.com/kholmogorov27/chevron || git -C ~/ProgramFiles/Chevron/chevron pull; pushd ~/ProgramFiles/Chevron/chevron; npm install -g node-linux && npm link node-linux; npm run register_linux; popd"
 alias install-zonos="mkprogramfilesdir zonos; git -C ~/ProgramFiles/zonos clone https://github.com/Zyphra/Zonos.git || git -C ~/ProgramFiles/zonos/Zonos pull; cd ~/ProgramFiles/zonos/Zonos; uv sync; uv sync --extra compile; uv pip install -e ."
-alias run-zonos="uv run gradio_interface.py"
+alias run-zonos="uv --directory ~/ProgramFiles/zonos/Zonos/ run gradio_interface.py"
 alias install-chevron="mkdir -p ~/ProgramFiles/Chevron; git -C ~/ProgramFiles/Chevron clone --depth=1 https://github.com/kholmogorov27/chevron || git -C ~/ProgramFiles/Chevron/chevron pull; pushd ~/ProgramFiles/Chevron/chevron; npm install; npm run build; popd"
 alias install-capitaine-cursors-sainnhe-root="wget https://github.com/sainnhe/capitaine-cursors/releases/latest/download/Linux.zip -O /tmp/Linux.zip && sudo mkdir -p /usr/share/icons && sudo unzip -o /tmp/Linux.zip -d /usr/share/icons/"
 alias install-mpv-sponsorblock="git -C /tmp clone --depth=1 https://github.com/po5/mpv_sponsorblock.git; mkdir -p ~/.config/mpv/scripts/; cp /tmp/mpv_sponsorblock/sponsorblock.lua ~/.config/mpv/scripts/; cp -r /tmp/mpv_sponsorblock/sponsorblock_shared ~/.config/mpv/scripts/"

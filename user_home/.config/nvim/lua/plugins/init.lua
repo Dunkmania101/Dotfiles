@@ -29,5 +29,6 @@ return {
             vim.g.vimwiki_list = {{path = '~/superdrive-ln/Docs/VimWiki', syntax = 'markdown', ext = '.md'}}
         end
     },
+    -- { import = "nvchad.blink.lazyspec" }
 }
 
