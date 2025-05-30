@@ -1,2 +1,2 @@
-logisim-evolution-bin
+logisim-evolution-bin phoenix-arch
 
