@@ -1049,9 +1049,9 @@ class NonGrouchyBattery(widget.Battery):
 #        widget.base._Widget.__init__(self, size, **config)
 
 
-def get_alternating_colors_of(color, bg_color=dark_bg_color) -> list[str]:
-    _color = [color]*4
-    _bg = [bg_color]*len(_color)*5
+def get_alternating_colors_of(color, bg_color=dark_bg_color, fg_segments=1, bg_segments_prop=5) -> list[str]:
+    _color = [color]*fg_segments
+    _bg = [bg_color]*len(_color)*bg_segments_prop
     return [*_color, *_bg, *_color]
 
 def get_alternating_colors_dark() -> list[str]:
