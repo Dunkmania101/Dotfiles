@@ -13,3 +13,5 @@ o.shiftwidth = indent
 o.softtabstop = indent
 o.tabstop = indent
 
+o.shell = 'fish'
+
